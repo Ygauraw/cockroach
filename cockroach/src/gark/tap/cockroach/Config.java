@@ -9,5 +9,5 @@ public class Config {
     public static int CAMERA_WIDTH = 1280;
     public static int CAMERA_HEIGHT = 800;
 
-    public static int SCENE_SPEED = 10;
+    public static int SCENE_SPEED = 100;
 }

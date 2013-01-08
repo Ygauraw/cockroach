@@ -3,10 +3,13 @@ package gark.tap.cockroach.mathengine;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.MainActivity;
 import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.movingobjects.ArmedMovingObject;
 import gark.tap.cockroach.mathengine.movingobjects.Cockroach;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.andengine.engine.camera.Camera;
@@ -17,9 +20,9 @@ import android.util.Log;
 
 public class MathEngine implements Runnable {
 
-	private static final int UPDATE_PERIOD = 40;
+	public static final int UPDATE_PERIOD = 40;
 
-	private float mCriticalDistance;
+	// private float mCriticalDistance;
 	private float mRotateBackgroundDistance;
 
 	private Camera mCamera;
@@ -34,11 +37,10 @@ public class MathEngine implements Runnable {
 	private long mLastUpdateScene;
 	private boolean mPaused = false;
 
-	private Cockroach cockroach;
+	// private Cockroach cockroach;
 	// private Helicopter mHelicopter;
 	//
-	// private final List<ArmedMovingObject> mArmedMovingObjects = new
-	// ArrayList<ArmedMovingObject>();
+	private final List<ArmedMovingObject> cockroachs = Collections.synchronizedList(new ArrayList<ArmedMovingObject>());
 	// private final List<FlyingObject> mFlyingObjects = new
 	// ArrayList<FlyingObject>();
 	// private final List<FlyingObject> mBotFlyingObjects = new
@@ -53,52 +55,44 @@ public class MathEngine implements Runnable {
 
 		mSceneBackground = gameActivity.getScene();
 
-		mRotateBackgroundDistance = mResourceManager.getBackGround()
-				.getHeight() * Config.SCALE;
+		mRotateBackgroundDistance = mResourceManager.getBackGround().getHeight() * Config.SCALE;
 
-		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(),
-				mCamera.getCenterY() - mRotateBackgroundDistance),
-				mResourceManager.getBackGround(), gameActivity
-						.getVertexBufferObjectManager()));
+		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY() - mRotateBackgroundDistance), mResourceManager.getBackGround(), gameActivity
+				.getVertexBufferObjectManager()));
 
-		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(),
-				mCamera.getCenterY()), mResourceManager.getBackGround(),
-				gameActivity.getVertexBufferObjectManager()));
+		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity.getVertexBufferObjectManager()));
 
-		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(),
-				mCamera.getCenterY() + mRotateBackgroundDistance),
-				mResourceManager.getBackGround(), gameActivity
-						.getVertexBufferObjectManager()));
+		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY() + mRotateBackgroundDistance), mResourceManager.getBackGround(), gameActivity
+				.getVertexBufferObjectManager()));
 
 		for (StaticObject staticObject : mStaticObjects) {
 			mSceneBackground.attachChild(staticObject.getSprite());
 		}
 
-		float PI = (float) Math.PI;
-		float DEG_TO_PI = (float) (Math.PI / 180.0);
+		cockroachs.add(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.4f), mResourceManager));
+		cockroachs.add(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager));
+		cockroachs.add(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.6f), mResourceManager));
 
-		float tX = (float) (Config.CAMERA_WIDTH * Math.cos(5 * DEG_TO_PI - PI
-				/ 2));
-		float tY = (float) (Config.CAMERA_WIDTH * Math.sin(5 * DEG_TO_PI - PI
-				/ 2));
-		// return new Bullet(new PointF(sX, sY), new PointF(tX, tY), angle,
-		// mResourceManager.getBullet(),
-		// mResourceManager.getVertexBufferObjectManager());
+		// cockroach = new Cockroach(new PointF(0/* Config.CAMERA_WIDTH */,
+		// Config.CAMERA_HEIGHT * 0.5f), mResourceManager);
 
-		cockroach = new Cockroach(new PointF(300, 300), new PointF(301, 301), 5f,
-				mResourceManager.getmFaceTextureRegion(),
-				mResourceManager.getVertexBufferObjectManager());
+		// mCriticalDistance = cockroach.getMainSprite().getWidthScaled() *
+		// 0.3f;
 
 		// final int centerX = Config.CAMERA_WIDTH / 2;
 		// final int centerY = Config.CAMERA_HEIGHT / 2;
 		// final Ball ball = new Ball(centerX, centerY,
 		// mResourceManager.getmFaceTextureRegion(),
 		// mResourceManager.getVertexBufferObjectManager());
-		// //TODO
 		// final PhysicsHandler physicsHandler = new PhysicsHandler(ball);
 		// ball.registerUpdateHandler(physicsHandler);
 		// physicsHandler.setVelocity(Ball.DEMO_VELOCITY, Ball.DEMO_VELOCITY);
-		mSceneBackground.attachChild(cockroach.getMainSprite());
+
+		// //TODO
+		for (ArmedMovingObject item : cockroachs) {
+			mSceneBackground.attachChild(item.getMainSprite());
+		}
+		// mSceneBackground.attachChild(cockroach.getMainSprite());
 
 		// mSceneHO = new Scene();
 		// mSceneHO.setBackgroundEnabled(false);
@@ -166,8 +160,7 @@ public class MathEngine implements Runnable {
 					tact(period);
 				}
 
-				Thread.sleep(UPDATE_PERIOD - period > 0 ? UPDATE_PERIOD
-						- period : UPDATE_PERIOD);
+				Thread.sleep(UPDATE_PERIOD - period > 0 ? UPDATE_PERIOD - period : UPDATE_PERIOD);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -177,10 +170,32 @@ public class MathEngine implements Runnable {
 	public synchronized void tact(long time) {
 
 		final long now = System.currentTimeMillis();
-		
-		//tact cockroach start
-		cockroach.tact(now, time);
-		//END cockroach 
+
+		// tact cockroach start
+
+		if (cockroachs.size() < 3) {
+			addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager));
+		}
+
+		for (Iterator<ArmedMovingObject> movingIterator = cockroachs.iterator(); movingIterator.hasNext();) {
+			ArmedMovingObject cockroach = movingIterator.next();
+			cockroach.tact(now, time);
+			float distance = (float) time / 1000 * Config.SCENE_SPEED;
+			cockroach.setX(cockroach.posX() + distance);
+			cockroach.setY(cockroach.posY() - cockroach.getShiftY());
+			// change run direction from border
+			if (cockroach.posY() < 0 || cockroach.posY() > Config.CAMERA_HEIGHT)
+				cockroach.setmShiftY(-cockroach.getShiftY());
+			if (cockroach.posX() > Config.CAMERA_WIDTH) {
+				mSceneBackground.detachChild(cockroach.getMainSprite());
+
+				removeFlyingObject(cockroach, movingIterator);
+			}
+
+		}
+
+
+		// END cockroach
 
 		// // tact Helicopter
 		// mHelicopter.tact(now, time);
@@ -222,7 +237,8 @@ public class MathEngine implements Runnable {
 		// botObject.damage(flyingObject.getDamage());
 		// if (!botObject.isAlive()) {
 		//
-		// // TODO добавить замену спрайта бота на груду горящего
+		// // TODO добавить замену спрайта бота на
+		// груду горящего
 		// // метала
 		// // final float x = botObject.posX();
 		// // final float y = botObject.posY();
@@ -298,16 +314,16 @@ public class MathEngine implements Runnable {
 	// mSceneFO.attachChild(object.getMainSprite());
 	// }
 	//
-	// public synchronized void addBotFlyingObject(FlyingObject object) {
-	// mBotFlyingObjects.add(object);
-	// mSceneFO.attachChild(object.getMainSprite());
-	// }
-	//
-	// public synchronized void removeFlyingObject(FlyingObject object, Iterator
-	// iterator) {
-	// mSceneFO.detachChild(object.getMainSprite());
-	// iterator.remove();
-	// }
+	public synchronized void addBotFlyingObject(ArmedMovingObject object) {
+		cockroachs.add(object);
+		mSceneBackground.attachChild(object.getMainSprite());
+	}
+
+	public synchronized void removeFlyingObject(ArmedMovingObject object, Iterator<ArmedMovingObject> iterator) {
+		mSceneBackground.detachChild(object.getMainSprite());
+		iterator.remove();
+	}
+
 	//
 	// public void setHelicopterPointF(PointF pointF) {
 	// mHelicopter.setPoint(pointF);
@@ -320,10 +336,8 @@ public class MathEngine implements Runnable {
 	private void updateBackground(long period) {
 
 		for (StaticObject staticObject : mStaticObjects) {
-			if (staticObject.posY() - mRotateBackgroundDistance / 2 > mCamera
-					.getCenterY() + Config.CAMERA_HEIGHT / 2) {
-				staticObject.setPoint(staticObject.posY()
-						- mRotateBackgroundDistance * 3);
+			if (staticObject.posY() - mRotateBackgroundDistance / 2 > mCamera.getCenterY() + Config.CAMERA_HEIGHT / 2) {
+				staticObject.setPoint(staticObject.posY() - mRotateBackgroundDistance * 3);
 			}
 		}
 

@@ -1,20 +1,18 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
-import gark.tap.cockroach.mathengine.ConfigObject;
-
-import org.andengine.opengl.texture.region.TextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
-
+import gark.tap.cockroach.Config;
+import gark.tap.cockroach.ResourceManager;
 import android.graphics.PointF;
 
-public class Cockroach extends FlyingObject {
+public class Cockroach extends ArmedMovingObject {
 
-	public Cockroach(PointF point, PointF nextPoint, float angle,
-			TextureRegion mainTextureRegion,
-			VertexBufferObjectManager vertexBufferObjectManager) {
-		super(point, nextPoint, angle, mainTextureRegion,
-				vertexBufferObjectManager);
-		mDamage = ConfigObject.DAMAGE_POOL;
-		mSpeed = ConfigObject.SPEED_POOL;
+	public Cockroach(PointF point, ResourceManager resourceManager) {
+		super(point, resourceManager.getmFaceTextureRegion(), resourceManager);
+		mMainSprite.setScale(Config.SCALE);
+	}
+
+	@Override
+	public void tact(long now, long period) {
+		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}
 }
