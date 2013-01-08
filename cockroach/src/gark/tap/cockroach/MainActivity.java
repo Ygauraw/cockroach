@@ -54,8 +54,7 @@ public class MainActivity extends BaseGameActivity {
 		mScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
 
 		 mMathEngine = new MathEngine(this);
-		 //TODO
-//		 mMathEngine.start();
+		 mMathEngine.start();
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 	}
@@ -83,7 +82,4 @@ public class MainActivity extends BaseGameActivity {
 	public Camera getCamera() {
 		return mCamera;
 	}
-	
-
-
 }

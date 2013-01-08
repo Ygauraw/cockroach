@@ -1,4 +1,4 @@
-package gark.tap.cockroach.staticobject;
+package gark.tap.cockroach.mathengine.staticobject;
 
 import gark.tap.cockroach.Config;
 

@@ -25,7 +25,7 @@ public class ResourceManager {
 //    private TextureRegion mTankTower;
 	
 
-	private TiledTextureRegion mFaceTextureRegion;
+	private TextureRegion mFaceTextureRegion;
 	
     private TextureRegion mBackGround;
 
@@ -75,7 +75,8 @@ public class ResourceManager {
         mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas,
                 baseGameActivity, "background_big.jpg", 0, 0);
         
-        mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(backgroundTextureAtlas, baseGameActivity, "face_circle_tiled.png", 0, 0, 2, 1);
+        mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas,
+        		baseGameActivity, "face_circle_tiled.png", 0, 0);
 //
 //        helicopterTextureAtlas.load();
 //        bombTextureAtlas.load();
@@ -128,7 +129,7 @@ public class ResourceManager {
         return mBackGround;
     }
 
-    public TiledTextureRegion getmFaceTextureRegion() {
+    public TextureRegion getmFaceTextureRegion() {
 		return mFaceTextureRegion;
 	}
 
