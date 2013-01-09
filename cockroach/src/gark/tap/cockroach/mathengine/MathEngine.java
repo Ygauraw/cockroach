@@ -12,40 +12,32 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.shape.Shape;
 import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.extension.physics.box2d.PhysicsConnector;
-import org.andengine.extension.physics.box2d.PhysicsFactory;
-import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-
 public class MathEngine implements Runnable, IOnAreaTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
-	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 	private float mRotateBackgroundDistance;
 
 	private Camera mCamera;
 	private Scene mSceneBackground;
+	private Scene mScenePlayArea;
 	private ResourceManager mResourceManager;
 
 	private Thread mGameLoop;
 	private boolean mAlive;
 	private long mLastUpdateScene;
 	private boolean mPaused = false;
-	
-	private PhysicsWorld mPhysicsWorld;	
 
 	private final List<Cockroach> cockroachs = Collections.synchronizedList(new ArrayList<Cockroach>());
 	private final List<StaticObject> mStaticObjects = new ArrayList<StaticObject>();
@@ -55,20 +47,13 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 		mResourceManager = gameActivity.getResourceManager();
 
 		mCamera = gameActivity.getCamera();
-
 		mSceneBackground = gameActivity.getScene();
-		mSceneBackground.setOnAreaTouchListener(this);
-		
-		mPhysicsWorld = new PhysicsWorld(new Vector2(0, 0 /*SensorManager.GRAVITY_EARTH*/), false);
-		mSceneBackground.registerUpdateHandler(this.mPhysicsWorld);
+//		mSceneBackground.setOnAreaTouchListener(this);
 
 		mRotateBackgroundDistance = mResourceManager.getBackGround().getHeight() * Config.SCALE;
-
 		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY() - mRotateBackgroundDistance), mResourceManager.getBackGround(), gameActivity
 				.getVertexBufferObjectManager()));
-
 		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity.getVertexBufferObjectManager()));
-
 		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY() + mRotateBackgroundDistance), mResourceManager.getBackGround(), gameActivity
 				.getVertexBufferObjectManager()));
 
@@ -76,12 +61,15 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 			mSceneBackground.attachChild(staticObject.getSprite());
 		}
 
-		addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.2f), mResourceManager));
-		addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager));
-		addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.7f), mResourceManager));
-		
-		
-		
+		// top info layer
+		final Shape left = new Rectangle(0, 0, 50, Config.CAMERA_HEIGHT, gameActivity.getVertexBufferObjectManager());
+		mSceneBackground.attachChild(left);
+
+		mScenePlayArea = new Scene();
+		mScenePlayArea.setBackgroundEnabled(false);
+		mScenePlayArea.setOnAreaTouchListener(this);
+
+		mSceneBackground.setChildScene(mScenePlayArea);
 
 	}
 
@@ -137,27 +125,22 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 
 		// tact cockroach start
 
-		//temporary solution
+		// temporary solution
 		if (cockroachs.size() < 10) {
-			Cockroach cockroach = new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager);
-			
+			Cockroach cockroach = new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * Utils.generateRandomPositive(0.1f, 0.9f)), mResourceManager);
 			addBotFlyingObject(cockroach);
-			Body body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, cockroach, BodyType.DynamicBody, FIXTURE_DEF);
-			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(cockroach, body, true, true));
-			
 		}
 
 		for (Iterator<Cockroach> movingIterator = cockroachs.iterator(); movingIterator.hasNext();) {
 			Cockroach cockroach = (Cockroach) movingIterator.next();
 			cockroach.tact(now, time);
-			float distance = (float) time / 1000 * Config.SCENE_SPEED;
+			float distance = (float) time / 1000 * cockroach.getShiftX();
 			cockroach.setX(cockroach.posX() + distance);
 			cockroach.setY(cockroach.posY() - cockroach.getShiftY());
 			// change run direction from border
-			if (cockroach.posY() < 0 || cockroach.posY() > Config.CAMERA_HEIGHT)
+			if (cockroach.posY() < (0 + cockroach.getHeight() / 2) || cockroach.posY() > (Config.CAMERA_HEIGHT - cockroach.getHeight() / 2))
 				cockroach.setmShiftY(-cockroach.getShiftY());
 			if (cockroach.posX() > Config.CAMERA_WIDTH) {
-				mSceneBackground.detachChild(cockroach.getMainSprite());
 				removeCockRoach(cockroach, movingIterator);
 			}
 		}
@@ -165,30 +148,10 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 
 	}
 
-	// public void addHeroObject(Helicopter object) {
-	// mSceneHO.attachChild(object.getMainSprite());
-	// }
-	//
-	// public synchronized void addArmedMovingObject(ArmedMovingObject object) {
-	// mArmedMovingObjects.add(object);
-	// mSceneMO.attachChild(object.getMainSprite());
-	// }
-	//
-	// public synchronized void removeArmedMovingObject(ArmedMovingObject
-	// object, Iterator iterator) {
-	// mSceneMO.detachChild(object.getMainSprite());
-	// iterator.remove();
-	// }
-	//
-	// public synchronized void addHelicopterFlyingObject(FlyingObject object) {
-	// mFlyingObjects.add(object);
-	// mSceneFO.attachChild(object.getMainSprite());
-	// }
-	//
 	public synchronized void addBotFlyingObject(Cockroach object) {
 		cockroachs.add(object);
-		mSceneBackground.attachChild(object.getMainSprite());
-		mSceneBackground.registerTouchArea(object.getMainSprite());
+		mScenePlayArea.attachChild(object.getMainSprite());
+		mScenePlayArea.registerTouchArea(object.getMainSprite());
 	}
 
 	/**
@@ -198,8 +161,8 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 	 * @param iterator
 	 */
 	public synchronized void removeCockRoach(Cockroach object, Iterator<Cockroach> iterator) {
-		mSceneBackground.detachChild(object.getMainSprite());
-		mSceneBackground.unregisterTouchArea(object.getMainSprite());
+		mScenePlayArea.detachChild(object.getMainSprite());
+		mScenePlayArea.unregisterTouchArea(object.getMainSprite());
 		iterator.remove();
 	}
 
@@ -209,8 +172,8 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 	 * @param object
 	 */
 	public synchronized void removeCockRoachOnTap(AnimatedSprite object) {
-		mSceneBackground.unregisterTouchArea(object);
-		mSceneBackground.detachChild(object);
+		mScenePlayArea.unregisterTouchArea(object);
+		mScenePlayArea.detachChild(object);
 
 		for (Iterator<Cockroach> movingIterator = cockroachs.iterator(); movingIterator.hasNext();) {
 			if (object.equals(((Cockroach) movingIterator.next()).getMainSprite())) {

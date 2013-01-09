@@ -53,8 +53,8 @@ public class MainActivity extends BaseGameActivity {
 		mScene = new Scene();
 		mScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
 
-		 mMathEngine = new MathEngine(this);
-		 mMathEngine.start();
+		mMathEngine = new MathEngine(this);
+		mMathEngine.start();
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 	}
@@ -67,7 +67,7 @@ public class MainActivity extends BaseGameActivity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		 mMathEngine.stop(true);
+		mMathEngine.stop(true);
 		mEngine.stop();
 	}
 
