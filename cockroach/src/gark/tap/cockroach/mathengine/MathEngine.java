@@ -16,14 +16,23 @@ import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.extension.physics.box2d.PhysicsConnector;
+import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 import android.util.Log;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+
 public class MathEngine implements Runnable, IOnAreaTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
+	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 	private float mRotateBackgroundDistance;
 
@@ -36,7 +45,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 	private long mLastUpdateScene;
 	private boolean mPaused = false;
 	
-//	private PhysicsWorld mPhysicsWorld;	
+	private PhysicsWorld mPhysicsWorld;	
 
 	private final List<Cockroach> cockroachs = Collections.synchronizedList(new ArrayList<Cockroach>());
 	private final List<StaticObject> mStaticObjects = new ArrayList<StaticObject>();
@@ -50,8 +59,8 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 		mSceneBackground = gameActivity.getScene();
 		mSceneBackground.setOnAreaTouchListener(this);
 		
-//		mPhysicsWorld = new PhysicsWorld(new Vector2(0, 0 /*SensorManager.GRAVITY_EARTH*/), false);
-//		mSceneBackground.registerUpdateHandler(this.mPhysicsWorld);
+		mPhysicsWorld = new PhysicsWorld(new Vector2(0, 0 /*SensorManager.GRAVITY_EARTH*/), false);
+		mSceneBackground.registerUpdateHandler(this.mPhysicsWorld);
 
 		mRotateBackgroundDistance = mResourceManager.getBackGround().getHeight() * Config.SCALE;
 
@@ -70,6 +79,9 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 		addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.2f), mResourceManager));
 		addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager));
 		addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.7f), mResourceManager));
+		
+		
+		
 
 	}
 
@@ -127,7 +139,12 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 
 		//temporary solution
 		if (cockroachs.size() < 10) {
-			addBotFlyingObject(new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager));
+			Cockroach cockroach = new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * 0.5f), mResourceManager);
+			
+			addBotFlyingObject(cockroach);
+			Body body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, cockroach, BodyType.DynamicBody, FIXTURE_DEF);
+			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(cockroach, body, true, true));
+			
 		}
 
 		for (Iterator<Cockroach> movingIterator = cockroachs.iterator(); movingIterator.hasNext();) {
