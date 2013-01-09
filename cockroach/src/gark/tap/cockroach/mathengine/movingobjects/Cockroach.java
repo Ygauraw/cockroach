@@ -15,4 +15,5 @@ public class Cockroach extends ArmedMovingObject {
 	public void tact(long now, long period) {
 		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}
+
 }

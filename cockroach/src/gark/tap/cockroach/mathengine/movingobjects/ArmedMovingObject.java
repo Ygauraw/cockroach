@@ -8,17 +8,17 @@ import android.graphics.PointF;
 
 public abstract class ArmedMovingObject extends MovingObject {
 
-    protected static final float PI = (float) Math.PI;
-    protected static final float DEG_TO_PI = (float) (Math.PI / 180.0);
+//    protected static final float PI = (float) Math.PI;
+//    protected static final float DEG_TO_PI = (float) (Math.PI / 180.0);
 
-    protected long mLastShoot;
-    protected int mTimeRecharge;
+//    protected long mLastShoot;
+//    protected int mTimeRecharge;
 
-    protected ResourceManager mResourceManager;
+//    protected ResourceManager mResourceManager;
 
     public ArmedMovingObject(PointF point, TiledTextureRegion mainTextureRegion, ResourceManager resourceManager) {
         super(point, mainTextureRegion, resourceManager.getVertexBufferObjectManager());
-        mResourceManager = resourceManager;
+//        mResourceManager = resourceManager;
     }
 
     @Override

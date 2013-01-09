@@ -11,7 +11,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.graphics.PointF;
 
-public abstract class MovingObject {
+public abstract class MovingObject extends AnimatedSprite {
 
 	protected PointF mPoint;
 	protected PointF mNextPoint;
@@ -29,17 +29,18 @@ public abstract class MovingObject {
 	private static final Random random = new Random();
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
-
+		super(point.x, point.y, mainTextureRegion, vertexBufferObjectManager);
+		
 		mPoint = point;
 		mNextPoint = point;
 
 		mPointOffset = new PointF(mainTextureRegion.getWidth() / 2, mainTextureRegion.getHeight() / 2);
-		mShiftY = generateRandom(2* 1000);
+		mShiftY = generateRandom(2 * 1000);
 
 		// mMainSprite = new Sprite(mPoint.x - mPointOffset.x, mPoint.y -
 		// mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
-		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
-		mMainSprite.animate(mSpeed);
+		mMainSprite = new AnimatedSprite(mPoint.x /*- mPointOffset.x*/, mPoint.y /*- mPointOffset.y*/, mainTextureRegion, vertexBufferObjectManager);
+		mMainSprite.animate(5 * mSpeed);
 
 		mMainSprite.setScale(Config.SCALE);
 	}
@@ -75,12 +76,10 @@ public abstract class MovingObject {
 	public void setX(float x) {
 		mPoint.x = x;
 	}
-	
 
 	public float getShiftY() {
 		return mShiftY;
 	}
-	
 
 	public float getmShiftY() {
 		return mShiftY;
@@ -116,8 +115,8 @@ public abstract class MovingObject {
 		float dy = y - y2;
 		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
-	
-    static float generateRandom(int n) {
-        return  ((float) ((Math.abs(random.nextInt()) % n) - n / 2) /1000) ;
-    }
+
+	static float generateRandom(int n) {
+		return ((float) ((Math.abs(random.nextInt()) % n) - n / 2) / 1000);
+	}
 }
