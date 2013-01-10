@@ -12,62 +12,97 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.shape.Shape;
+import org.andengine.entity.scene.menu.MenuScene;
+import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
+import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 import android.util.Log;
 
-public class MathEngine implements Runnable, IOnAreaTouchListener {
+public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemClickListener {
 
 	public static final int UPDATE_PERIOD = 40;
-
-	private float mRotateBackgroundDistance;
 
 	private Camera mCamera;
 	private Scene mSceneBackground;
 	private Scene mScenePlayArea;
 	private ResourceManager mResourceManager;
+	
+	private MenuScene mMenuScene;
 
 	private Thread mGameLoop;
 	private boolean mAlive;
 	private long mLastUpdateScene;
 	private boolean mPaused = false;
 
+	private MainActivity gameActivity;
+
+	private static int health = Config.HEALTH_SCORE;
+
 	private final List<Cockroach> cockroachs = Collections.synchronizedList(new ArrayList<Cockroach>());
 	private final List<StaticObject> mStaticObjects = new ArrayList<StaticObject>();
 
-	public MathEngine(MainActivity gameActivity) {
+	public MathEngine(final MainActivity gameActivity) {
 
+		this.gameActivity = gameActivity;
 		mResourceManager = gameActivity.getResourceManager();
+		
 
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
-//		mSceneBackground.setOnAreaTouchListener(this);
+		mSceneBackground.setOnAreaTouchListener(this);
+		
+		//menu
+		mMenuScene = new MenuScene(mCamera);
+		mMenuScene.addMenuItem(mResourceManager.getResetMenuItem());
+		mMenuScene.addMenuItem(mResourceManager.getQuitMenuItem());
+		mMenuScene.buildAnimations();
+		mMenuScene.setBackgroundEnabled(false);
+		//TODO
+		this.mMenuScene.setOnMenuItemClickListener(this);
+		
+		
 
-		mRotateBackgroundDistance = mResourceManager.getBackGround().getHeight() * Config.SCALE;
-		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY() - mRotateBackgroundDistance), mResourceManager.getBackGround(), gameActivity
-				.getVertexBufferObjectManager()));
+		// add background
 		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity.getVertexBufferObjectManager()));
-		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY() + mRotateBackgroundDistance), mResourceManager.getBackGround(), gameActivity
-				.getVertexBufferObjectManager()));
 
 		for (StaticObject staticObject : mStaticObjects) {
 			mSceneBackground.attachChild(staticObject.getSprite());
 		}
 
+		
+
 		// top info layer
-		final Shape left = new Rectangle(0, 0, 50, Config.CAMERA_HEIGHT, gameActivity.getVertexBufferObjectManager());
-		mSceneBackground.attachChild(left);
+		// final Shape left = new Rectangle(0, 0, 100, Config.CAMERA_HEIGHT,
+		// gameActivity.getVertexBufferObjectManager());
 
 		mScenePlayArea = new Scene();
 		mScenePlayArea.setBackgroundEnabled(false);
-		mScenePlayArea.setOnAreaTouchListener(this);
+		// mScenePlayArea.attachChild(left);
+
+		mScenePlayArea.attachChild(mResourceManager.getScoreText());
+		mResourceManager.getScoreText().setText(Config.HEALTH + health);
+		
+		
+		// pause button
+		Sprite pause = new Sprite(15f, 15f, mResourceManager.getPause(), gameActivity.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				mAlive = false;
+				mScenePlayArea.setChildScene(mMenuScene, false, true, true);
+//				gameActivity.getEngine().stop();
+				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+			}
+		};
+		pause.setRotation(90);
+		mScenePlayArea.registerTouchArea(pause);
+		mScenePlayArea.attachChild(pause);
 
 		mSceneBackground.setChildScene(mScenePlayArea);
 
@@ -148,10 +183,21 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 
 	}
 
-	public synchronized void addBotFlyingObject(Cockroach object) {
+	public synchronized void addBotFlyingObject(final Cockroach object) {
+
 		cockroachs.add(object);
-		mScenePlayArea.attachChild(object.getMainSprite());
-		mScenePlayArea.registerTouchArea(object.getMainSprite());
+
+		this.gameActivity.runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+				object.clearEntityModifiers();
+				object.clearUpdateHandlers();
+				mSceneBackground.attachChild(object.getMainSprite());
+				mSceneBackground.registerTouchArea(object.getMainSprite());
+			}
+		});
+
 	}
 
 	/**
@@ -160,10 +206,21 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 	 * @param object
 	 * @param iterator
 	 */
-	public synchronized void removeCockRoach(Cockroach object, Iterator<Cockroach> iterator) {
-		mScenePlayArea.detachChild(object.getMainSprite());
-		mScenePlayArea.unregisterTouchArea(object.getMainSprite());
+	public synchronized void removeCockRoach(final Cockroach object, Iterator<Cockroach> iterator) {
 		iterator.remove();
+		mResourceManager.getScoreText().setText(Config.HEALTH + --health);
+
+		this.gameActivity.runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+				object.clearEntityModifiers();
+				object.clearUpdateHandlers();
+				mSceneBackground.detachChild(object.getMainSprite());
+				mSceneBackground.unregisterTouchArea(object.getMainSprite());
+
+			}
+		});
 	}
 
 	/**
@@ -171,9 +228,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 	 * 
 	 * @param object
 	 */
-	public synchronized void removeCockRoachOnTap(AnimatedSprite object) {
-		mScenePlayArea.unregisterTouchArea(object);
-		mScenePlayArea.detachChild(object);
+	public synchronized void removeCockRoachOnTap(final AnimatedSprite object) {
 
 		for (Iterator<Cockroach> movingIterator = cockroachs.iterator(); movingIterator.hasNext();) {
 			if (object.equals(((Cockroach) movingIterator.next()).getMainSprite())) {
@@ -182,16 +237,48 @@ public class MathEngine implements Runnable, IOnAreaTouchListener {
 			}
 		}
 
+		this.gameActivity.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				mSceneBackground.detachChild(object);
+				mSceneBackground.unregisterTouchArea(object);
+				object.clearEntityModifiers();
+				object.clearUpdateHandlers();
+			}
+		});
+
 	}
 
 	@Override
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, ITouchArea pTouchArea, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-		if (pSceneTouchEvent.isActionDown()) {
+		if (pSceneTouchEvent.isActionDown() && (pTouchArea instanceof AnimatedSprite)) {
+			mResourceManager.getMusicOnLaunch().play();
 			removeCockRoachOnTap((AnimatedSprite) pTouchArea);
 			return true;
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
+		switch(pMenuItem.getID()) {
+		case ResourceManager.MENU_RESET:
+			/* Restart the animation. */
+			mLastUpdateScene = System.currentTimeMillis();
+			this.start();
+			mScenePlayArea.reset();
+//
+//			/* Remove the menu and reset it. */
+//			mSceneBackground.clearChildScene();
+//			mSceneBackground.reset();
+			return true;
+		case ResourceManager.MENU_QUIT:
+			gameActivity.finish();
+			return true;
+		default:
+			return false;
+	}
 	}
 
 }

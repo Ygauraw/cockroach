@@ -1,147 +1,157 @@
 package gark.tap.cockroach;
 
+import java.io.IOException;
+
+import javax.microedition.khronos.opengles.GL10;
+
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
+import org.andengine.entity.text.AutoWrap;
+import org.andengine.entity.text.Text;
+import org.andengine.entity.text.TextOptions;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.TextureManager;
+import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.HorizontalAlign;
+import org.andengine.util.color.Color;
+import org.andengine.util.debug.Debug;
+
+import android.content.res.AssetManager;
+import android.opengl.GLES20;
 
 public class ResourceManager {
 
-//    private TextureRegion mHelicopterBody;
-//    private TextureRegion mHelicopterPropeller;
-//
-//    private TextureRegion mBomb;
-//    private TextureRegion mBullet;
-//
-//    private TextureRegion mOnScreenControlBaseTextureRegion;
-//    private TextureRegion mOnScreenControlKnobTextureRegion;
-//
-//    private TiledTextureRegion mExplosion;
-//
-//    private TextureRegion mTankBody;
-//    private TextureRegion mTankTower;
-	
+	public static final int MENU_RESET = 0;
+	public static final int MENU_QUIT = MENU_RESET + 1;
 
-//	private TextureRegion mFaceTextureRegion;
-	private  TiledTextureRegion mFaceTextureRegion;
-	
-    private TextureRegion mBackGround;
+	// menu
+	private TextureRegion mMenuResetTextureRegion;
+	private TextureRegion mMenuQuitTextureRegion;
+	private SpriteMenuItem resetMenuItem;
+	private SpriteMenuItem quitMenuItem;
 
-    private VertexBufferObjectManager mVertexBufferObjectManager;
+	private TiledTextureRegion mFaceTextureRegion;
+	private TextureRegion mResume;
+	private TextureRegion mPause;
 
-    public ResourceManager(BaseGameActivity baseGameActivity) {
-        TextureManager textureManager = baseGameActivity.getTextureManager();
-        mVertexBufferObjectManager = baseGameActivity.getVertexBufferObjectManager();
+	private Text mScoreText;
 
-        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-//
-//        BitmapTextureAtlas helicopterTextureAtlas = new BitmapTextureAtlas(textureManager, 300, 151);
-//        BitmapTextureAtlas bombTextureAtlas = new BitmapTextureAtlas(textureManager, 13, 45);
-//        BitmapTextureAtlas bulletTextureAtlas = new BitmapTextureAtlas(textureManager, 11, 31);
-//        BitmapTextureAtlas onScreenControlTextureAtlas = new BitmapTextureAtlas(textureManager, 256, 128);
-//        BitmapTextureAtlas explosionTextureAtlas = new BitmapTextureAtlas(textureManager, 1024, 768);
-//        BitmapTextureAtlas tankTextureAtlas = new BitmapTextureAtlas(textureManager, 162, 197);
-        BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 1280, 800);
-//
-//        mHelicopterBody = BitmapTextureAtlasTextureRegionFactory.createFromAsset(helicopterTextureAtlas,
-//                baseGameActivity, "helicopter_body.png", 0, 0);
-//
-//        mHelicopterPropeller = BitmapTextureAtlasTextureRegionFactory.createFromAsset(helicopterTextureAtlas,
-//                baseGameActivity, "helicopter_propeller.png", 150, 0);
-//
-//        mBomb = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bombTextureAtlas,
-//                baseGameActivity, "bomb.png", 0, 0);
-//
-//        mBullet = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bulletTextureAtlas,
-//                baseGameActivity, "bullet.png", 0, 0);
-//
-//        mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-//                onScreenControlTextureAtlas, baseGameActivity, "onscreen_control_base.png", 0, 0);
-//
-//        mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-//                onScreenControlTextureAtlas, baseGameActivity, "onscreen_control_knob.png", 128, 0);
-//
-//        mExplosion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(explosionTextureAtlas,
-//                baseGameActivity, "explosion.png", 0, 0, 8, 6);
-//
-//        mTankBody = BitmapTextureAtlasTextureRegionFactory.createFromAsset(tankTextureAtlas,
-//                baseGameActivity, "tank_body.png", 0, 0);
-//
-//        mTankTower = BitmapTextureAtlasTextureRegionFactory.createFromAsset(tankTextureAtlas,
-//                baseGameActivity, "tank_tower.png", 81, 0);
-//
-        mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas,
-                baseGameActivity, "background_big.jpg", 0, 0);
-        
-        this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(backgroundTextureAtlas, 
-        		baseGameActivity, "face_circle_tiled.png", 0, 0, 2, 1);
-        
-//        mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas,
-//        		baseGameActivity, "face_circle_tiled.png", 0, 0);
-//
-//        helicopterTextureAtlas.load();
-//        bombTextureAtlas.load();
-//        bulletTextureAtlas.load();
-//        onScreenControlTextureAtlas.load();
-//        explosionTextureAtlas.load();
-//        tankTextureAtlas.load();
-        backgroundTextureAtlas.load();
-    }
+	private TextureRegion mBackGround;
 
-//    public TextureRegion getHelicopterBody() {
-//        return mHelicopterBody;
-//    }
-//
-//    public TextureRegion getHelicopterPropeller() {
-//        return mHelicopterPropeller;
-//    }
-//
-//    public TextureRegion getBomb() {
-//        return mBomb;
-//    }
-//
-//    public TextureRegion getBullet() {
-//        return mBullet;
-//    }
-//
-//    public TextureRegion getOnScreenControlBaseTextureRegion() {
-//        return mOnScreenControlBaseTextureRegion;
-//    }
-//
-//    public TextureRegion getOnScreenControlKnobTextureRegion() {
-//        return mOnScreenControlKnobTextureRegion;
-//    }
-//
-//    public TiledTextureRegion getExplosion() {
-//        return mExplosion;
-//    }
-//
-//    public TextureRegion getTankBody() {
-//        return mTankBody;
-//    }
-//
-//    public TextureRegion getTankTower() {
-//        return mTankTower;
-//    }
-    
-    
-    
-    public TextureRegion getBackGround() {
-        return mBackGround;
-    }
+	private Sound mMusicOnLaunch;
 
-//    public TextureRegion getmFaceTextureRegion() {
-//		return mFaceTextureRegion;
-//	}
-    
-    public TiledTextureRegion getmFaceTextureRegion() {
+	private VertexBufferObjectManager mVertexBufferObjectManager;
+
+	public ResourceManager(BaseGameActivity baseGameActivity) {
+		TextureManager textureManager = baseGameActivity.getTextureManager();
+		FontManager fontManager = baseGameActivity.getFontManager();
+		AssetManager assetManager = baseGameActivity.getAssets();
+		mVertexBufferObjectManager = baseGameActivity.getVertexBufferObjectManager();
+
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		FontFactory.setAssetBasePath("font/");
+		SoundFactory.setAssetBasePath("mfx/");
+
+		try {
+			mMusicOnLaunch = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
+			mMusicOnLaunch.setLooping(false);
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
+
+		// atlases
+		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 1280, 800);
+		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 64, 32);
+		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
+		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		// menu
+		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
+		mMenuQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuQuitTextureAtlas, baseGameActivity, "menu_quit.png", 0, 0);
+
+		resetMenuItem = new SpriteMenuItem(MENU_RESET, mMenuResetTextureRegion, mVertexBufferObjectManager);
+		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+
+		quitMenuItem = new SpriteMenuItem(MENU_QUIT, mMenuQuitTextureRegion, mVertexBufferObjectManager);
+		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+
+		// score text
+		float sizeLenth = Config.CAMERA_HEIGHT;
+		float size = sizeLenth / 20;
+		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Plok.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+		// mScoreText = new Text(5 - sizeLenth / 2 + size, 5 + sizeLenth / 2 -
+		// size, mFont, Config.HEALTH + Config.HEALTH_SCORE,
+		// "Score: XXXX".length(), mVertexBufferObjectManager);
+		mScoreText = new Text(50, 5, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXX".length(), mVertexBufferObjectManager);
+		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth, HorizontalAlign.LEFT));
+		// mScoreText.setRotation(-90f);
+		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+		// background
+		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "background_big.jpg", 0, 0);
+
+		// cockroach sprite
+		mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "face_circle_tiled.png", 0, 0, 2, 1);
+
+		// play stop
+		this.mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "pause.png", 0, 0);
+
+		// load resources
+		textureManager.loadTexture(mFontTexture);
+		fontManager.loadFont(mFont);
+		subMenuResetTextureAtlas.load();
+		resumePauseTextureAtlas.load();
+		subMenuQuitTextureAtlas.load();
+		backgroundTextureAtlas.load();
+		cockroachTextureAtlas.load();
+		
+	}
+
+	public TextureRegion getBackGround() {
+		return mBackGround;
+	}
+
+	public Text getScoreText() {
+		return mScoreText;
+	}
+
+	public TiledTextureRegion getmFaceTextureRegion() {
 		return mFaceTextureRegion;
 	}
 
 	public VertexBufferObjectManager getVertexBufferObjectManager() {
-        return mVertexBufferObjectManager;
-    }
+		return mVertexBufferObjectManager;
+	}
+
+	public TextureRegion getResume() {
+		return mResume;
+	}
+
+	public TextureRegion getPause() {
+		return mPause;
+	}
+
+	public SpriteMenuItem getResetMenuItem() {
+		return resetMenuItem;
+	}
+
+	public SpriteMenuItem getQuitMenuItem() {
+		return quitMenuItem;
+	}
+
+	public Sound getMusicOnLaunch() {
+		return mMusicOnLaunch;
+	}
+
 }

@@ -7,7 +7,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.ui.activity.BaseGameActivity;
 
@@ -34,6 +33,8 @@ public class MainActivity extends BaseGameActivity {
 
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT),
 				mCamera);
+//		engineOptions.getAudioOptions().setNeedsMusic(true);
+		engineOptions.getAudioOptions().setNeedsSound(true);
 
 		return engineOptions;
 
@@ -51,8 +52,6 @@ public class MainActivity extends BaseGameActivity {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
 		mScene = new Scene();
-		mScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
-
 		mMathEngine = new MathEngine(this);
 		mMathEngine.start();
 
@@ -82,4 +81,11 @@ public class MainActivity extends BaseGameActivity {
 	public Camera getCamera() {
 		return mCamera;
 	}
+	
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+//	    android.os.Process.killProcess(android.os.Process.myPid());
+	}
+	
 }
