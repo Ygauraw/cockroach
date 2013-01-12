@@ -7,8 +7,8 @@ import android.graphics.PointF;
 public class Cockroach extends ArmedMovingObject {
 
 	public Cockroach(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getmFaceTextureRegion(), resourceManager);
-		mMainSprite.setScale(Config.SCALE);
+		super(point, resourceManager.getmCoacroachTextureRegion(), resourceManager);
+		mMainSprite.setScale(1 / Config.SCALE);
 	}
 
 	@Override

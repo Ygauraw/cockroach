@@ -26,14 +26,16 @@ public class MainActivity extends BaseGameActivity {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		Config.SCALE = (float) metrics.widthPixels / Config.ETALON_WIDTH;
+//		Config.SCALE = (float) metrics.heightPixels / Config.ETALON_WIDTH;
 		Config.CAMERA_WIDTH = metrics.widthPixels;
 		Config.CAMERA_HEIGHT = metrics.heightPixels;
 
 		mCamera = new Camera(0, 0, Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT);
+//		mCamera = new Camera(0, 0, Config.CAMERA_HEIGHT, Config.CAMERA_WIDTH );
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT),
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT),
 				mCamera);
-//		engineOptions.getAudioOptions().setNeedsMusic(true);
+		engineOptions.getAudioOptions().setNeedsMusic(true);
 		engineOptions.getAudioOptions().setNeedsSound(true);
 
 		return engineOptions;

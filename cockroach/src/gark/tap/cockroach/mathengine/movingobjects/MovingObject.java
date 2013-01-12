@@ -19,8 +19,8 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected AnimatedSprite mMainSprite;
 
 	protected int mSpeed;
-	protected float mShiftY;
 	protected float mShiftX;
+	protected float moving;
 	// protected float mAngle;
 	protected int mHealth;
 
@@ -33,12 +33,13 @@ public abstract class MovingObject extends AnimatedSprite {
 		mNextPoint = point;
 
 		mPointOffset = new PointF(mainTextureRegion.getWidth() / 2, mainTextureRegion.getHeight() / 2);
-		mShiftY = Utils.generateRandom(2);
-		mShiftX = Utils.generateRandomPositive(50, 150);
+		mShiftX = Utils.generateRandom(5);
+		moving = Utils.generateRandomPositive(100, 150);
 
 		mMainSprite = new AnimatedSprite(mPoint.x, mPoint.y, mainTextureRegion, vertexBufferObjectManager);
+		mMainSprite.setRotation(180f);
 		// speed animation
-		mSpeed = (int) Utils.generateRandomPositive(200f, 500f);
+		mSpeed = (int) Utils.generateRandomPositive(300f, 400f);
 		mMainSprite.animate(mSpeed);
 
 		// mMainSprite.setScale(Config.SCALE);
@@ -76,20 +77,20 @@ public abstract class MovingObject extends AnimatedSprite {
 		mPoint.x = x;
 	}
 
-	public float getShiftY() {
-		return mShiftY;
+	public float getShiftX() {
+		return mShiftX;
 	}
 
-	public void setmShiftY(float mShiftY) {
-		this.mShiftY = mShiftY;
+	public void setmShiftX(float mShiftX) {
+		this.mShiftX = mShiftX;
 	}
 
 	public Sprite getMainSprite() {
 		return mMainSprite;
 	}
 
-	public float getShiftX() {
-		return mShiftX;
+	public float getMoving() {
+		return moving;
 	}
 
 	public abstract void tact(long now, long period);

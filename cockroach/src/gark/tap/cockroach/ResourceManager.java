@@ -39,7 +39,7 @@ public class ResourceManager {
 	private SpriteMenuItem resetMenuItem;
 	private SpriteMenuItem quitMenuItem;
 
-	private TiledTextureRegion mFaceTextureRegion;
+	private TiledTextureRegion mCockroachTextureRegion;
 	private TextureRegion mResume;
 	private TextureRegion mPause;
 
@@ -47,7 +47,7 @@ public class ResourceManager {
 
 	private TextureRegion mBackGround;
 
-	private Sound mMusicOnLaunch;
+	private Sound mSoundOnTap;
 
 	private VertexBufferObjectManager mVertexBufferObjectManager;
 
@@ -62,16 +62,17 @@ public class ResourceManager {
 		SoundFactory.setAssetBasePath("mfx/");
 
 		try {
-			mMusicOnLaunch = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
-			mMusicOnLaunch.setLooping(false);
+			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
+			mSoundOnTap.setLooping(false);
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
 
 		// atlases
-		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 1280, 800);
-		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 64, 32);
+		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 800, 1280);
+		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 578, 131);
 		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
+		BitmapTextureAtlas pausePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
@@ -86,26 +87,23 @@ public class ResourceManager {
 		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
 		// score text
-		float sizeLenth = Config.CAMERA_HEIGHT;
+		float sizeLenth = Config.CAMERA_WIDTH;
 		float size = sizeLenth / 20;
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Plok.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
-		// mScoreText = new Text(5 - sizeLenth / 2 + size, 5 + sizeLenth / 2 -
-		// size, mFont, Config.HEALTH + Config.HEALTH_SCORE,
-		// "Score: XXXX".length(), mVertexBufferObjectManager);
-		mScoreText = new Text(50, 5, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXX".length(), mVertexBufferObjectManager);
+		mScoreText = new Text(100, 15, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXX".length(), mVertexBufferObjectManager);
 		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth, HorizontalAlign.LEFT));
-		// mScoreText.setRotation(-90f);
 		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// background
 		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "background_big.jpg", 0, 0);
+		
 
 		// cockroach sprite
-		mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "face_circle_tiled.png", 0, 0, 2, 1);
+		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
 
 		// play stop
-		this.mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "pause.png", 0, 0);
+		mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pausePauseTextureAtlas, baseGameActivity, "pause.png", 0, 0);
 
 		// load resources
 		textureManager.loadTexture(mFontTexture);
@@ -115,6 +113,7 @@ public class ResourceManager {
 		subMenuQuitTextureAtlas.load();
 		backgroundTextureAtlas.load();
 		cockroachTextureAtlas.load();
+		pausePauseTextureAtlas.load();
 		
 	}
 
@@ -126,8 +125,8 @@ public class ResourceManager {
 		return mScoreText;
 	}
 
-	public TiledTextureRegion getmFaceTextureRegion() {
-		return mFaceTextureRegion;
+	public TiledTextureRegion getmCoacroachTextureRegion() {
+		return mCockroachTextureRegion;
 	}
 
 	public VertexBufferObjectManager getVertexBufferObjectManager() {
@@ -150,8 +149,8 @@ public class ResourceManager {
 		return quitMenuItem;
 	}
 
-	public Sound getMusicOnLaunch() {
-		return mMusicOnLaunch;
+	public Sound getSoudOnTap() {
+		return mSoundOnTap;
 	}
 
 }

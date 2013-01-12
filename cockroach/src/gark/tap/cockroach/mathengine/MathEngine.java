@@ -4,6 +4,7 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.MainActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.movingobjects.Cockroach;
+import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 	private Scene mSceneBackground;
 	private Scene mScenePlayArea;
 	private ResourceManager mResourceManager;
-	
+
 	private MenuScene mMenuScene;
 
 	private Thread mGameLoop;
@@ -52,31 +53,27 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 		this.gameActivity = gameActivity;
 		mResourceManager = gameActivity.getResourceManager();
-		
 
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
 		mSceneBackground.setOnAreaTouchListener(this);
-		
-		//menu
+
+		// menu
 		mMenuScene = new MenuScene(mCamera);
 		mMenuScene.addMenuItem(mResourceManager.getResetMenuItem());
 		mMenuScene.addMenuItem(mResourceManager.getQuitMenuItem());
 		mMenuScene.buildAnimations();
 		mMenuScene.setBackgroundEnabled(false);
-		//TODO
+		// TODO
 		this.mMenuScene.setOnMenuItemClickListener(this);
-		
-		
 
 		// add background
-		mStaticObjects.add(new StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity.getVertexBufferObjectManager()));
+		mStaticObjects.add(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity
+				.getVertexBufferObjectManager()));
 
 		for (StaticObject staticObject : mStaticObjects) {
 			mSceneBackground.attachChild(staticObject.getSprite());
 		}
-
-		
 
 		// top info layer
 		// final Shape left = new Rectangle(0, 0, 100, Config.CAMERA_HEIGHT,
@@ -88,19 +85,17 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 		mScenePlayArea.attachChild(mResourceManager.getScoreText());
 		mResourceManager.getScoreText().setText(Config.HEALTH + health);
-		
-		
+
 		// pause button
 		Sprite pause = new Sprite(15f, 15f, mResourceManager.getPause(), gameActivity.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mAlive = false;
 				mScenePlayArea.setChildScene(mMenuScene, false, true, true);
-//				gameActivity.getEngine().stop();
+				// gameActivity.getEngine().stop();
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
-		pause.setRotation(90);
 		mScenePlayArea.registerTouchArea(pause);
 		mScenePlayArea.attachChild(pause);
 
@@ -161,21 +156,22 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		// tact cockroach start
 
 		// temporary solution
-		if (cockroachs.size() < 10) {
-			Cockroach cockroach = new Cockroach(new PointF(0, Config.CAMERA_HEIGHT * Utils.generateRandomPositive(0.1f, 0.9f)), mResourceManager);
+		if (cockroachs.size() < 4) {
+			Cockroach cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * Utils.generateRandomPositive(0.1f, 0.9f), 0), mResourceManager);
 			addBotFlyingObject(cockroach);
 		}
 
 		for (Iterator<Cockroach> movingIterator = cockroachs.iterator(); movingIterator.hasNext();) {
 			Cockroach cockroach = (Cockroach) movingIterator.next();
 			cockroach.tact(now, time);
-			float distance = (float) time / 1000 * cockroach.getShiftX();
-			cockroach.setX(cockroach.posX() + distance);
-			cockroach.setY(cockroach.posY() - cockroach.getShiftY());
+			float distance = (float) time / 1000 * cockroach.getMoving();
+			cockroach.setY(cockroach.posY() + distance);
+			cockroach.setX(cockroach.posX() - cockroach.getShiftX());
+
 			// change run direction from border
-			if (cockroach.posY() < (0 + cockroach.getHeight() / 2) || cockroach.posY() > (Config.CAMERA_HEIGHT - cockroach.getHeight() / 2))
-				cockroach.setmShiftY(-cockroach.getShiftY());
-			if (cockroach.posX() > Config.CAMERA_WIDTH) {
+			if (cockroach.posX() < (0 + cockroach.getWidth() / 3 / Config.SCALE) || cockroach.posX() > (Config.CAMERA_WIDTH - cockroach.getWidth() / 3 / Config.SCALE))
+				cockroach.setmShiftX(-cockroach.getShiftX());
+			if (cockroach.posY() > Config.CAMERA_HEIGHT) {
 				removeCockRoach(cockroach, movingIterator);
 			}
 		}
@@ -252,7 +248,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 	@Override
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, ITouchArea pTouchArea, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		if (pSceneTouchEvent.isActionDown() && (pTouchArea instanceof AnimatedSprite)) {
-			mResourceManager.getMusicOnLaunch().play();
+			mResourceManager.getSoudOnTap().play();
 			removeCockRoachOnTap((AnimatedSprite) pTouchArea);
 			return true;
 		}
@@ -262,23 +258,23 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
-		switch(pMenuItem.getID()) {
+		switch (pMenuItem.getID()) {
 		case ResourceManager.MENU_RESET:
 			/* Restart the animation. */
 			mLastUpdateScene = System.currentTimeMillis();
 			this.start();
 			mScenePlayArea.reset();
-//
-//			/* Remove the menu and reset it. */
-//			mSceneBackground.clearChildScene();
-//			mSceneBackground.reset();
+			//
+			// /* Remove the menu and reset it. */
+			// mSceneBackground.clearChildScene();
+			// mSceneBackground.reset();
 			return true;
 		case ResourceManager.MENU_QUIT:
 			gameActivity.finish();
 			return true;
 		default:
 			return false;
-	}
+		}
 	}
 
 }
