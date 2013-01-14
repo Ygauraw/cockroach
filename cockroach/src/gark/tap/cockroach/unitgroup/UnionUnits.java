@@ -14,4 +14,10 @@ public abstract class UnionUnits {
 	}
 
 	public abstract List<MovingObject> getUnionUnits();
+
+	public abstract int getHealth();
+	
+	public abstract long getTimeShift();
+	
+	public abstract void clear();
 }

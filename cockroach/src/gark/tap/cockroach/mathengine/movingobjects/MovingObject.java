@@ -18,7 +18,7 @@ public abstract class MovingObject extends AnimatedSprite {
 	// protected Sprite mMainSprite;
 	protected AnimatedSprite mMainSprite;
 
-	protected int delayForStart;
+	protected float delayForStart;
 	protected int mSpeed;
 	protected float mShiftX = 0;
 	protected float moving;
@@ -41,7 +41,7 @@ public abstract class MovingObject extends AnimatedSprite {
 		mMainSprite.setRotation(180f);
 		// speed animation
 		mSpeed = (int) Utils.generateRandomPositive(300f, 400f);
-		mMainSprite.animate(mSpeed);
+		mMainSprite.animate((long) moving);
 
 		// mMainSprite.setScale(Config.SCALE);
 	}
@@ -94,11 +94,11 @@ public abstract class MovingObject extends AnimatedSprite {
 		return moving;
 	}
 
-	public int getDelayForStart() {
+	public float getDelayForStart() {
 		return delayForStart;
 	}
 
-	public void setDelayForStart(int delayForStart) {
+	public void setDelayForStart(float delayForStart) {
 		this.delayForStart = delayForStart;
 	}
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 import android.graphics.PointF;
 
-public class UnionUnits1 extends UnionUnits {
+public class UnionUnits3 extends UnionUnits {
 
 	int delayForStart;
 	private int health = 1000;
@@ -18,7 +18,7 @@ public class UnionUnits1 extends UnionUnits {
 	private List<MovingObject> cockroachs;
 	private long timeShift;
 
-	public UnionUnits1(ResourceManager mResourceManager, Long timeShift) {
+	public UnionUnits3(ResourceManager mResourceManager, Long timeShift) {
 		super(mResourceManager);
 		this.timeShift = timeShift;
 		this.mResourceManager = mResourceManager;
@@ -35,39 +35,39 @@ public class UnionUnits1 extends UnionUnits {
 
 		cockroachs = new ArrayList<MovingObject>();
 
-		Cockroach cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mResourceManager);
+		Cockroach cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.2f, -100), mResourceManager);
 		cockroach.setDelayForStart(timeShift += 1000);
 		cockroachs.add(cockroach);
 
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mResourceManager);
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.8f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift);
+		cockroachs.add(cockroach);
+
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.2f, -100), mResourceManager);
 		cockroach.setDelayForStart(timeShift += 1000);
+		cockroachs.add(cockroach);
+
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.8f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift);
+		cockroachs.add(cockroach);
+
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.2f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift += 1000);
+		cockroachs.add(cockroach);
+
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.8f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift);
+		cockroachs.add(cockroach);
+
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.2f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift += 1000);
+		cockroachs.add(cockroach);
+
+		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.8f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift);
 		cockroachs.add(cockroach);
 
 		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
-		cockroach.setDelayForStart(timeShift += 1000);
-		cockroachs.add(cockroach);
-
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mResourceManager);
-		cockroach.setDelayForStart(timeShift += 1000);
-		cockroachs.add(cockroach);
-
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mResourceManager);
-		cockroach.setDelayForStart(timeShift += 1000);
-		cockroachs.add(cockroach);
-
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mResourceManager);
-		cockroach.setDelayForStart(timeShift += 1000);
-		cockroachs.add(cockroach);
-
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
-		cockroach.setDelayForStart(timeShift += 1000);
-		cockroachs.add(cockroach);
-
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mResourceManager);
-		cockroach.setDelayForStart(timeShift += 1000);
-		cockroachs.add(cockroach);
-
-		cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mResourceManager);
 		cockroach.setDelayForStart(timeShift += 1000);
 		cockroachs.add(cockroach);
 

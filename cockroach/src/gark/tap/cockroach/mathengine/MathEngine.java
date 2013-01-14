@@ -3,7 +3,7 @@ package gark.tap.cockroach.mathengine;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.MainActivity;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.levels.LevelGenerator;
+import gark.tap.cockroach.levels.LevelLauncher;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
@@ -50,7 +50,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 	private final List<StaticObject> mStaticObjects = new ArrayList<StaticObject>();
 
-	private LevelGenerator levelGenerator;
+	private LevelLauncher levelLauncher;
 
 	public MathEngine(final MainActivity gameActivity) {
 
@@ -104,7 +104,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 		mSceneBackground.setChildScene(mScenePlayArea);
 
-		levelGenerator = new LevelGenerator(mResourceManager, this, levelListener);
+		levelLauncher = new LevelLauncher(mResourceManager, this, levelListener);
 
 	}
 
@@ -117,7 +117,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 	public void stop(boolean interrupt) {
 		Log.d("Math engine stop: ", String.valueOf(interrupt));
-		levelGenerator.getUpdateTimer().cancel();
+		levelLauncher.getUpdateTimer().cancel();
 		mAlive = false;
 		if (interrupt) {
 			mGameLoop.interrupt();
@@ -161,7 +161,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 		// tact cockroach start
 
-		for (Iterator<MovingObject> movingIterator = levelGenerator.getUnitList().iterator(); movingIterator.hasNext();) {
+		for (Iterator<MovingObject> movingIterator = levelLauncher.getUnitList().iterator(); movingIterator.hasNext();) {
 			MovingObject cockroach = (MovingObject) movingIterator.next();
 			cockroach.tact(now, time);
 			float distance = (float) time / 1000 * cockroach.getMoving();
@@ -202,7 +202,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 	 */
 	public synchronized void removeCockRoach(final MovingObject object, Iterator<MovingObject> iterator) {
 		iterator.remove();
-		levelGenerator.removeUnit(object);
+		levelLauncher.removeUnit(object);
 
 		mResourceManager.getScoreText().setText(Config.HEALTH + --health);
 
@@ -226,9 +226,9 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 	 */
 	public synchronized void removeCockRoachOnTap(final AnimatedSprite object) {
 
-		levelGenerator.removeUnit(object);
+		levelLauncher.removeUnit(object);
 
-		for (Iterator<MovingObject> movingIterator = levelGenerator.getUnitList().iterator(); movingIterator.hasNext();) {
+		for (Iterator<MovingObject> movingIterator = levelLauncher.getUnitList().iterator(); movingIterator.hasNext();) {
 			if (object.equals(((MovingObject) movingIterator.next()).getMainSprite())) {
 				movingIterator.remove();
 				break;
@@ -272,6 +272,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 			// mSceneBackground.reset();
 			return true;
 		case ResourceManager.MENU_QUIT:
+			levelLauncher.getUpdateTimer().cancel();
 			gameActivity.finish();
 			return true;
 		default:
