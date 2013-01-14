@@ -44,6 +44,7 @@ public class ResourceManager {
 	private TextureRegion mPause;
 
 	private Text mScoreText;
+	private Text mVaweText;
 
 	private TextureRegion mBackGround;
 
@@ -75,6 +76,7 @@ public class ResourceManager {
 		BitmapTextureAtlas pausePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -88,16 +90,19 @@ public class ResourceManager {
 
 		// score text
 		float sizeLenth = Config.CAMERA_WIDTH;
-		float size = sizeLenth / 20;
-		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		float size = sizeLenth / 25;
 		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Plok.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
-		mScoreText = new Text(100, 15, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXX".length(), mVertexBufferObjectManager);
-		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth, HorizontalAlign.LEFT));
+		mScoreText = new Text(50, 15, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXX".length(), mVertexBufferObjectManager);
+		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.6f, HorizontalAlign.LEFT));
 		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+		// vawe font
+		mVaweText = new Text(sizeLenth - sizeLenth * 0.4f, 15, mFont, Config.VAWE + 1, "Vawe: XX".length(), mVertexBufferObjectManager);
+		mVaweText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.4f, HorizontalAlign.LEFT));
+		mVaweText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// background
 		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "background_big.jpg", 0, 0);
-		
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
@@ -114,7 +119,7 @@ public class ResourceManager {
 		backgroundTextureAtlas.load();
 		cockroachTextureAtlas.load();
 		pausePauseTextureAtlas.load();
-		
+
 	}
 
 	public TextureRegion getBackGround() {
@@ -123,6 +128,10 @@ public class ResourceManager {
 
 	public Text getScoreText() {
 		return mScoreText;
+	}
+
+	public Text getVaweText() {
+		return mVaweText;
 	}
 
 	public TiledTextureRegion getmCoacroachTextureRegion() {

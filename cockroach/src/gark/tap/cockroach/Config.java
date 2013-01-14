@@ -12,6 +12,9 @@ public class Config {
     public static int CAMERA_HEIGHT = 800;
 
     public static int SCENE_SPEED = 100;
+    
     public static final int HEALTH_SCORE = 100;
     public static final String HEALTH = "Health: ";
+    
+    public static final String VAWE = "Vawe: ";
 }

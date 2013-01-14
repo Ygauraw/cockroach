@@ -18,11 +18,12 @@ public abstract class MovingObject extends AnimatedSprite {
 	// protected Sprite mMainSprite;
 	protected AnimatedSprite mMainSprite;
 
+	protected int delayForStart;
 	protected int mSpeed;
-	protected float mShiftX;
+	protected float mShiftX = 0;
 	protected float moving;
 	// protected float mAngle;
-	protected int mHealth;
+	protected int mHealth = 10;
 
 	protected boolean mAlive;
 
@@ -33,7 +34,7 @@ public abstract class MovingObject extends AnimatedSprite {
 		mNextPoint = point;
 
 		mPointOffset = new PointF(mainTextureRegion.getWidth() / 2, mainTextureRegion.getHeight() / 2);
-		mShiftX = Utils.generateRandom(5);
+		// mShiftX = Utils.generateRandom(5);
 		moving = Utils.generateRandomPositive(100, 150);
 
 		mMainSprite = new AnimatedSprite(mPoint.x, mPoint.y, mainTextureRegion, vertexBufferObjectManager);
@@ -45,13 +46,13 @@ public abstract class MovingObject extends AnimatedSprite {
 		// mMainSprite.setScale(Config.SCALE);
 	}
 
-	protected void damage(float health) {
-		mHealth -= health;
-		if (mHealth <= 0) {
-			mHealth = 0;
-			mAlive = false;
-		}
-	}
+//	protected void damage(float health) {
+//		mHealth -= health;
+//		if (mHealth <= 0) {
+//			mHealth = 0;
+//			mAlive = false;
+//		}
+//	}
 
 	public boolean isAlive() {
 		return mAlive;
@@ -93,8 +94,15 @@ public abstract class MovingObject extends AnimatedSprite {
 		return moving;
 	}
 
-	public abstract void tact(long now, long period);
+	public int getDelayForStart() {
+		return delayForStart;
+	}
 
+	public void setDelayForStart(int delayForStart) {
+		this.delayForStart = delayForStart;
+	}
+
+	public abstract void tact(long now, long period);
 
 	public static float distance(float x, float y, float x2, float y2) {
 		float dx = x - x2;

@@ -1,6 +1,8 @@
 package gark.tap.cockroach.mathengine;
 
 public class ConfigObject {
+	
+	public static final int HEALTH_LEVEL = 100;
 
     public static final int HEALTH_TANK = 100;
     public static final int HEALTH_CANNON = 50;
