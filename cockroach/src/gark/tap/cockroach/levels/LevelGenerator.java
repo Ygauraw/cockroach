@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class LevelGenerator {
-	public static final int LEVEL_COUNT = 3;
+	public static final int LEVEL_COUNT = 4;
 	private static final List<MovingObject> list = Collections.synchronizedList(new ArrayList<MovingObject>());
 	private static UnionUnits unionUnits;
 

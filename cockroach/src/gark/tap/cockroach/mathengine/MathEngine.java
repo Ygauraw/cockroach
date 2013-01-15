@@ -164,13 +164,11 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		for (Iterator<MovingObject> movingIterator = levelLauncher.getUnitList().iterator(); movingIterator.hasNext();) {
 			MovingObject cockroach = (MovingObject) movingIterator.next();
 			cockroach.tact(now, time);
-			float distance = (float) time / 1000 * cockroach.getMoving();
-			cockroach.setY(cockroach.posY() + distance);
-			cockroach.setX(cockroach.posX() - cockroach.getShiftX());
-
-			// change run direction from border
-			if (cockroach.posX() < (0 + cockroach.getWidth() / 3 / Config.SCALE) || cockroach.posX() > (Config.CAMERA_WIDTH - cockroach.getWidth() / 3 / Config.SCALE))
-				cockroach.setmShiftX(-cockroach.getShiftX());
+			
+//TODO
+//			// change run direction from border
+//			if (cockroach.posX() < (0 + cockroach.getWidth() / 3 / Config.SCALE) || cockroach.posX() > (Config.CAMERA_WIDTH - cockroach.getWidth() / 3 / Config.SCALE))
+//				cockroach.setmShiftX(-cockroach.getShiftX());
 			if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
 				removeCockRoach(cockroach, movingIterator);
 			}

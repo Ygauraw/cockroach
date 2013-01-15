@@ -1,5 +1,6 @@
 package gark.tap.cockroach;
 
+import gark.tap.cockroach.levels.LevelLauncher;
 import gark.tap.cockroach.mathengine.MathEngine;
 
 import org.andengine.engine.camera.Camera;
@@ -7,7 +8,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.util.DisplayMetrics;
@@ -26,12 +26,10 @@ public class MainActivity extends BaseGameActivity {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		Config.SCALE = (float) metrics.widthPixels / Config.ETALON_WIDTH;
-//		Config.SCALE = (float) metrics.heightPixels / Config.ETALON_WIDTH;
 		Config.CAMERA_WIDTH = metrics.widthPixels;
 		Config.CAMERA_HEIGHT = metrics.heightPixels;
 
 		mCamera = new Camera(0, 0, Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT);
-//		mCamera = new Camera(0, 0, Config.CAMERA_HEIGHT, Config.CAMERA_WIDTH );
 
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT),
 				mCamera);
@@ -44,10 +42,7 @@ public class MainActivity extends BaseGameActivity {
 
 	@Override
 	public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback) throws Exception {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
 		mResourceManager = new ResourceManager(this);
-
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
@@ -87,6 +82,7 @@ public class MainActivity extends BaseGameActivity {
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
+	    LevelLauncher.setCURENT_LEVEL(1);
 //	    android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	

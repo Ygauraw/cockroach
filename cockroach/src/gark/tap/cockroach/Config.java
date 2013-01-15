@@ -8,8 +8,10 @@ public class Config {
 
     public static int SHIFT_WIDTH = 50;
     
-    public static int CAMERA_WIDTH = 1280;
-    public static int CAMERA_HEIGHT = 800;
+//    public static int CAMERA_WIDTH = 1280;
+//    public static int CAMERA_HEIGHT = 800;
+    public static int CAMERA_WIDTH = 800;
+    public static int CAMERA_HEIGHT = 1280;
 
     public static int SCENE_SPEED = 100;
     

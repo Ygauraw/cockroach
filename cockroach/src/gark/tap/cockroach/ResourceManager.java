@@ -97,7 +97,7 @@ public class ResourceManager {
 		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// vawe font
-		mVaweText = new Text(sizeLenth - sizeLenth * 0.4f, 15, mFont, Config.VAWE + 1, "Vawe: XX".length(), mVertexBufferObjectManager);
+		mVaweText = new Text(sizeLenth - sizeLenth * 0.4f, 15, mFont, Config.VAWE + 1, "Vawe: XXX".length(), mVertexBufferObjectManager);
 		mVaweText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.4f, HorizontalAlign.LEFT));
 		mVaweText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -134,7 +134,7 @@ public class ResourceManager {
 		return mVaweText;
 	}
 
-	public TiledTextureRegion getmCoacroachTextureRegion() {
+	public TiledTextureRegion getCoacroachTextureRegion() {
 		return mCockroachTextureRegion;
 	}
 

@@ -109,4 +109,8 @@ public class LevelLauncher {
 		return listOfVisibleUnits;
 	}
 
+	public static void setCURENT_LEVEL(int cURENT_LEVEL) {
+		CURENT_LEVEL = cURENT_LEVEL;
+	}
+
 }

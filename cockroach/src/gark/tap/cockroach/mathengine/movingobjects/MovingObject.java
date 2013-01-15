@@ -21,7 +21,7 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected float delayForStart;
 	protected int mSpeed;
 	protected float mShiftX = 0;
-	protected float moving;
+	protected long moving;
 	// protected float mAngle;
 	protected int mHealth = 10;
 
@@ -35,24 +35,29 @@ public abstract class MovingObject extends AnimatedSprite {
 
 		mPointOffset = new PointF(mainTextureRegion.getWidth() / 2, mainTextureRegion.getHeight() / 2);
 		// mShiftX = Utils.generateRandom(5);
-		moving = Utils.generateRandomPositive(100, 150);
+		// moving = (long) Utils.generateRandomPositive(100, 150);
+		moving = 100;
 
 		mMainSprite = new AnimatedSprite(mPoint.x, mPoint.y, mainTextureRegion, vertexBufferObjectManager);
-		mMainSprite.setRotation(180f);
 		// speed animation
 		mSpeed = (int) Utils.generateRandomPositive(300f, 400f);
-		mMainSprite.animate((long) moving);
+
+		long[] duration = { moving, moving, moving, moving, moving, moving };
+		int[] frames = {0, 1, 2, 3, 4, 5 };
+		// mMainSprite.animate((long) moving);
+		mMainSprite.animate(duration, frames, true);
+		// sprite.animate(long[] pFrameDurations, int[] pFrames, int pLoopCount)
 
 		// mMainSprite.setScale(Config.SCALE);
 	}
 
-//	protected void damage(float health) {
-//		mHealth -= health;
-//		if (mHealth <= 0) {
-//			mHealth = 0;
-//			mAlive = false;
-//		}
-//	}
+	// protected void damage(float health) {
+	// mHealth -= health;
+	// if (mHealth <= 0) {
+	// mHealth = 0;
+	// mAlive = false;
+	// }
+	// }
 
 	public boolean isAlive() {
 		return mAlive;
@@ -104,10 +109,10 @@ public abstract class MovingObject extends AnimatedSprite {
 
 	public abstract void tact(long now, long period);
 
-	public static float distance(float x, float y, float x2, float y2) {
-		float dx = x - x2;
-		float dy = y - y2;
-		return (float) Math.sqrt(dx * dx + dy * dy);
-	}
+	// public static float distance(float x, float y, float x2, float y2) {
+	// float dx = x - x2;
+	// float dy = y - y2;
+	// return (float) Math.sqrt(dx * dx + dy * dy);
+	// }
 
 }
