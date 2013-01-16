@@ -2,9 +2,9 @@ package gark.tap.cockroach.unitgroup;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfRightAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class UnionUnits2 extends UnionUnits {
 		// cockroach.setDelayForStart(timeShift += 1000);
 		// cockroachs.add(cockroach);
 
-		cockroach = new CockroachDirect(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
+		cockroach = new CockroachMedic(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(timeShift += 1000);
 		cockroachs.add(cockroach);
 

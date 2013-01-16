@@ -38,15 +38,15 @@ public abstract class MovingObject extends AnimatedSprite {
 		// moving = (long) Utils.generateRandomPositive(100, 150);
 		moving = 100;
 
-		mMainSprite = new AnimatedSprite(mPoint.x, mPoint.y, mainTextureRegion, vertexBufferObjectManager);
+		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
 		// speed animation
 		mSpeed = (int) Utils.generateRandomPositive(300f, 400f);
 
 		long[] duration = { moving, moving, moving, moving, moving, moving };
-		int[] frames = {0, 1, 2, 3, 4, 5 };
-		// mMainSprite.animate((long) moving);
+		int[] frames = { 0, 1, 2, 3, 4, 5 };
 		mMainSprite.animate(duration, frames, true);
-		// sprite.animate(long[] pFrameDurations, int[] pFrames, int pLoopCount)
+
+		// mMainSprite.animate(moving);
 
 		// mMainSprite.setScale(Config.SCALE);
 	}

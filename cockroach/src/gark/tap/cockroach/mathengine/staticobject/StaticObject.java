@@ -6,7 +6,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.graphics.PointF;
 
-public class StaticObject extends Sprite{
+public class StaticObject extends Sprite {
 
 	protected PointF mPoint;
 	protected PointF mPointOffset;
@@ -15,13 +15,16 @@ public class StaticObject extends Sprite{
 
 	public StaticObject(PointF point, TextureRegion textureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
 		super(point.x, point.y, textureRegion, vertexBufferObjectManager);
-		
+
 		mPoint = point;
 		mPointOffset = new PointF(textureRegion.getWidth() / 2, textureRegion.getHeight() / 2);
-
 		mSprite = new Sprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, textureRegion, vertexBufferObjectManager);
 
-//		mSprite.setScale(1 / Config.SCALE);
+		// mSprite.setScale(1 / Config.SCALE);
+	}
+
+	public void setRotation(float angle) {
+		mSprite.setRotation(angle);
 	}
 
 	public float posX() {

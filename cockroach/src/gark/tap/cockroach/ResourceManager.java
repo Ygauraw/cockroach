@@ -40,13 +40,16 @@ public class ResourceManager {
 	private SpriteMenuItem quitMenuItem;
 
 	private TiledTextureRegion mCockroachTextureRegion;
+	private TiledTextureRegion mRedCircleMedecine;
 	private TextureRegion mResume;
 	private TextureRegion mPause;
 
 	private Text mScoreText;
 	private Text mVaweText;
 
+	private TextureRegion mRedCross;
 	private TextureRegion mBackGround;
+	private TextureRegion mDeadCockroach;
 
 	private Sound mSoundOnTap;
 
@@ -71,12 +74,15 @@ public class ResourceManager {
 
 		// atlases
 		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 800, 1280);
-		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 578, 131);
+		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas cockroachDeadTextureAtlas = new BitmapTextureAtlas(textureManager, 100, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
 		BitmapTextureAtlas pausePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 1800, 300);
+		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -92,7 +98,7 @@ public class ResourceManager {
 		float sizeLenth = Config.CAMERA_WIDTH;
 		float size = sizeLenth / 25;
 		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Plok.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
-		mScoreText = new Text(50, 15, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXX".length(), mVertexBufferObjectManager);
+		mScoreText = new Text(50, 15, mFont, Config.HEALTH + Config.HEALTH_SCORE, "Score: XXXXX".length(), mVertexBufferObjectManager);
 		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.6f, HorizontalAlign.LEFT));
 		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -102,12 +108,17 @@ public class ResourceManager {
 		mVaweText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// background
+		mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
 		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "background_big.jpg", 0, 0);
+		mDeadCockroach = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cockroachDeadTextureAtlas, baseGameActivity, "dead_cockroach.png", 0, 0);
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
 
-		// play stop
+		// radar medic
+		mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(medicRedCircleAtlas, baseGameActivity, "redCircle.png", 0, 0, 6, 1);
+
+		// pause
 		mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pausePauseTextureAtlas, baseGameActivity, "pause.png", 0, 0);
 
 		// load resources
@@ -117,13 +128,20 @@ public class ResourceManager {
 		resumePauseTextureAtlas.load();
 		subMenuQuitTextureAtlas.load();
 		backgroundTextureAtlas.load();
+		cockroachDeadTextureAtlas.load();
 		cockroachTextureAtlas.load();
 		pausePauseTextureAtlas.load();
+		medicRedCircleAtlas.load();
+		redCrossAtlas.load();
 
 	}
 
 	public TextureRegion getBackGround() {
 		return mBackGround;
+	}
+
+	public TextureRegion getDeadCockroach() {
+		return mDeadCockroach;
 	}
 
 	public Text getScoreText() {
@@ -160,6 +178,14 @@ public class ResourceManager {
 
 	public Sound getSoudOnTap() {
 		return mSoundOnTap;
+	}
+
+	public TextureRegion getRedCross() {
+		return mRedCross;
+	}
+
+	public TiledTextureRegion getCircleMedecine() {
+		return mRedCircleMedecine;
 	}
 
 }

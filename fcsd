@@ -1,0 +1,84 @@
+[33mcommit 6c5caf1b33f21c37fa3a8cf5dede06333775cab1[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Jan 15 23:26:14 2013 +0200
+
+    composed few cockroch behaviour
+
+[33mcommit 48b36149a57c0ab54ae95345aec14864e7e670f8[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 14 21:49:41 2013 +0200
+
+    level generator
+
+[33mcommit 709bd8b40ae818e817d338557f3967c21d419e89[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 14 18:18:42 2013 +0200
+
+    vawes implemented + 1st rush
+
+[33mcommit 303bf350ff632d49c7c3ac97c5f4b8e6699803c6[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Sat Jan 12 11:49:07 2013 +0200
+
+    screen orientetion fix
+
+[33mcommit cb58ffc982d666e76fd4c6c695473cf4c7259c0e[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Thu Jan 10 20:54:07 2013 +0200
+
+    sounds , submenu, text
+
+[33mcommit 1da7aefb8475ee212afc2f67388b94e5d80ddbff[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Thu Jan 10 00:25:07 2013 +0200
+
+    small fixes
+
+[33mcommit 4266a58ccab39c17655564167b18b922a9d5440b[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 9 19:59:08 2013 +0200
+
+    wtf
+
+[33mcommit 8b34a5a54a02c0a351207e5d12bfba819cfeea5a[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 9 19:36:35 2013 +0200
+
+    touch handling
+
+[33mcommit 44d17c0d2c8271d4aa8d43dbcc793ebf96312f4a[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Jan 8 22:45:30 2013 +0200
+
+    object moving
+
+[33mcommit 14af819da8bb785c6af911c8a45a10ff06a7205c[m
+Author: Garkusha Artem <garkusha@teufel.de>
+Date:   Tue Jan 8 14:00:34 2013 +0200
+
+    create game object
+
+[33mcommit 9205bcb239c2ef80d76289964c406060aa5b285e[m
+Author: Garkusha Artem <garkusha@teufel.de>
+Date:   Tue Jan 8 00:13:46 2013 +0200
+
+    test commit from laptop
+
+[33mcommit ac54d3c20dc7be1316311f91d5ffc842e2a2f127[m
+Merge: b09fc6d 981fb56
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 7 23:54:38 2013 +0200
+
+    init
+
+[33mcommit b09fc6d3b471f2f0e427c0dd4818e473b295d50b[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 7 23:47:40 2013 +0200
+
+    initial commit
+
+[33mcommit 981fb564c73c7260fdd049f8e0a56df113dac7e4[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 7 13:29:48 2013 -0800
+
+    Initial commit

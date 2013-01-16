@@ -29,7 +29,7 @@ public class LevelLauncher {
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
 		this.mathEngine = mathEngine;
-		startNewLevel(1);
+		startNewLevel(CURENT_LEVEL);
 
 	}
 
@@ -39,7 +39,6 @@ public class LevelLauncher {
 		if (isLevelFinished(listOfAllLevelUnit.size())) {
 			// unionUnits.getUnionUnits().clear();
 			++CURENT_LEVEL;
-			levelListener.getCurrentVawe(CURENT_LEVEL);
 			startNewLevel(CURENT_LEVEL);
 		}
 	}
@@ -56,17 +55,19 @@ public class LevelLauncher {
 		if (isLevelFinished(listOfAllLevelUnit.size())) {
 			// unionUnits.getUnionUnits().clear();
 			++CURENT_LEVEL;
-			levelListener.getCurrentVawe(CURENT_LEVEL);
 			startNewLevel(CURENT_LEVEL);
 		}
 	}
 
 	private synchronized void startNewLevel(int level) {
 
+		levelListener.getCurrentVawe(CURENT_LEVEL);
+
 		listOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
 		// LevelGenerator.clearList();
 
 		for (final MovingObject item : listOfAllLevelUnit) {
+
 			updateTimer.schedule(new TimerTask() {
 
 				@Override
