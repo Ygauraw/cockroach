@@ -3,19 +3,17 @@ package gark.tap.cockroach.mathengine;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.MainActivity;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.levels.LevelLauncher;
+import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.scene.IOnAreaTouchListener;
-import org.andengine.entity.scene.ITouchArea;
+import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -27,7 +25,7 @@ import org.andengine.input.touch.TouchEvent;
 import android.graphics.PointF;
 import android.util.Log;
 
-public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemClickListener {
+public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
 	// public static int CURENT_LEVEL = 1;
@@ -50,9 +48,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 	private static int health = Config.HEALTH_SCORE;
 
-	private final List<StaticObject> mListDeadObjects = new ArrayList<StaticObject>();
-
-	private LevelLauncher levelLauncher;
+	private LevelManager levelManager;
 
 	public MathEngine(final MainActivity gameActivity) {
 
@@ -61,7 +57,6 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
-		// mSceneBackground.setOnAreaTouchListener(this);
 
 		// menu
 		mMenuScene = new MenuScene(mCamera);
@@ -69,7 +64,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		mMenuScene.addMenuItem(mResourceManager.getQuitMenuItem());
 		mMenuScene.buildAnimations();
 		mMenuScene.setBackgroundEnabled(false);
-		this.mMenuScene.setOnMenuItemClickListener(this);
+		mMenuScene.setOnMenuItemClickListener(this);
 
 		// add background
 		mSceneBackground.attachChild(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity
@@ -83,10 +78,10 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		// scene for cockroach
 		mScenePlayArea = new Scene();
 		mScenePlayArea.setBackgroundEnabled(false);
-		mScenePlayArea.setOnAreaTouchListener(this);
+		mScenePlayArea.setOnSceneTouchListener(this);
 
 		mSceneDeadArea.setChildScene(mScenePlayArea);
-		
+
 		// scene for pause button
 		mSceneControls = new Scene();
 		mSceneControls.setBackgroundEnabled(false);
@@ -108,7 +103,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		};
 		mSceneControls.registerTouchArea(pause);
 		mSceneControls.attachChild(pause);
-		levelLauncher = new LevelLauncher(mResourceManager, this, levelListener);
+		levelManager = new LevelManager(mResourceManager, this, levelListener);
 
 	}
 
@@ -121,7 +116,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 	public void stop(boolean interrupt) {
 		Log.d("Math engine stop: ", String.valueOf(interrupt));
-		levelLauncher.getUpdateTimer().cancel();
+		levelManager.getUpdateTimer().cancel();
 		mAlive = false;
 		if (interrupt) {
 			mGameLoop.interrupt();
@@ -165,10 +160,34 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 
 		// tact cockroach start
 
-		synchronized (levelLauncher.getUnitList()) {
+		synchronized (levelManager.getUnitList()) {
 
-			for (Iterator<MovingObject> movingIterator = levelLauncher.getUnitList().iterator(); movingIterator.hasNext();) {
+			for (Iterator<MovingObject> movingIterator = levelManager.getUnitList().iterator(); movingIterator.hasNext();) {
 				MovingObject cockroach = (MovingObject) movingIterator.next();
+
+				// reanimation dead cockroach
+				if (cockroach instanceof CockroachMedic) {
+					synchronized (DeadManager.getListDeadObjects()) {
+						for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
+							StaticObject st = (StaticObject) iterator.next();
+							if (((AnimatedSprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.getSprite().getX(), st.getSprite().getY())) {
+//								float x = st.getX();
+//								float y = st.getY();
+								
+								mSceneDeadArea.detachChild(st.getSprite());
+								iterator.remove();
+								
+//								listOfVisibleUnits.add(item);
+								//TODO
+//								MovingObject movingObject = new CockroachDirect(new PointF(x, y), mResourceManager);
+//								levelManager.getUnitList().add(movingObject);
+//								addCockroaches(movingObject);
+								
+							}
+						}
+					}
+				}
+
 				cockroach.tact(now, time);
 
 				// // change run direction from border
@@ -206,7 +225,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 	 */
 	public synchronized void removeCockRoach(final MovingObject object, Iterator<MovingObject> iterator) {
 		iterator.remove();
-		levelLauncher.removeUnit(object);
+		levelManager.removeUnit(object);
 
 		mResourceManager.getScoreText().setText(Config.HEALTH + --health);
 
@@ -223,58 +242,6 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		});
 	}
 
-	/**
-	 * remove CockRoach from scene and list onTap
-	 * 
-	 * @param object
-	 */
-	public synchronized void removeCockRoachOnTap(final AnimatedSprite object, final float touchX, final float touchY) {
-
-		// create dead cockroach
-		StaticObject deadObject = new BackgroundObject(new PointF(touchX, touchY), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
-		deadObject.setRotation(object.getRotation());
-		mListDeadObjects.add(deadObject);
-		// attach dead cockroach to scene background
-		mSceneDeadArea.attachChild(deadObject.getSprite());
-
-		// remove alive unit
-		levelLauncher.removeUnit(object);
-		for (Iterator<MovingObject> movingIterator = levelLauncher.getUnitList().iterator(); movingIterator.hasNext();) {
-			if (object.equals(((MovingObject) movingIterator.next()).getMainSprite())) {
-				movingIterator.remove();
-				break;
-			}
-		}
-		this.gameActivity.runOnUpdateThread(new Runnable() {
-			@Override
-			public void run() {
-				mScenePlayArea.detachChild(object);
-				mScenePlayArea.unregisterTouchArea(object);
-				object.clearEntityModifiers();
-				object.clearUpdateHandlers();
-
-			}
-		});
-
-	}
-
-	@Override
-	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, ITouchArea pTouchArea, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-		if (pSceneTouchEvent.isActionDown() && (pTouchArea instanceof AnimatedSprite)) {
-
-			AnimatedSprite obSprite = (AnimatedSprite) pTouchArea;
-
-			float shiftX = obSprite.getWidth() / 2 - pTouchAreaLocalX;
-			float shiftY = obSprite.getHeight() / 2 - pTouchAreaLocalY;
-
-			mResourceManager.getSoudOnTap().play();
-			removeCockRoachOnTap(obSprite, pSceneTouchEvent.getX() + shiftX, pSceneTouchEvent.getY() + shiftY);
-			return true;
-		}
-
-		return false;
-	}
-
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
 		switch (pMenuItem.getID()) {
@@ -285,7 +252,7 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 			mSceneControls.reset();
 			return true;
 		case ResourceManager.MENU_QUIT:
-			levelLauncher.getUpdateTimer().cancel();
+			levelManager.getUpdateTimer().cancel();
 			gameActivity.finish();
 			return true;
 		default:
@@ -297,10 +264,23 @@ public class MathEngine implements Runnable, IOnAreaTouchListener, IOnMenuItemCl
 		@Override
 		public void getCurrentVawe(int level) {
 			mResourceManager.getVaweText().setText(Config.VAWE + level);
-			for (StaticObject item : mListDeadObjects)
-				mSceneDeadArea.detachChild(item.getSprite());
-			mListDeadObjects.clear();
+			// erase all dead corpse
+			synchronized (DeadManager.getListDeadObjects()) {
+				for (StaticObject item : DeadManager.getListDeadObjects())
+					mSceneDeadArea.detachChild(item.getSprite());
+			}
+
+			DeadManager.getListDeadObjects().clear();
 		}
 	};
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		if (pSceneTouchEvent.isActionDown()) {
+			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mResourceManager, gameActivity, mScenePlayArea, mSceneDeadArea);
+			return true;
+		}
+		return false;
+	}
 
 }

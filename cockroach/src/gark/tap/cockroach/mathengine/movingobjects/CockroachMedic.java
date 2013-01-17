@@ -24,6 +24,7 @@ public class CockroachMedic extends MovingObject {
 		mRadar = new AnimatedSprite(initCircleX, initCircleY, resourceManager.getCircleMedecine(), resourceManager.getVertexBufferObjectManager());
 		mRadar.animate(moving);
 		
+		
 
 		mMainSprite.attachChild(mRadar);
 		mMainSprite.attachChild(cross);
@@ -36,9 +37,18 @@ public class CockroachMedic extends MovingObject {
 		setY(posY() + distance);
 		setX(posX() - getShiftX());
 
-//		AnimatedSprite  i = (AnimatedSprite) mMainSprite.getChildByIndex(0);
 		
 		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
+		
+		
+//		synchronized (DeadManager.getListDeadObjects()) {
+//			for (Iterator<StaticObject> movingIterator = DeadManager.getListDeadObjects().iterator(); movingIterator.hasNext();) {
+//				StaticObject st = (StaticObject) movingIterator.next();
+//				if (mRadar.contains(st.getSprite().getX(), st.getSprite().getY())){
+//				}
+//			}
+//		}
+		
 	}
 
 }

@@ -1,8 +1,12 @@
 package gark.tap.cockroach.levels;
 
+import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.DeadManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
+import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
+import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,21 +15,24 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.scene.Scene;
+import org.andengine.ui.activity.BaseGameActivity;
 
-public class LevelLauncher {
+import android.graphics.PointF;
+
+public class LevelManager {
 
 	private static int CURENT_LEVEL = 1;
+	private static final int PRESS_RANGE = Config.CAMERA_WIDTH / 7;
 
 	private ResourceManager mResourceManager;
 	private MathEngine mathEngine;
-	// private UnionUnits unionUnits;
 	private List<MovingObject> listOfAllLevelUnit;
 	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new ArrayList<MovingObject>());;
 	private final Timer updateTimer = new Timer("timerName");
 	private OnUpdateLevelListener levelListener;
 
-	public LevelLauncher(ResourceManager mResourceManager, final MathEngine mathEngine, OnUpdateLevelListener levelListener) {
+	public LevelManager(ResourceManager mResourceManager, final MathEngine mathEngine, OnUpdateLevelListener levelListener) {
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
 		this.mathEngine = mathEngine;
@@ -37,23 +44,48 @@ public class LevelLauncher {
 		listOfVisibleUnits.remove(object);
 		listOfAllLevelUnit.remove(object);
 		if (isLevelFinished(listOfAllLevelUnit.size())) {
-			// unionUnits.getUnionUnits().clear();
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
 		}
 	}
 
-	public synchronized void removeUnit(AnimatedSprite object) {
+	public synchronized void removeUnit(final float x, final float y, final ResourceManager mResourceManager, final BaseGameActivity gameActivity, final Scene mScenePlayArea, final Scene mSceneDeadArea) {
+
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-			MovingObject obj = ((MovingObject) movingIterator.next());
-			if (object.equals(obj.getMainSprite())) {
+			final MovingObject item = ((MovingObject) movingIterator.next());
+			
+			float xPos = item.posX();
+			float yPos = item.posY();
+			
+			// remove near cockroaches
+			if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
+
 				movingIterator.remove();
-				listOfAllLevelUnit.remove(obj);
-				break;
+				listOfAllLevelUnit.remove(item);
+				
+				// remove from UI
+				gameActivity.runOnUpdateThread(new Runnable() {
+					@Override
+					public void run() {
+						mScenePlayArea.detachChild(item.getMainSprite());
+						mScenePlayArea.unregisterTouchArea(item.getMainSprite());
+						item.getMainSprite().detachChildren();
+						item.getMainSprite().clearEntityModifiers();
+						item.getMainSprite().clearUpdateHandlers();
+
+					}
+				});
+				
+				// create dead cockroach
+				StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
+				deadObject.setRotation(item.getMainSprite().getRotation());
+				DeadManager.add(deadObject);
+				// attach dead cockroach to scene background
+				mSceneDeadArea.attachChild(deadObject.getSprite());
+
 			}
 		}
 		if (isLevelFinished(listOfAllLevelUnit.size())) {
-			// unionUnits.getUnionUnits().clear();
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
 		}

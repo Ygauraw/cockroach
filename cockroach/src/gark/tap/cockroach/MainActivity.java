@@ -1,6 +1,6 @@
 package gark.tap.cockroach;
 
-import gark.tap.cockroach.levels.LevelLauncher;
+import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 
 import org.andengine.engine.camera.Camera;
@@ -82,7 +82,7 @@ public class MainActivity extends BaseGameActivity {
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    LevelLauncher.setCURENT_LEVEL(1);
+	    LevelManager.setCURENT_LEVEL(1);
 //	    android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	

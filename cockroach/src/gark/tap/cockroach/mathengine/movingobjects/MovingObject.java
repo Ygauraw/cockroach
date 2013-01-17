@@ -25,7 +25,7 @@ public abstract class MovingObject extends AnimatedSprite {
 	// protected float mAngle;
 	protected int mHealth = 10;
 
-	protected boolean mAlive;
+//	protected boolean mAlive;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
 		super(point.x, point.y, mainTextureRegion, vertexBufferObjectManager);
@@ -59,9 +59,9 @@ public abstract class MovingObject extends AnimatedSprite {
 	// }
 	// }
 
-	public boolean isAlive() {
-		return mAlive;
-	}
+//	public boolean isAlive() {
+//		return mAlive;
+//	}
 
 	public float posX() {
 		return mPoint.x;
