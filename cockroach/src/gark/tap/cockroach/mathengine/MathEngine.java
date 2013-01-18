@@ -5,12 +5,16 @@ import gark.tap.cockroach.MainActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.scene.IOnSceneTouchListener;
@@ -28,7 +32,7 @@ import android.util.Log;
 public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
-	// public static int CURENT_LEVEL = 1;
+	private final Timer timer = new Timer();
 
 	private Camera mCamera;
 	private Scene mSceneBackground;
@@ -103,7 +107,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		};
 		mSceneControls.registerTouchArea(pause);
 		mSceneControls.attachChild(pause);
-		levelManager = new LevelManager(mResourceManager, this, levelListener);
+		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea);
 
 	}
 
@@ -160,10 +164,16 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 		// tact cockroach start
 
+		while (!levelManager.getStack().isEmpty()) {
+			levelManager.getUnitList().add(levelManager.getStack().pop());
+		}
+
 		synchronized (levelManager.getUnitList()) {
 
-			for (Iterator<MovingObject> movingIterator = levelManager.getUnitList().iterator(); movingIterator.hasNext();) {
+			for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
 				MovingObject cockroach = (MovingObject) movingIterator.next();
+
+				// movingIterator.add(object)
 
 				// reanimation dead cockroach
 				if (cockroach instanceof CockroachMedic) {
@@ -171,18 +181,14 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 						for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
 							StaticObject st = (StaticObject) iterator.next();
 							if (((AnimatedSprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.getSprite().getX(), st.getSprite().getY())) {
-//								float x = st.getX();
-//								float y = st.getY();
-								
+								float x = st.getX();
+								float y = st.getY();
+
 								mSceneDeadArea.detachChild(st.getSprite());
 								iterator.remove();
-								
-//								listOfVisibleUnits.add(item);
-								//TODO
-//								MovingObject movingObject = new CockroachDirect(new PointF(x, y), mResourceManager);
-//								levelManager.getUnitList().add(movingObject);
-//								addCockroaches(movingObject);
-								
+
+								MovingObject riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
+								levelManager.reanimateCockroach(riseCockroach);
 							}
 						}
 					}
@@ -204,18 +210,19 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	}
 
-	public synchronized void addCockroaches(final MovingObject object) {
-
-		this.gameActivity.runOnUpdateThread(new Runnable() {
-
-			@Override
-			public void run() {
-				mScenePlayArea.attachChild(object.getMainSprite());
-				mScenePlayArea.registerTouchArea(object.getMainSprite());
-			}
-		});
-
-	}
+	// TODO
+	// public synchronized void addCockroaches(final MovingObject object) {
+	//
+	// this.gameActivity.runOnUpdateThread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// mScenePlayArea.attachChild(object.getMainSprite());
+	// mScenePlayArea.registerTouchArea(object.getMainSprite());
+	// }
+	// });
+	//
+	// }
 
 	/**
 	 * remove CockRoach from scene and list
@@ -264,6 +271,20 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		@Override
 		public void getCurrentVawe(int level) {
 			mResourceManager.getVaweText().setText(Config.VAWE + level);
+
+			// show vawe in centr
+			mSceneControls.attachChild(mResourceManager.getBigVaweText());
+			mResourceManager.getBigVaweText().setText(Config.VAWE + level);
+
+			timer.schedule(new TimerTask() {
+
+				@Override
+				public void run() {
+					mSceneControls.detachChild(mResourceManager.getBigVaweText());
+
+				}
+			}, 3000);
+
 			// erase all dead corpse
 			synchronized (DeadManager.getListDeadObjects()) {
 				for (StaticObject item : DeadManager.getListDeadObjects())

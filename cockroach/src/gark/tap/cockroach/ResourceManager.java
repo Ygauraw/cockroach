@@ -46,6 +46,7 @@ public class ResourceManager {
 
 	private Text mScoreText;
 	private Text mVaweText;
+	private Text mBigVaweText;
 
 	private TextureRegion mRedCross;
 	private TextureRegion mBackGround;
@@ -81,6 +82,7 @@ public class ResourceManager {
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas mFontBigTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 1800, 300);
 		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20);
 
@@ -106,6 +108,9 @@ public class ResourceManager {
 		mVaweText = new Text(sizeLenth - sizeLenth * 0.4f, 15, mFont, Config.VAWE + 1, "Vawe: XXX".length(), mVertexBufferObjectManager);
 		mVaweText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.4f, HorizontalAlign.LEFT));
 		mVaweText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+		// central font
+		mBigVaweText = new Text(Config.CAMERA_WIDTH / 2 - Config.CAMERA_WIDTH / 10, Config.CAMERA_HEIGHT / 2, mFont, Config.VAWE, "Vawe: XXX".length(), mVertexBufferObjectManager);
 
 		// background
 		mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
@@ -133,6 +138,7 @@ public class ResourceManager {
 		pausePauseTextureAtlas.load();
 		medicRedCircleAtlas.load();
 		redCrossAtlas.load();
+		mFontBigTexture.load();
 
 	}
 
@@ -186,6 +192,10 @@ public class ResourceManager {
 
 	public TiledTextureRegion getCircleMedecine() {
 		return mRedCircleMedecine;
+	}
+
+	public Text getBigVaweText() {
+		return mBigVaweText;
 	}
 
 }
