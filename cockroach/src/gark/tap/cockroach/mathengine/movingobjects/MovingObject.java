@@ -21,7 +21,7 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected float delayForStart;
 	protected int mSpeed;
 	protected float mShiftX = 0;
-	protected long moving;
+	protected int moving;
 	// protected float mAngle;
 	protected int mHealth = 10;
 
@@ -95,8 +95,12 @@ public abstract class MovingObject extends AnimatedSprite {
 		return mMainSprite;
 	}
 
-	public float getMoving() {
+	public int getMoving() {
 		return moving;
+	}
+	
+	public void setMoving (int moving){
+		this.moving = moving;
 	}
 
 	public float getDelayForStart() {
@@ -109,10 +113,5 @@ public abstract class MovingObject extends AnimatedSprite {
 
 	public abstract void tact(long now, long period);
 
-	// public static float distance(float x, float y, float x2, float y2) {
-	// float dx = x - x2;
-	// float dy = y - y2;
-	// return (float) Math.sqrt(dx * dx + dy * dy);
-	// }
 
 }

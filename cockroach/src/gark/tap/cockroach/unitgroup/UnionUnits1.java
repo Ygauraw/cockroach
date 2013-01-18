@@ -3,6 +3,7 @@ package gark.tap.cockroach.unitgroup;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
@@ -59,7 +60,13 @@ public class UnionUnits1 extends UnionUnits {
 		cockroach = new CockroachAngle(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager, false);
 		cockroach.setDelayForStart(timeShift);
 		cockroachs.add(cockroach);
-
+		
+		cockroach = new CockroachAccelarate(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
+		cockroach.setDelayForStart(timeShift += 2000);
+		cockroachs.add(cockroach);
+		
+		
+		
 		// cockroach = new Cockroach(new PointF(Config.CAMERA_WIDTH * 0.7f,
 		// -100), mResourceManager);
 		// cockroach.setDelayForStart(timeShift += 1000);
