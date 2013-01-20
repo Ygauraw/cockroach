@@ -7,13 +7,10 @@ import android.view.View;
 
 public class LaunchActivity extends Activity {
 
-	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 	}
 
 	public void pressMe(View view) {
