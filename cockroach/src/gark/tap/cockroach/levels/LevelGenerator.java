@@ -7,20 +7,18 @@ import gark.tap.cockroach.unitgroup.UnionUnits;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class LevelGenerator {
 	public static final int LEVEL_COUNT = 4;
-	private static final List<MovingObject> list = Collections.synchronizedList(new ArrayList<MovingObject>());
+	private static final Queue<MovingObject> queue = new LinkedList<MovingObject>();
 	private static UnionUnits unionUnits;
 
-	public static List<MovingObject> getUnitList(int level, ResourceManager mResourceManager) {
+	public static Queue<MovingObject> getUnitList(int level, ResourceManager mResourceManager) {
 
-		list.clear();
+		queue.clear();
 
-		long timeShift = 1000;
 		int unionHealth = 0;
 
 		while (unionHealth < 1000 * level) {
@@ -30,11 +28,9 @@ public class LevelGenerator {
 
 			try {
 				Class<?> clazz = Class.forName("gark.tap.cockroach.unitgroup.UnionUnits" + randomLevel);
-				Constructor<?> constructor = clazz.getConstructor(ResourceManager.class, Long.class);
-				unionUnits = (UnionUnits) constructor.newInstance(new Object[] { mResourceManager, timeShift });
-				list.addAll(unionUnits.getUnionUnits());
-
-				timeShift = unionUnits.getTimeShift() + 1000;
+				Constructor<?> constructor = clazz.getConstructor(ResourceManager.class);
+				unionUnits = (UnionUnits) constructor.newInstance(new Object[] { mResourceManager });
+				queue.addAll(unionUnits.getUnionUnits());
 
 				unionHealth += unionUnits.getHealth();
 				unionUnits.clear();
@@ -54,10 +50,10 @@ public class LevelGenerator {
 			}
 		}
 
-		return list;
+		return queue;
 	}
 
 	public static void clearList() {
-		list.clear();
+		queue.clear();
 	}
 }

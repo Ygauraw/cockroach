@@ -3,7 +3,7 @@ package gark.tap.cockroach.unitgroup;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
-import java.util.List;
+import java.util.Queue;
 
 public abstract class UnionUnits {
 
@@ -13,11 +13,13 @@ public abstract class UnionUnits {
 		this.mResourceManager = mResourceManager;
 	}
 
-	public abstract List<MovingObject> getUnionUnits();
+	public abstract Queue<MovingObject> getUnionUnits();
 
 	public abstract int getHealth();
-	
-	public abstract long getTimeShift();
-	
+
+	public long getTimeShift() {
+		return 0l;
+	}
+
 	public abstract void clear();
 }

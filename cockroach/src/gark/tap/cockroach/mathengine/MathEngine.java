@@ -101,6 +101,9 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mAlive = false;
 				mSceneControls.setChildScene(mMenuScene, false, true, true);
+				levelManager.pauseLauncher();
+				mScenePlayArea.setOnSceneTouchListener(null);
+
 				// gameActivity.getEngine().stop();
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
@@ -120,7 +123,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	public void stop(boolean interrupt) {
 		Log.d("Math engine stop: ", String.valueOf(interrupt));
-		levelManager.getUpdateTimer().cancel();
+		levelManager.destroyLauncher();
 		mAlive = false;
 		if (interrupt) {
 			mGameLoop.interrupt();
@@ -196,11 +199,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 				cockroach.tact(now, time);
 
-				// // change run direction from border
-				// if (cockroach.posX() < (0 + cockroach.getWidth() / 3 /
-				// Config.SCALE) || cockroach.posX() > (Config.CAMERA_WIDTH -
-				// cockroach.getWidth() / 3 / Config.SCALE))
-				// cockroach.setmShiftX(-cockroach.getShiftX());
 				if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
 					removeCockRoach(cockroach, movingIterator);
 				}
@@ -209,20 +207,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		// END cockroach
 
 	}
-
-	// TODO
-	// public synchronized void addCockroaches(final MovingObject object) {
-	//
-	// this.gameActivity.runOnUpdateThread(new Runnable() {
-	//
-	// @Override
-	// public void run() {
-	// mScenePlayArea.attachChild(object.getMainSprite());
-	// mScenePlayArea.registerTouchArea(object.getMainSprite());
-	// }
-	// });
-	//
-	// }
 
 	/**
 	 * remove CockRoach from scene and list
@@ -256,10 +240,12 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			/* Restart the animation. */
 			mLastUpdateScene = System.currentTimeMillis();
 			this.start();
+			mScenePlayArea.setOnSceneTouchListener(this);
+			levelManager.resumeLauncher();
 			mSceneControls.reset();
 			return true;
 		case ResourceManager.MENU_QUIT:
-			levelManager.getUpdateTimer().cancel();
+			levelManager.destroyLauncher();
 			gameActivity.finish();
 			return true;
 		default:
@@ -297,7 +283,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionDown()) {
+		if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
 			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mResourceManager, gameActivity, mScenePlayArea, mSceneDeadArea);
 			return true;
 		}

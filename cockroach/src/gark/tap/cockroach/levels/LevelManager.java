@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
@@ -25,14 +27,15 @@ public class LevelManager {
 
 	private static int CURENT_LEVEL = 1;
 	private static final int PRESS_RANGE = Config.CAMERA_WIDTH / 7;
+	private static boolean pause;
 
 	private Scene mScenePlayArea;
 	private ResourceManager mResourceManager;
 	private MainActivity gameActivity;
-	private List<MovingObject> listOfAllLevelUnit;
+	private Queue<MovingObject> queueOfAllLevelUnit;
 	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new ArrayList<MovingObject>());;
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();;
-	private final Timer updateTimer = new Timer("timerName");
+	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
 
 	public LevelManager(final ResourceManager mResourceManager, final MainActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea) {
@@ -41,13 +44,11 @@ public class LevelManager {
 		this.mResourceManager = mResourceManager;
 		this.gameActivity = gameActivity;
 		startNewLevel(CURENT_LEVEL);
-
 	}
 
 	public synchronized void removeUnit(MovingObject object) {
 		listOfVisibleUnits.remove(object);
-		listOfAllLevelUnit.remove(object);
-		if (isLevelFinished(listOfAllLevelUnit.size())) {
+		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
 		}
@@ -64,9 +65,7 @@ public class LevelManager {
 
 			// remove near cockroaches
 			if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-
 				movingIterator.remove();
-				listOfAllLevelUnit.remove(item);
 
 				// remove from UI
 				gameActivity.runOnUpdateThread(new Runnable() {
@@ -90,29 +89,29 @@ public class LevelManager {
 
 			}
 		}
-		if (isLevelFinished(listOfAllLevelUnit.size())) {
+		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
 		}
 	}
 
+	final Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			if (!queueOfAllLevelUnit.isEmpty() && !pause) {
+				addCockroach(queueOfAllLevelUnit.poll());
+				executor.schedule(runnable, (int) queueOfAllLevelUnit.peek().getDelayForStart(), TimeUnit.MILLISECONDS);
+			}
+		}
+	};
+
 	private synchronized void startNewLevel(int level) {
 
 		levelListener.getCurrentVawe(CURENT_LEVEL);
-		listOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
-		
-		// put unit to scene with delay
-		for (final MovingObject item : listOfAllLevelUnit) {
+		queueOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
 
-			updateTimer.schedule(new TimerTask() {
+		resumeLauncher();
 
-				@Override
-				public void run() {
-					addCockroach(item);
-				}
-			}, (int) item.getDelayForStart());
-
-		}
 	}
 
 	/**
@@ -121,7 +120,7 @@ public class LevelManager {
 	 * 
 	 * @param item
 	 */
-	
+
 	public void addCockroach(final MovingObject item) {
 		stackUnits.add(item);
 		this.gameActivity.runOnUpdateThread(new Runnable() {
@@ -135,11 +134,11 @@ public class LevelManager {
 	}
 
 	/**
-	 * unit rising 
+	 * unit rising
+	 * 
 	 * @param item
 	 */
 	public void reanimateCockroach(final MovingObject item) {
-		listOfAllLevelUnit.add(item);
 		addCockroach(item);
 	}
 
@@ -149,25 +148,30 @@ public class LevelManager {
 	 * @param count
 	 * @return
 	 */
-	private boolean isLevelFinished(int count) {
-		return (count == 0);
+	private boolean isLevelFinished(int count1, int count2) {
+		return (count1 == 0 && count2 == 0);
 	}
 
-	/**
-	 * Update for each tact
-	 * 
-	 * @param mLastUpdateScene
-	 */
-
-	public Timer getUpdateTimer() {
-		return updateTimer;
+	public void pauseLauncher() {
+		pause = true;
+		for (MovingObject cockroach : listOfVisibleUnits){
+			 cockroach.stopAnimate();
+		}
 	}
 
-	/**
-	 * get All visible units
-	 * 
-	 * @return
-	 */
+	public void resumeLauncher() {
+		// put unit to scene with delay
+		pause = false;
+		for (MovingObject cockroach : listOfVisibleUnits){
+			cockroach.resumeAnimate();
+		}
+		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
+	}
+
+	public void destroyLauncher() {
+		executor.shutdown();
+	}
+
 
 	public synchronized List<MovingObject> getUnitList() {
 		return listOfVisibleUnits;

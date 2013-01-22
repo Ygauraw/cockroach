@@ -51,17 +51,13 @@ public abstract class MovingObject extends AnimatedSprite {
 		// mMainSprite.setScale(Config.SCALE);
 	}
 
-	// protected void damage(float health) {
-	// mHealth -= health;
-	// if (mHealth <= 0) {
-	// mHealth = 0;
-	// mAlive = false;
-	// }
-	// }
-
-//	public boolean isAlive() {
-//		return mAlive;
-//	}
+	public void stopAnimate (){
+		mMainSprite.stopAnimation();
+	}
+	
+	public void resumeAnimate(){
+		mMainSprite.animate(100);
+	}
 
 	public float posX() {
 		return mPoint.x;
