@@ -1,20 +1,37 @@
 package gark.tap.cockroach;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
+import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
-public class LaunchActivity extends Activity {
+import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.Scene;
+import org.andengine.input.touch.TouchEvent;
+
+import android.content.Intent;
+import android.graphics.PointF;
+
+public class LaunchActivity extends MainActivity implements IOnSceneTouchListener {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
+		super.onCreateScene(pOnCreateSceneCallback);
 	}
 
-	public void pressMe(View view) {
-		startActivity(new Intent(getApplicationContext(), MainActivity.class));
+	@Override
+	public void onPopulateScene(final Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
+		super.onPopulateScene(pScene, pOnPopulateSceneCallback);
+		StaticObject staticObject = new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
+				this.getVertexBufferObjectManager());
+
+		pScene.attachChild(staticObject.getSprite());
+		pScene.setOnSceneTouchListener(this);
 	}
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		startActivity(new Intent(LaunchActivity.this, GameActivity.class));
+		return false;
+	}
+	
 
 }

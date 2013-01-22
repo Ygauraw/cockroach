@@ -1,7 +1,7 @@
 package gark.tap.cockroach.levels;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.MainActivity;
+import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.DeadManager;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
@@ -31,14 +31,14 @@ public class LevelManager {
 
 	private Scene mScenePlayArea;
 	private ResourceManager mResourceManager;
-	private MainActivity gameActivity;
+	private GameActivity gameActivity;
 	private Queue<MovingObject> queueOfAllLevelUnit;
 	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new ArrayList<MovingObject>());;
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();;
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
 
-	public LevelManager(final ResourceManager mResourceManager, final MainActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea) {
+	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
@@ -80,6 +80,7 @@ public class LevelManager {
 					}
 				});
 
+				mResourceManager.getSoudOnTap().play();
 				// create dead cockroach
 				StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
 				deadObject.setRotation(item.getMainSprite().getRotation());

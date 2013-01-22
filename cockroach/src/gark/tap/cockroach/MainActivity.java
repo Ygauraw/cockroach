@@ -1,8 +1,5 @@
 package gark.tap.cockroach;
 
-import gark.tap.cockroach.levels.LevelManager;
-import gark.tap.cockroach.mathengine.MathEngine;
-
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -14,14 +11,13 @@ import android.util.DisplayMetrics;
 
 public class MainActivity extends BaseGameActivity {
 
+	protected EngineOptions engineOptions;
+	protected Camera mCamera;
+	protected ResourceManager mResourceManager;
 	private Scene mScene;
-	private Camera mCamera;
-	private ResourceManager mResourceManager;
-	private MathEngine mMathEngine;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -31,13 +27,11 @@ public class MainActivity extends BaseGameActivity {
 
 		mCamera = new Camera(0, 0, Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT),
-				mCamera);
+		engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT), mCamera);
 		engineOptions.getAudioOptions().setNeedsMusic(true);
 		engineOptions.getAudioOptions().setNeedsSound(true);
 
 		return engineOptions;
-
 	}
 
 	@Override
@@ -49,9 +43,6 @@ public class MainActivity extends BaseGameActivity {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
 		mScene = new Scene();
-		mMathEngine = new MathEngine(this);
-		mMathEngine.start();
-
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 	}
 
@@ -59,31 +50,19 @@ public class MainActivity extends BaseGameActivity {
 	public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		mMathEngine.stop(true);
-		mEngine.stop();
-	}
+	
+	
 
 	public ResourceManager getResourceManager() {
 		return mResourceManager;
+	}
+
+	public Camera getCamera() {
+		return mCamera;
 	}
 
 	public Scene getScene() {
 		return mScene;
 	}
 
-	public Camera getCamera() {
-		return mCamera;
-	}
-	
-	@Override
-	protected void onDestroy() {
-	    super.onDestroy();
-	    LevelManager.setCURENT_LEVEL(1);
-//	    android.os.Process.killProcess(android.os.Process.myPid());
-	}
-	
 }

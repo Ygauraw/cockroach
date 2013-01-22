@@ -53,6 +53,7 @@ public class ResourceManager {
 	private TextureRegion mDeadCockroach;
 
 	private Sound mSoundOnTap;
+//	private Music mMusic;
 
 	private VertexBufferObjectManager mVertexBufferObjectManager;
 
@@ -65,10 +66,13 @@ public class ResourceManager {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		FontFactory.setAssetBasePath("font/");
 		SoundFactory.setAssetBasePath("mfx/");
+//		MusicFactory.setAssetBasePath("mfx/");
 
 		try {
 			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
 			mSoundOnTap.setLooping(false);
+
+//			mMusic = MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(), baseGameActivity, "acdc.ogg");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -197,5 +201,9 @@ public class ResourceManager {
 	public Text getBigVaweText() {
 		return mBigVaweText;
 	}
+
+//	public Music getMusic() {
+//		return mMusic;
+//	}
 
 }

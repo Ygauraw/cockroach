@@ -1,7 +1,7 @@
 package gark.tap.cockroach.mathengine;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.MainActivity;
+import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
@@ -48,13 +48,13 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private long mLastUpdateScene;
 	private boolean mPaused = false;
 
-	private MainActivity gameActivity;
+	private GameActivity gameActivity;
 
 	private static int health = Config.HEALTH_SCORE;
 
 	private LevelManager levelManager;
 
-	public MathEngine(final MainActivity gameActivity) {
+	public MathEngine(final GameActivity gameActivity) {
 
 		this.gameActivity = gameActivity;
 		mResourceManager = gameActivity.getResourceManager();
