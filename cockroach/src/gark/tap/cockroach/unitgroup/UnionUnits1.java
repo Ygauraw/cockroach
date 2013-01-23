@@ -46,7 +46,7 @@ public class UnionUnits1 extends UnionUnits {
 		cockroach.setDelayForStart(1000);
 		cockroachs.add(cockroach);
 
-		cockroach = new CockroachMedic(new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mResourceManager);
+		cockroach = new CockroachMedic(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(1);
 		cockroachs.add(cockroach);
 

@@ -1,16 +1,15 @@
 package gark.tap.cockroach;
 
-import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
-import gark.tap.cockroach.mathengine.staticobject.StaticObject;
-
-import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.IOnAreaTouchListener;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 
 import android.content.Intent;
-import android.graphics.PointF;
 
-public class LaunchActivity extends MainActivity implements IOnSceneTouchListener {
+public class LaunchActivity extends MainActivity implements IOnAreaTouchListener {
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
@@ -20,18 +19,50 @@ public class LaunchActivity extends MainActivity implements IOnSceneTouchListene
 	@Override
 	public void onPopulateScene(final Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
 		super.onPopulateScene(pScene, pOnPopulateSceneCallback);
-		StaticObject staticObject = new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
-				this.getVertexBufferObjectManager());
+		// StaticObject staticObject = new BackgroundObject(new
+		// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
+		// mResourceManager.getBackGround(),
+		// this.getVertexBufferObjectManager());
 
-		pScene.attachChild(staticObject.getSprite());
-		pScene.setOnSceneTouchListener(this);
+		// textureRegion.getWidth() / 2
+
+		getScene().setBackground(new Background(0.29f, 0.31f, 0.37f));
+		final Sprite staticObject = new Sprite(mCamera.getCenterX() - mResourceManager.getStartButton().getWidth() / 2, mCamera.getCenterY()
+				- mResourceManager.getStartButton().getHeight() / 2, mResourceManager.getStartButton(), this.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				if (pSceneTouchEvent.isActionDown()) {
+					startActivity(new Intent(LaunchActivity.this, GameActivity.class));
+				}
+				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+			}
+		};
+		// StaticObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()),
+		// mResourceManager.getStartButton(),
+		// this.getVertexBufferObjectManager());
+		// {
+		// @Override
+		// public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float
+		// pTouchAreaLocalX, float pTouchAreaLocalY) {
+		// // getScene().unregisterTouchArea(this);
+		// // getScene().detachChildren();
+		// startActivity(new Intent(LaunchActivity.this, GameActivity.class));
+		// return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+		// pTouchAreaLocalY);
+		// }
+		// };
+
+		getScene().registerTouchArea(staticObject);
+		getScene().attachChild(staticObject);
+		// getScene().setOnAreaTouchListener(this);
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		startActivity(new Intent(LaunchActivity.this, GameActivity.class));
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, ITouchArea pTouchArea, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		if (pSceneTouchEvent.isActionDown()) {
+			startActivity(new Intent(LaunchActivity.this, GameActivity.class));
+		}
 		return false;
 	}
-	
 
 }

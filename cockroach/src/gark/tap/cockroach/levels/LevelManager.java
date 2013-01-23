@@ -22,6 +22,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
+import android.util.Log;
 
 public class LevelManager {
 
@@ -108,6 +109,8 @@ public class LevelManager {
 
 	private synchronized void startNewLevel(int level) {
 
+		Config.SPEED +=  10;
+		Log.e(" x ", "" + Config.SPEED);
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		queueOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
 
@@ -155,15 +158,15 @@ public class LevelManager {
 
 	public void pauseLauncher() {
 		pause = true;
-		for (MovingObject cockroach : listOfVisibleUnits){
-			 cockroach.stopAnimate();
+		for (MovingObject cockroach : listOfVisibleUnits) {
+			cockroach.stopAnimate();
 		}
 	}
 
 	public void resumeLauncher() {
 		// put unit to scene with delay
 		pause = false;
-		for (MovingObject cockroach : listOfVisibleUnits){
+		for (MovingObject cockroach : listOfVisibleUnits) {
 			cockroach.resumeAnimate();
 		}
 		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
@@ -172,7 +175,6 @@ public class LevelManager {
 	public void destroyLauncher() {
 		executor.shutdown();
 	}
-
 
 	public synchronized List<MovingObject> getUnitList() {
 		return listOfVisibleUnits;

@@ -40,7 +40,6 @@ public class ResourceManager {
 	private SpriteMenuItem quitMenuItem;
 
 	private TiledTextureRegion mCockroachTextureRegion;
-	private TiledTextureRegion mRedCircleMedecine;
 	private TextureRegion mResume;
 	private TextureRegion mPause;
 
@@ -48,12 +47,15 @@ public class ResourceManager {
 	private Text mVaweText;
 	private Text mBigVaweText;
 
+	private TextureRegion mRedCircleMedecine;
 	private TextureRegion mRedCross;
 	private TextureRegion mBackGround;
 	private TextureRegion mDeadCockroach;
 
+	private TextureRegion mStartButton;
+
 	private Sound mSoundOnTap;
-//	private Music mMusic;
+	// private Music mMusic;
 
 	private VertexBufferObjectManager mVertexBufferObjectManager;
 
@@ -66,13 +68,15 @@ public class ResourceManager {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		FontFactory.setAssetBasePath("font/");
 		SoundFactory.setAssetBasePath("mfx/");
-//		MusicFactory.setAssetBasePath("mfx/");
+		// MusicFactory.setAssetBasePath("mfx/");
 
 		try {
 			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
 			mSoundOnTap.setLooping(false);
 
-//			mMusic = MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(), baseGameActivity, "acdc.ogg");
+			// mMusic =
+			// MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(),
+			// baseGameActivity, "acdc.ogg");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -83,11 +87,13 @@ public class ResourceManager {
 		BitmapTextureAtlas cockroachDeadTextureAtlas = new BitmapTextureAtlas(textureManager, 100, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
 		BitmapTextureAtlas pausePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32);
+		BitmapTextureAtlas pauseStartTextureAtlas = new BitmapTextureAtlas(textureManager, 72, 72, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontBigTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 1800, 300);
+//		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 1800, 300);
+		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 30, 30);
 		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20);
 
 		// menu
@@ -120,12 +126,13 @@ public class ResourceManager {
 		mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
 		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "background_big.jpg", 0, 0);
 		mDeadCockroach = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cockroachDeadTextureAtlas, baseGameActivity, "dead_cockroach.png", 0, 0);
+		mStartButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseStartTextureAtlas, baseGameActivity, "start_button.png", 0, 0);
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
 
 		// radar medic
-		mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(medicRedCircleAtlas, baseGameActivity, "redCircle.png", 0, 0, 6, 1);
+		mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createFromAsset(medicRedCircleAtlas, baseGameActivity, "red_circle_small.png", 0, 0);
 
 		// pause
 		mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pausePauseTextureAtlas, baseGameActivity, "pause.png", 0, 0);
@@ -143,7 +150,12 @@ public class ResourceManager {
 		medicRedCircleAtlas.load();
 		redCrossAtlas.load();
 		mFontBigTexture.load();
+		pauseStartTextureAtlas.load();
 
+	}
+
+	public TextureRegion getStartButton() {
+		return mStartButton;
 	}
 
 	public TextureRegion getBackGround() {
@@ -194,7 +206,7 @@ public class ResourceManager {
 		return mRedCross;
 	}
 
-	public TiledTextureRegion getCircleMedecine() {
+	public TextureRegion getCircleMedecine() {
 		return mRedCircleMedecine;
 	}
 
@@ -202,8 +214,8 @@ public class ResourceManager {
 		return mBigVaweText;
 	}
 
-//	public Music getMusic() {
-//		return mMusic;
-//	}
+	// public Music getMusic() {
+	// return mMusic;
+	// }
 
 }

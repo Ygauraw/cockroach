@@ -1,6 +1,6 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
-import gark.tap.cockroach.mathengine.Utils;
+import gark.tap.cockroach.Config;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
@@ -19,7 +19,7 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected AnimatedSprite mMainSprite;
 
 	protected float delayForStart;
-	protected int mSpeed;
+	protected float mSpeed;
 	protected float mShiftX = 0;
 	protected int moving;
 	// protected float mAngle;
@@ -40,7 +40,7 @@ public abstract class MovingObject extends AnimatedSprite {
 
 		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
 		// speed animation
-		mSpeed = (int) Utils.generateRandomPositive(300f, 400f);
+		mSpeed = /*Utils.generateRandomPositive(300f, 400f)*/ Config.SPEED * Config.SCALE;
 
 		long[] duration = { moving, moving, moving, moving, moving, moving };
 		int[] frames = { 0, 1, 2, 3, 4, 5 };
@@ -91,12 +91,12 @@ public abstract class MovingObject extends AnimatedSprite {
 		return mMainSprite;
 	}
 
-	public int getMoving() {
-		return moving;
+	public float getMoving() {
+		return mSpeed;
 	}
 	
-	public void setMoving (int moving){
-		this.moving = moving;
+	public void setMoving (float mSpeed){
+		this.mSpeed = mSpeed;
 	}
 
 	public float getDelayForStart() {

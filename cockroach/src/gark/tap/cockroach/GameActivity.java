@@ -10,6 +10,10 @@ public class GameActivity extends MainActivity {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
 		super.onCreateScene(pOnCreateSceneCallback);
+		
+		Config.SPEED = 100;
+		
+		
 		mMathEngine = new MathEngine(this);
 		mMathEngine.start();
 	}

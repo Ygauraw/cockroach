@@ -22,7 +22,6 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 
@@ -183,9 +182,10 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 					synchronized (DeadManager.getListDeadObjects()) {
 						for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
 							StaticObject st = (StaticObject) iterator.next();
-							if (((AnimatedSprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.getSprite().getX(), st.getSprite().getY())) {
-								float x = st.getX();
-								float y = st.getY();
+//							if (((Sprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.getSprite().getX(), st.getSprite().getY())) {
+							if (((Sprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.posX(), st.posY())) {
+								float x = st.posX();
+								float y = st.posY();
 
 								mSceneDeadArea.detachChild(st.getSprite());
 								iterator.remove();
@@ -258,7 +258,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		public void getCurrentVawe(int level) {
 			mResourceManager.getVaweText().setText(Config.VAWE + level);
 
-			// show vawe in centr
+			// show vawe in center
 			mSceneControls.attachChild(mResourceManager.getBigVaweText());
 			mResourceManager.getBigVaweText().setText(Config.VAWE + level);
 
@@ -272,12 +272,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			}, 3000);
 
 			// erase all dead corpse
-			synchronized (DeadManager.getListDeadObjects()) {
-				for (StaticObject item : DeadManager.getListDeadObjects())
-					mSceneDeadArea.detachChild(item.getSprite());
-			}
-
-			DeadManager.getListDeadObjects().clear();
+			DeadManager.clearAreaSmooth(mSceneDeadArea);
+			
 		}
 	};
 
