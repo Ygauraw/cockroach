@@ -10,6 +10,7 @@ public class StaticObject extends Sprite {
 
 	protected PointF mPoint;
 	protected PointF mPointOffset;
+	protected String deadObject;
 
 	protected Sprite mSprite;
 
@@ -37,6 +38,14 @@ public class StaticObject extends Sprite {
 
 	public Sprite getSprite() {
 		return mSprite;
+	}
+
+	public String getDeadObject() {
+		return deadObject;
+	}
+
+	public void setDeadObject(String deadObject) {
+		this.deadObject = deadObject;
 	}
 
 	public void setPoint(float newY) {

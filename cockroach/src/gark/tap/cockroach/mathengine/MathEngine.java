@@ -5,12 +5,16 @@ import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
+import gark.tap.cockroach.mathengine.movingobjects.Caterpillar;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
+import gark.tap.cockroach.mathengine.movingobjects.DragonFly;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Timer;
@@ -110,7 +114,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		mSceneControls.registerTouchArea(pause);
 		mSceneControls.attachChild(pause);
 		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea);
-
 	}
 
 	public void start() {
@@ -170,40 +173,62 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			levelManager.getUnitList().add(levelManager.getStack().pop());
 		}
 
-		synchronized (levelManager.getUnitList()) {
+		// synchronized (levelManager.getUnitList()) {
 
-			for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
-				MovingObject cockroach = (MovingObject) movingIterator.next();
+		for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
+			MovingObject cockroach = (MovingObject) movingIterator.next();
 
-				// movingIterator.add(object)
+			// movingIterator.add(object)
 
-				// reanimation dead cockroach
-				if (cockroach instanceof CockroachMedic) {
-					synchronized (DeadManager.getListDeadObjects()) {
-						for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
-							StaticObject st = (StaticObject) iterator.next();
-//							if (((Sprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.getSprite().getX(), st.getSprite().getY())) {
-							if (((Sprite) cockroach.getMainSprite().getChildByIndex(0)).contains(st.posX(), st.posY())) {
-								float x = st.posX();
-								float y = st.posY();
+			// reanimation dead cockroach
+			if (cockroach instanceof CockroachMedic) {
+				for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
+					StaticObject staticObject = (StaticObject) iterator.next();
+					if (((Sprite) cockroach.getMainSprite().getChildByIndex(0)).contains(staticObject.posX(), staticObject.posY())) {
+						float x = staticObject.posX();
+						float y = staticObject.posY();
 
-								mSceneDeadArea.detachChild(st.getSprite());
-								iterator.remove();
+						mSceneDeadArea.detachChild(staticObject.getSprite());
+						iterator.remove();
 
-								MovingObject riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
-								levelManager.reanimateCockroach(riseCockroach);
+						// reanimate corpse TODO
+						MovingObject riseCockroach = null;
+						try {
+							if (Caterpillar.class.getName().equals(staticObject.getDeadObject())) {
+								Class<?> clazz = Class.forName(Caterpillar.class.getName());
+								Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
+								riseCockroach = (Caterpillar) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
+							} else if (CockroachAccelarate.class.getName().equals(staticObject.getDeadObject())) {
+								Class<?> clazz = Class.forName(CockroachAccelarate.class.getName());
+								Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
+								riseCockroach = (CockroachAccelarate) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
+							} else if (DragonFly.class.getName().equals(staticObject.getDeadObject())) {
+								Class<?> clazz = Class.forName(DragonFly.class.getName());
+								Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
+								riseCockroach = (DragonFly) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
+							} 
+							
+							else {
+								riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
 							}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+							riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
 						}
+						levelManager.reanimateCockroach(riseCockroach);
 					}
 				}
+			}
 
-				cockroach.tact(now, time);
+			cockroach.tact(now, time);
 
-				if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
-					removeCockRoach(cockroach, movingIterator);
-				}
+			// remove corpse from bottom
+			if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
+				removeCockRoach(cockroach, movingIterator);
 			}
 		}
+		// }
 		// END cockroach
 
 	}
@@ -273,13 +298,13 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 			// erase all dead corpse
 			DeadManager.clearAreaSmooth(mSceneDeadArea);
-			
+
 		}
 	};
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
+		if (pSceneTouchEvent.isActionDown() /*|| pSceneTouchEvent.isActionMove()*/) {
 			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mResourceManager, gameActivity, mScenePlayArea, mSceneDeadArea);
 			return true;
 		}

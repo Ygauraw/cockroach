@@ -15,17 +15,13 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected PointF mNextPoint;
 	protected PointF mPointOffset;
 
-	// protected Sprite mMainSprite;
 	protected AnimatedSprite mMainSprite;
 
 	protected float delayForStart;
 	protected float mSpeed;
 	protected float mShiftX = 0;
 	protected int moving;
-	// protected float mAngle;
-	protected int mHealth = 10;
-
-//	protected boolean mAlive;
+	protected int mHealth = 0;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
 		super(point.x, point.y, mainTextureRegion, vertexBufferObjectManager);
@@ -40,7 +36,7 @@ public abstract class MovingObject extends AnimatedSprite {
 
 		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
 		// speed animation
-		mSpeed = /*Utils.generateRandomPositive(300f, 400f)*/ Config.SPEED * Config.SCALE;
+		mSpeed = /* Utils.generateRandomPositive(300f, 400f) */Config.SPEED * Config.SCALE;
 
 		long[] duration = { moving, moving, moving, moving, moving, moving };
 		int[] frames = { 0, 1, 2, 3, 4, 5 };
@@ -51,11 +47,11 @@ public abstract class MovingObject extends AnimatedSprite {
 		// mMainSprite.setScale(Config.SCALE);
 	}
 
-	public void stopAnimate (){
+	public void stopAnimate() {
 		mMainSprite.stopAnimation();
 	}
-	
-	public void resumeAnimate(){
+
+	public void resumeAnimate() {
 		mMainSprite.animate(100);
 	}
 
@@ -94,8 +90,8 @@ public abstract class MovingObject extends AnimatedSprite {
 	public float getMoving() {
 		return mSpeed;
 	}
-	
-	public void setMoving (float mSpeed){
+
+	public void setMoving(float mSpeed) {
 		this.mSpeed = mSpeed;
 	}
 
@@ -107,7 +103,14 @@ public abstract class MovingObject extends AnimatedSprite {
 		this.delayForStart = delayForStart;
 	}
 
-	public abstract void tact(long now, long period);
+	public int getHealth() {
+		return mHealth;
+	}
 
+	public void setHealth(int mHealth) {
+		this.mHealth = mHealth;
+	}
+
+	public abstract void tact(long now, long period);
 
 }

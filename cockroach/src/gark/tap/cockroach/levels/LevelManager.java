@@ -22,7 +22,6 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
-import android.util.Log;
 
 public class LevelManager {
 
@@ -66,31 +65,38 @@ public class LevelManager {
 
 			// remove near cockroaches
 			if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-				movingIterator.remove();
+				// TODO
+				if (item.getHealth() <= 0) {
 
-				// remove from UI
-				gameActivity.runOnUpdateThread(new Runnable() {
-					@Override
-					public void run() {
-						mScenePlayArea.detachChild(item.getMainSprite());
-						mScenePlayArea.unregisterTouchArea(item.getMainSprite());
-						item.getMainSprite().detachChildren();
-						item.getMainSprite().clearEntityModifiers();
-						item.getMainSprite().clearUpdateHandlers();
+					movingIterator.remove();
+					// remove from UI
+					gameActivity.runOnUpdateThread(new Runnable() {
+						@Override
+						public void run() {
+							mScenePlayArea.detachChild(item.getMainSprite());
+							mScenePlayArea.unregisterTouchArea(item.getMainSprite());
+							item.getMainSprite().detachChildren();
+							item.getMainSprite().clearEntityModifiers();
+							item.getMainSprite().clearUpdateHandlers();
 
-					}
-				});
+						}
+					});
 
-				mResourceManager.getSoudOnTap().play();
-				// create dead cockroach
-				StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
-				deadObject.setRotation(item.getMainSprite().getRotation());
-				DeadManager.add(deadObject);
-				// attach dead cockroach to scene background
-				mSceneDeadArea.attachChild(deadObject.getSprite());
+					mResourceManager.getSoudOnTap().play();
+					// create dead cockroach
+					StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
+					deadObject.setDeadObject(item.getClass().getName());
+					deadObject.setRotation(item.getMainSprite().getRotation());
+					DeadManager.add(deadObject);
+					// attach dead cockroach to scene background
+					mSceneDeadArea.attachChild(deadObject.getSprite());
+				} else {
+					item.setHealth(item.getHealth() - 100);
+				}
 
 			}
 		}
+		// if both list are empty - start new level
 		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
@@ -109,8 +115,8 @@ public class LevelManager {
 
 	private synchronized void startNewLevel(int level) {
 
-		Config.SPEED +=  10;
-		Log.e(" x ", "" + Config.SPEED);
+		Config.SPEED += 10;
+		// Log.e(" x ", "" + Config.SPEED);
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		queueOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
 
