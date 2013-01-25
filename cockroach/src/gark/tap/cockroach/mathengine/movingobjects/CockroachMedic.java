@@ -13,7 +13,7 @@ public class CockroachMedic extends MovingObject {
 	private final int MAX_SCALE = 10;
 
 	public CockroachMedic(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 
 		float initCrossX = mMainSprite.getWidth() / 2 - resourceManager.getRedCross().getWidth() / 2;
 		float initCrossY = mMainSprite.getHeight() / 2 - resourceManager.getRedCross().getHeight() / 2;

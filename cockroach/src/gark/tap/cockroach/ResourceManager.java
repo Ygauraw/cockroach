@@ -194,7 +194,7 @@ public class ResourceManager {
 		return mVaweText;
 	}
 
-	public TiledTextureRegion getCoacroachTextureRegion() {
+	public TiledTextureRegion getCockroach() {
 		return mCockroachTextureRegion;
 	}
 

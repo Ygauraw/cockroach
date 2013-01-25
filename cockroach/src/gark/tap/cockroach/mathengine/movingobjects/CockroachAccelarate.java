@@ -11,7 +11,7 @@ public class CockroachAccelarate extends MovingObject {
 	private static final int ACCELERATION = 6;
 
 	public CockroachAccelarate(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 	}
 
 	@Override

@@ -4,6 +4,17 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.DeadManager;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfRightAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachRandomAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachSquare;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
@@ -19,9 +30,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.andengine.entity.scene.Scene;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
+import android.util.Log;
 
 public class LevelManager {
 
@@ -55,45 +68,62 @@ public class LevelManager {
 	}
 
 	public synchronized void removeUnit(final float x, final float y, final ResourceManager mResourceManager, final BaseGameActivity gameActivity, final Scene mScenePlayArea,
-			final Scene mSceneDeadArea) {
+			final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent) {
 
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 
-			float xPos = item.posX();
-			float yPos = item.posY();
+			// pass simple cockroach on Down
+			if (pSceneTouchEvent.isActionDown()
+					|| (pSceneTouchEvent.isActionMove() && (item instanceof CockroachDirect || item instanceof CockroachSin || item instanceof CockroachAngle
+							|| item instanceof CockroachLOL || item instanceof CockroachRandomAngle || item instanceof CockroachAccelarate /*
+																																			 * ||
+																																			 * item
+																																			 * instanceof
+																																			 * CockroachCircleEscort
+																																			 */
+							|| item instanceof CockroachHalfLefAngle || item instanceof CockroachHalfRightAngle || item instanceof CockroachSquare || item instanceof CockroachMedic))) {
 
-			// remove near cockroaches
-			if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-				// TODO
-				if (item.getHealth() <= 0) {
+				float xPos = item.posX();
+				float yPos = item.posY();
 
-					movingIterator.remove();
-					// remove from UI
-					gameActivity.runOnUpdateThread(new Runnable() {
-						@Override
-						public void run() {
-							mScenePlayArea.detachChild(item.getMainSprite());
-							mScenePlayArea.unregisterTouchArea(item.getMainSprite());
-							item.getMainSprite().detachChildren();
-							item.getMainSprite().clearEntityModifiers();
-							item.getMainSprite().clearUpdateHandlers();
+				// remove near cockroaches
+				if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
+					// TODO
 
-						}
-					});
+					// if (item instanceof CockroachCircleEscort) {
+					// Log.e("ff", "fff");
+					// }
 
-					mResourceManager.getSoudOnTap().play();
-					// create dead cockroach
-					StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
-					deadObject.setDeadObject(item.getClass().getName());
-					deadObject.setRotation(item.getMainSprite().getRotation());
-					DeadManager.add(deadObject);
-					// attach dead cockroach to scene background
-					mSceneDeadArea.attachChild(deadObject.getSprite());
-				} else {
-					item.setHealth(item.getHealth() - 100);
+					if (item.getHealth() <= 0) {
+
+						movingIterator.remove();
+						// remove from UI
+						gameActivity.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								mScenePlayArea.detachChild(item.getMainSprite());
+								mScenePlayArea.unregisterTouchArea(item.getMainSprite());
+								item.getMainSprite().detachChildren();
+								item.getMainSprite().clearEntityModifiers();
+								item.getMainSprite().clearUpdateHandlers();
+
+							}
+						});
+
+						mResourceManager.getSoudOnTap().play();
+						// create dead cockroach
+						StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
+						deadObject.setDeadObject(item.getClass().getName());
+						deadObject.setRotation(item.getMainSprite().getRotation());
+						DeadManager.add(deadObject);
+						// attach dead cockroach to scene background
+						mSceneDeadArea.attachChild(deadObject.getSprite());
+					} else {
+						item.setHealth(item.getHealth() - 100);
+					}
+
 				}
-
 			}
 		}
 		// if both list are empty - start new level
@@ -133,12 +163,18 @@ public class LevelManager {
 
 	public void addCockroach(final MovingObject item) {
 		stackUnits.add(item);
+
+		// if (item instanceof CockroachCircleConvoir) {
+		// mScenePlayArea.registerTouchArea((Sprite)
+		// item.getMainSprite().getChildByIndex(0));
+		// }
+
 		this.gameActivity.runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {
 				mScenePlayArea.attachChild(item.getMainSprite());
-				mScenePlayArea.registerTouchArea(item.getMainSprite());
+				// mScenePlayArea.registerTouchArea(item.getMainSprite());
 			}
 		});
 	}

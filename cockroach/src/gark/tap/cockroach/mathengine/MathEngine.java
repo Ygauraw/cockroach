@@ -6,8 +6,8 @@ import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.Caterpillar;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.DragonFly;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
@@ -173,12 +173,17 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			levelManager.getUnitList().add(levelManager.getStack().pop());
 		}
 
-		// synchronized (levelManager.getUnitList()) {
 
 		for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
 			MovingObject cockroach = (MovingObject) movingIterator.next();
 
-			// movingIterator.add(object)
+			
+//			// escort cockroach
+//			 if (cockroach instanceof CockroachCircleEscort) {
+//				// mScenePlayArea.registerTouchArea((Sprite)
+//				// item.getMainSprite().getChildByIndex(0));
+//			 }
+			
 
 			// reanimation dead cockroach
 			if (cockroach instanceof CockroachMedic) {
@@ -198,16 +203,16 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 								Class<?> clazz = Class.forName(Caterpillar.class.getName());
 								Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
 								riseCockroach = (Caterpillar) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
-							} else if (CockroachAccelarate.class.getName().equals(staticObject.getDeadObject())) {
-								Class<?> clazz = Class.forName(CockroachAccelarate.class.getName());
+							} else if (CockroachHalfLefAngle.class.getName().equals(staticObject.getDeadObject())) {
+								Class<?> clazz = Class.forName(CockroachHalfLefAngle.class.getName());
 								Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
-								riseCockroach = (CockroachAccelarate) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
+								riseCockroach = (CockroachHalfLefAngle) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
 							} else if (DragonFly.class.getName().equals(staticObject.getDeadObject())) {
 								Class<?> clazz = Class.forName(DragonFly.class.getName());
 								Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
 								riseCockroach = (DragonFly) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
-							} 
-							
+							}
+
 							else {
 								riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
 							}
@@ -304,8 +309,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionDown() /*|| pSceneTouchEvent.isActionMove()*/) {
-			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mResourceManager, gameActivity, mScenePlayArea, mSceneDeadArea);
+		if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
+			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mResourceManager, gameActivity, mScenePlayArea, mSceneDeadArea, pSceneTouchEvent);
 			return true;
 		}
 		return false;

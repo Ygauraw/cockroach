@@ -15,7 +15,7 @@ public class CockroachSquare extends MovingObject {
 	private Queue<Integer> angles;
 
 	public CockroachSquare(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 
 		moving = 300;
 		

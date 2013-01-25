@@ -44,7 +44,7 @@ public abstract class MovingObject extends AnimatedSprite {
 
 		// mMainSprite.animate(moving);
 
-		// mMainSprite.setScale(Config.SCALE);
+		mMainSprite.setScale(Config.SCALE);
 	}
 
 	public void stopAnimate() {

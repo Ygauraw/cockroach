@@ -11,7 +11,7 @@ public class CockroachRandomAngle extends MovingObject {
 	float oneStep = 0;
 
 	public CockroachRandomAngle(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 
 		moving = 200;
 

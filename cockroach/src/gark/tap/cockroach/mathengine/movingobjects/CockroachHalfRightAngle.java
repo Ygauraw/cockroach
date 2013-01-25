@@ -9,7 +9,7 @@ public class CockroachHalfRightAngle extends MovingObject {
 	public static final float coef = (float) (Math.log10(Config.CAMERA_HEIGHT) / Math.log10(Config.CAMERA_WIDTH));
 
 	public CockroachHalfRightAngle(PointF point, ResourceManager resourceManager, boolean direction) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 		setmShiftX((direction) ? 10 : -10);
 	}
 

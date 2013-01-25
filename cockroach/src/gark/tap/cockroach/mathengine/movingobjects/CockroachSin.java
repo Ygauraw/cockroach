@@ -9,7 +9,7 @@ public class CockroachSin extends MovingObject {
 	float relationPosition;
 
 	public CockroachSin(PointF point, ResourceManager resourceManager, float relationPosition) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 		this.relationPosition = relationPosition;
 	}
 

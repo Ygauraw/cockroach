@@ -6,7 +6,7 @@ import android.graphics.PointF;
 public class CockroachDirect extends MovingObject {
 
 	public CockroachDirect(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCoacroachTextureRegion(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 	}
 
 	@Override

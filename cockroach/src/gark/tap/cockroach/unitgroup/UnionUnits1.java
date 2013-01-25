@@ -6,6 +6,7 @@ import gark.tap.cockroach.mathengine.movingobjects.Ant;
 import gark.tap.cockroach.mathengine.movingobjects.Caterpillar;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachRandomAngle;
@@ -43,11 +44,15 @@ public class UnionUnits1 extends UnionUnits {
 		cockroachs = new LinkedList<MovingObject>();
 
 		MovingObject cockroach = new CockroachSin(new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mResourceManager, 0.5f);
-		cockroach.setDelayForStart(3000);
-		cockroachs.add(cockroach);
-		
-		cockroach = new Caterpillar(new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mResourceManager);
 		cockroach.setDelayForStart(1000);
+		cockroachs.add(cockroach);
+
+		cockroach = new CockroachCircleEscort(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
+		cockroach.setDelayForStart(2000);
+		cockroachs.add(cockroach);
+
+		cockroach = new Caterpillar(new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mResourceManager);
+		cockroach.setDelayForStart(5000);
 		cockroachs.add(cockroach);
 
 		cockroach = new CockroachSin(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager, 0.7f);
@@ -57,7 +62,7 @@ public class UnionUnits1 extends UnionUnits {
 		cockroach = new Ant(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(1000);
 		cockroachs.add(cockroach);
-		
+
 		cockroach = new DragonFly(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(1000);
 		cockroachs.add(cockroach);
