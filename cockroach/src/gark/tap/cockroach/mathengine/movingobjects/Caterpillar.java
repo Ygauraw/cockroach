@@ -1,5 +1,11 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
+import java.util.Iterator;
+
+import org.andengine.entity.scene.Scene;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.ui.activity.BaseGameActivity;
+
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.Utils;
@@ -18,7 +24,7 @@ public class Caterpillar extends MovingObject {
 
 	public Caterpillar(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCaterpillar(), resourceManager.getVertexBufferObjectManager());
-		setHealth(100);
+		setHealth(1);
 		setMoving(100f);
 		mMainSprite.animate(durationMinimazed, framesMinimazed, true);
 		mMainSprite.setScale(2 * Config.SCALE);
@@ -28,7 +34,7 @@ public class Caterpillar extends MovingObject {
 	@Override
 	public void tact(long now, long period) {
 
-		if (posX() < (0 + getWidth() /  Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() /  Config.SCALE)) {
+		if (posX() < (0 + getWidth() / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / Config.SCALE)) {
 			xDistance = -xDistance;
 		}
 
@@ -55,6 +61,14 @@ public class Caterpillar extends MovingObject {
 		super.setHealth(mHealth);
 		mMainSprite.animate(durationMaximazed, framesMaximazed, true);
 		mMainSprite.setFlippedHorizontal(true);
+	}
+
+	@Override
+	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
+			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea) {
+		if (pSceneTouchEvent.isActionDown()) {
+			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea);
+		}
 	}
 
 }

@@ -5,13 +5,15 @@ import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import org.andengine.entity.scene.Scene;
 
 public class DeadManager {
 
-//	private static final Timer cleanTimer = new Timer("CleanTimer");
+	// private static final Timer cleanTimer = new Timer("CleanTimer");
 	private static final List<StaticObject> mListDeadObjects = Collections.synchronizedList(new ArrayList<StaticObject>());
+	private static final Stack<StaticObject> stackUnits = new Stack<StaticObject>();
 
 	public static void add(StaticObject staticObject) {
 		mListDeadObjects.add(staticObject);
@@ -47,6 +49,10 @@ public class DeadManager {
 		// }
 		// }, 1);
 
+	}
+
+	public static Stack<StaticObject> getStackDeadUnits() {
+		return stackUnits;
 	}
 
 }

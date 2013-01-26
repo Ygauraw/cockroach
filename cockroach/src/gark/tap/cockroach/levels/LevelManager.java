@@ -3,21 +3,8 @@ package gark.tap.cockroach.levels;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.DeadManager;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfRightAngle;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachRandomAngle;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachSquare;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
-import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
-import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,13 +20,9 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import android.graphics.PointF;
-import android.util.Log;
-
 public class LevelManager {
 
 	private static int CURENT_LEVEL = 1;
-	private static final int PRESS_RANGE = Config.CAMERA_WIDTH / 7;
 	private static boolean pause;
 
 	private Scene mScenePlayArea;
@@ -47,15 +30,18 @@ public class LevelManager {
 	private GameActivity gameActivity;
 	private Queue<MovingObject> queueOfAllLevelUnit;
 	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new ArrayList<MovingObject>());;
-	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();;
+	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
+//	private MathEngine mathEngine;
 
-	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea) {
+	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
+			final MathEngine mathEngine) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
 		this.gameActivity = gameActivity;
+//		this.mathEngine = mathEngine;
 		startNewLevel(CURENT_LEVEL);
 	}
 
@@ -73,58 +59,8 @@ public class LevelManager {
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 
-			// pass simple cockroach on Down
-			if (pSceneTouchEvent.isActionDown()
-					|| (pSceneTouchEvent.isActionMove() && (item instanceof CockroachDirect || item instanceof CockroachSin || item instanceof CockroachAngle
-							|| item instanceof CockroachLOL || item instanceof CockroachRandomAngle || item instanceof CockroachAccelarate /*
-																																			 * ||
-																																			 * item
-																																			 * instanceof
-																																			 * CockroachCircleEscort
-																																			 */
-							|| item instanceof CockroachHalfLefAngle || item instanceof CockroachHalfRightAngle || item instanceof CockroachSquare || item instanceof CockroachMedic))) {
+			item.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea);
 
-				float xPos = item.posX();
-				float yPos = item.posY();
-
-				// remove near cockroaches
-				if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-					// TODO
-
-					// if (item instanceof CockroachCircleEscort) {
-					// Log.e("ff", "fff");
-					// }
-
-					if (item.getHealth() <= 0) {
-
-						movingIterator.remove();
-						// remove from UI
-						gameActivity.runOnUpdateThread(new Runnable() {
-							@Override
-							public void run() {
-								mScenePlayArea.detachChild(item.getMainSprite());
-								mScenePlayArea.unregisterTouchArea(item.getMainSprite());
-								item.getMainSprite().detachChildren();
-								item.getMainSprite().clearEntityModifiers();
-								item.getMainSprite().clearUpdateHandlers();
-
-							}
-						});
-
-						mResourceManager.getSoudOnTap().play();
-						// create dead cockroach
-						StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
-						deadObject.setDeadObject(item.getClass().getName());
-						deadObject.setRotation(item.getMainSprite().getRotation());
-						DeadManager.add(deadObject);
-						// attach dead cockroach to scene background
-						mSceneDeadArea.attachChild(deadObject.getSprite());
-					} else {
-						item.setHealth(item.getHealth() - 100);
-					}
-
-				}
-			}
 		}
 		// if both list are empty - start new level
 		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
@@ -146,7 +82,6 @@ public class LevelManager {
 	private synchronized void startNewLevel(int level) {
 
 		Config.SPEED += 10;
-		// Log.e(" x ", "" + Config.SPEED);
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		queueOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
 
@@ -163,11 +98,6 @@ public class LevelManager {
 
 	public void addCockroach(final MovingObject item) {
 		stackUnits.add(item);
-
-		// if (item instanceof CockroachCircleConvoir) {
-		// mScenePlayArea.registerTouchArea((Sprite)
-		// item.getMainSprite().getChildByIndex(0));
-		// }
 
 		this.gameActivity.runOnUpdateThread(new Runnable() {
 
