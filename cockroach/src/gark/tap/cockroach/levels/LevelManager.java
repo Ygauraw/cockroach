@@ -33,6 +33,7 @@ public class LevelManager {
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
+
 //	private MathEngine mathEngine;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
@@ -104,7 +105,6 @@ public class LevelManager {
 			@Override
 			public void run() {
 				mScenePlayArea.attachChild(item.getMainSprite());
-				// mScenePlayArea.registerTouchArea(item.getMainSprite());
 			}
 		});
 	}
@@ -144,8 +144,15 @@ public class LevelManager {
 		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
 	}
 
+	// TODO
 	public void destroyLauncher() {
 		executor.shutdown();
+		
+		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
+			final MovingObject item = ((MovingObject) movingIterator.next());
+			mScenePlayArea.detachChild(item.getMainSprite());
+			movingIterator.remove();
+		}
 	}
 
 	public synchronized List<MovingObject> getUnitList() {

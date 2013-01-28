@@ -28,7 +28,9 @@ import android.util.Log;
 public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
+	public static int health = Config.HEALTH_SCORE;
 	private final Timer timer = new Timer();
+	public static int SCORE = 0;
 
 	private Camera mCamera;
 	private Scene mSceneBackground;
@@ -45,12 +47,15 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private boolean mPaused = false;
 
 	private GameActivity gameActivity;
-
-	private static int health = Config.HEALTH_SCORE;
+	private GameOverManager gameOverManager;
+	private HeartManager heartManager;
 
 	private LevelManager levelManager;
 
 	public MathEngine(final GameActivity gameActivity) {
+
+		SCORE = 0;
+		health = Config.HEALTH_SCORE;
 
 		this.gameActivity = gameActivity;
 		mResourceManager = gameActivity.getResourceManager();
@@ -87,26 +92,30 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		mSceneControls.setBackgroundEnabled(false);
 
 		mSceneControls.attachChild(mResourceManager.getScoreText());
-		mSceneControls.attachChild(mResourceManager.getVaweText());
-		mResourceManager.getScoreText().setText(Config.HEALTH + health);
 		mScenePlayArea.setChildScene(mSceneControls);
 
 		// pause button
-		Sprite pause = new Sprite(15f, 15f, mResourceManager.getPause(), gameActivity.getVertexBufferObjectManager()) {
+		Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE, Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
+				gameActivity.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mAlive = false;
 				mSceneControls.setChildScene(mMenuScene, false, true, true);
 				levelManager.pauseLauncher();
 				mScenePlayArea.setOnSceneTouchListener(null);
-
-				// gameActivity.getEngine().stop();
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
+
 		mSceneControls.registerTouchArea(pause);
 		mSceneControls.attachChild(pause);
+		
+
+		heartManager = new HeartManager(mResourceManager, mSceneControls, gameActivity);
+		heartManager.setHeartValue(health);
+
 		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this);
+		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls , pause);
 	}
 
 	public void start() {
@@ -159,15 +168,16 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	public synchronized void tact(long time) {
 
 		final long now = System.currentTimeMillis();
+		mResourceManager.getScoreText().setText(Config.SCORE + SCORE);
 
 		// tact cockroach start
 
-//		while (!DeadManager.getStackDeadUnits().isEmpty()) {
-//			StaticObject staticObject = DeadManager.getStackDeadUnits().pop();
-//			DeadManager.add(staticObject);
-//			// attach dead cockroach to scene background
-//			mSceneDeadArea.attachChild(staticObject.getSprite());
-//		}
+		// while (!DeadManager.getStackDeadUnits().isEmpty()) {
+		// StaticObject staticObject = DeadManager.getStackDeadUnits().pop();
+		// DeadManager.add(staticObject);
+		// // attach dead cockroach to scene background
+		// mSceneDeadArea.attachChild(staticObject.getSprite());
+		// }
 
 		while (!levelManager.getStack().isEmpty()) {
 			levelManager.getUnitList().add(levelManager.getStack().pop());
@@ -197,8 +207,11 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	public synchronized void removeCockRoach(final MovingObject object, Iterator<MovingObject> iterator) {
 		iterator.remove();
 		levelManager.removeUnit(object);
-
-		mResourceManager.getScoreText().setText(Config.HEALTH + --health);
+		// TODO
+		if (--health <= 0) {
+			gameOverManager.finish();
+		}
+		heartManager.setHeartValue(health);
 
 		this.gameActivity.runOnUpdateThread(new Runnable() {
 
@@ -236,7 +249,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	final OnUpdateLevelListener levelListener = new OnUpdateLevelListener() {
 		@Override
 		public void getCurrentVawe(int level) {
-			mResourceManager.getVaweText().setText(Config.VAWE + level);
 
 			// show vawe in center
 			mSceneControls.attachChild(mResourceManager.getBigVaweText());

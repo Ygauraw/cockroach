@@ -4,6 +4,7 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.DeadManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
@@ -34,6 +35,7 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected float mShiftX = 0;
 	protected int moving;
 	protected int mHealth = 0;
+	protected int scoreValue = 1;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
 		super(point.x, point.y, mainTextureRegion, vertexBufferObjectManager);
@@ -132,6 +134,7 @@ public abstract class MovingObject extends AnimatedSprite {
 			if (item.getHealth() <= 0) {
 
 				movingIterator.remove();
+				MathEngine.SCORE += scoreValue;
 				// remove from UI
 				gameActivity.runOnUpdateThread(new Runnable() {
 					@Override
