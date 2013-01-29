@@ -44,6 +44,7 @@ public class ResourceManager {
 	private TiledTextureRegion mSpider;
 	private TiledTextureRegion mCaterpillar;
 	private TiledTextureRegion mAnt;
+	private TiledTextureRegion mHeartAnimated;
 
 	private TextureRegion mResume;
 	private TextureRegion mPause;
@@ -94,6 +95,7 @@ public class ResourceManager {
 		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas heartAtlas1 = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas pauseStartTextureAtlas = new BitmapTextureAtlas(textureManager, 72, 72, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -130,8 +132,8 @@ public class ResourceManager {
 		// GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// vawe font
-		mScoreText = new Text(sizeLenth - sizeLenth * 0.5f, 15 * Config.SCALE, mFont, Config.SCORE + 0, "Vawe: XXXX".length(), mVertexBufferObjectManager);
-		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.5f, HorizontalAlign.LEFT));
+		mScoreText = new Text(sizeLenth - sizeLenth * 0.6f, 15 * Config.SCALE, mFont, Config.SCORE + 0, "Vawe: XXXXX".length(), mVertexBufferObjectManager);
+		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.6f, HorizontalAlign.LEFT));
 		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// central font
@@ -150,6 +152,7 @@ public class ResourceManager {
 		mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_4.png", 0, 0, 5, 1);
 		mCaterpillar = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(caterpillarAtlas, baseGameActivity, "caterpillar_3.png", 0, 0, 8, 1);
 		mAnt = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(antAtlas, baseGameActivity, "ant_1.png", 0, 0, 4, 1);
+		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas1, baseGameActivity, "red_health.png", 0, 0, 1, 1);
 		// mAnt =
 		// BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(beetleAtlas,
 		// baseGameActivity, "kind_of_beetle.png", 0, 0, 13, 4);
@@ -180,6 +183,7 @@ public class ResourceManager {
 		beetleAtlas.load();
 		antAtlas.load();
 		heartAtlas.load();
+		heartAtlas1.load();
 
 	}
 
@@ -261,6 +265,10 @@ public class ResourceManager {
 
 	public TextureRegion getHeart() {
 		return mHeart;
+	}
+
+	public TiledTextureRegion getHeartAnimated() {
+		return mHeartAnimated;
 	}
 
 }

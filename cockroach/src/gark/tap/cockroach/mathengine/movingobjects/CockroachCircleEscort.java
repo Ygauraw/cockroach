@@ -3,6 +3,7 @@ package gark.tap.cockroach.mathengine.movingobjects;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.R;
 import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.HeartManager;
 
 import java.util.Iterator;
 
@@ -24,8 +25,8 @@ public class CockroachCircleEscort extends MovingObject {
 
 	public CockroachCircleEscort(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 
-//		setMoving(10f);
 		final float initCrossX = mMainSprite.getWidth() / 2 - resourceManager.getRedCross().getWidth() / 2;
 		final float initCrossY = mMainSprite.getHeight() / 2 - resourceManager.getRedCross().getHeight() / 2;
 		protect = new Sprite(-STEP + initCrossX, -STEP + initCrossY, resourceManager.getRedCross(), resourceManager.getVertexBufferObjectManager());
@@ -48,7 +49,7 @@ public class CockroachCircleEscort extends MovingObject {
 
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, final BaseGameActivity gameActivity,
-			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea) {
+			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
 
 		Sprite sprite = (Sprite) item.getMainSprite().getChildByIndex(0);
 		if (sprite.contains(x, y)) {
@@ -64,7 +65,7 @@ public class CockroachCircleEscort extends MovingObject {
 			});
 		}
 
-		super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea);
+		super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
 	}
 
 }

@@ -16,8 +16,9 @@ public class CockroachSquare extends MovingObject {
 
 	public CockroachSquare(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 
-		moving = 300;
+		moving = 400;
 		
 		angles = new LinkedList<Integer>();
 		angles.add(0);

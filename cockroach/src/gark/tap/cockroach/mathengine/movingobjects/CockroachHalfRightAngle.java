@@ -10,6 +10,8 @@ public class CockroachHalfRightAngle extends MovingObject {
 
 	public CockroachHalfRightAngle(PointF point, ResourceManager resourceManager, boolean direction) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
+		
 		setmShiftX((direction) ? 10 : -10);
 	}
 

@@ -21,6 +21,7 @@ public class CockroachMedic extends MovingObject {
 
 	public CockroachMedic(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 
 		float initCrossX = mMainSprite.getWidth() / 2 - resourceManager.getRedCross().getWidth() / 2;
 		float initCrossY = mMainSprite.getHeight() / 2 - resourceManager.getRedCross().getHeight() / 2;

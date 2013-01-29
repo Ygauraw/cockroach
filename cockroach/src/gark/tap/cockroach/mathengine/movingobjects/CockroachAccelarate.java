@@ -12,6 +12,7 @@ public class CockroachAccelarate extends MovingObject {
 
 	public CockroachAccelarate(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 	}
 
 	@Override

@@ -1,12 +1,14 @@
 package gark.tap.cockroach.mathengine.staticobject;
 
+import gark.tap.cockroach.units.BaseObject;
+
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.graphics.PointF;
 
-public class StaticObject extends Sprite {
+public class StaticObject extends BaseObject {
 
 	protected PointF mPoint;
 	protected PointF mPointOffset;
@@ -15,7 +17,7 @@ public class StaticObject extends Sprite {
 	protected Sprite mSprite;
 
 	public StaticObject(PointF point, TextureRegion textureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
-		super(point.x, point.y, textureRegion, vertexBufferObjectManager);
+//		super(point.x, point.y, textureRegion, vertexBufferObjectManager);
 
 		mPoint = point;
 		mPointOffset = new PointF(textureRegion.getWidth() / 2, textureRegion.getHeight() / 2);
@@ -52,5 +54,12 @@ public class StaticObject extends Sprite {
 		mPoint.y = newY;
 		mSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}
+
+	@Override
+	public void tact(long now, long period) {
+		
+	}
+
+	
 
 }

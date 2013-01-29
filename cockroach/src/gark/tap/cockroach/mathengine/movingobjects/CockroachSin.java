@@ -10,6 +10,8 @@ public class CockroachSin extends MovingObject {
 
 	public CockroachSin(PointF point, ResourceManager resourceManager, float relationPosition) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
+		
 		this.relationPosition = relationPosition;
 	}
 

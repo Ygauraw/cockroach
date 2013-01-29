@@ -10,6 +10,7 @@ public class CockroachAngle extends MovingObject {
 
 	public CockroachAngle(PointF point, ResourceManager resourceManager, boolean direction) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 		setmShiftX((direction) ? 10 : -10);
 	}
 

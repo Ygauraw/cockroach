@@ -7,6 +7,7 @@ public class CockroachDirect extends MovingObject {
 
 	public CockroachDirect(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 	}
 
 	@Override

@@ -1,12 +1,16 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
+import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.DeadManager;
+import gark.tap.cockroach.mathengine.GameOverManager;
+import gark.tap.cockroach.mathengine.HeartManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
+import gark.tap.cockroach.units.BaseObject;
 
 import java.util.Iterator;
 
@@ -20,10 +24,11 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
 
-public abstract class MovingObject extends AnimatedSprite {
+public abstract class MovingObject extends BaseObject {
 
-	private static final int PRESS_RANGE = Config.CAMERA_WIDTH / 7;
+	protected static final int PRESS_RANGE = Config.CAMERA_WIDTH / 7;
 
+	protected int animationSpeed = 100;
 	protected PointF mPoint;
 	protected PointF mNextPoint;
 	protected PointF mPointOffset;
@@ -38,7 +43,8 @@ public abstract class MovingObject extends AnimatedSprite {
 	protected int scoreValue = 1;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
-		super(point.x, point.y, mainTextureRegion, vertexBufferObjectManager);
+		// super(point.x, point.y, mainTextureRegion,
+		// vertexBufferObjectManager);
 
 		mPoint = point;
 		mNextPoint = point;
@@ -50,9 +56,10 @@ public abstract class MovingObject extends AnimatedSprite {
 		// speed animation
 		mSpeed = /* Utils.generateRandomPositive(300f, 400f) */Config.SPEED * Config.SCALE;
 
-		long[] duration = { moving, moving, moving, moving, moving, moving };
-		int[] frames = { 0, 1, 2, 3, 4, 5 };
-		mMainSprite.animate(duration, frames, true);
+		// long[] duration = { moving, moving, moving, moving, moving, moving };
+		// int[] frames = { 0, 1, 2, 3, 4, 5 };
+		// mMainSprite.animate(duration, frames, true);
+		// mMainSprite.animate(100);
 
 		mMainSprite.setScale(Config.SCALE);
 	}
@@ -121,10 +128,14 @@ public abstract class MovingObject extends AnimatedSprite {
 		this.mHealth = mHealth;
 	}
 
+	public float getWidth() {
+		return this.mMainSprite.getWidth();
+	}
+
 	public abstract void tact(long now, long period);
 
 	public void calculateRemove(final MovingObject item, final Iterator<MovingObject> movingIterator, final float x, final float y, final ResourceManager mResourceManager,
-			final BaseGameActivity gameActivity, final Scene mScenePlayArea, final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea) {
+			final BaseGameActivity gameActivity, final Scene mScenePlayArea, final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
 
 		float xPos = item.posX();
 		float yPos = item.posY();
@@ -163,6 +174,29 @@ public abstract class MovingObject extends AnimatedSprite {
 			}
 		}
 	};
+
+	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final LevelManager levelManager, final GameOverManager gameOverManager,
+			final HeartManager heartManager, final GameActivity gameActivity, final Scene mScenePlayArea) {
+		iterator.remove();
+		levelManager.removeUnit(object);
+		// TODO
+		if (--MathEngine.health <= 0) {
+			gameOverManager.finish();
+		}
+		heartManager.setHeartValue(MathEngine.health);
+
+		gameActivity.runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+				object.getMainSprite().clearEntityModifiers();
+				object.getMainSprite().clearUpdateHandlers();
+				mScenePlayArea.detachChild(object.getMainSprite());
+				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
+
+			}
+		});
+	}
 
 	public void recoveryAction(final Scene mSceneDeadArea, final ResourceManager mResourceManager, final LevelManager levelManager) {
 

@@ -11,6 +11,7 @@ public class CockroachLOL extends MovingObject {
 	public CockroachLOL(PointF point, ResourceManager resourceManager, float relationPosition) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
 		this.relationPosition = relationPosition;
+		mMainSprite.animate(animationSpeed);
 	}
 
 	@Override

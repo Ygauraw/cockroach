@@ -8,7 +8,6 @@ import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 
-import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -109,13 +108,13 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 		mSceneControls.registerTouchArea(pause);
 		mSceneControls.attachChild(pause);
-		
 
 		heartManager = new HeartManager(mResourceManager, mSceneControls, gameActivity);
 		heartManager.setHeartValue(health);
 
-		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this);
-		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls , pause);
+		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls, pause);
+		
+		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this, heartManager);
 	}
 
 	public void start() {
@@ -191,40 +190,14 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 			// remove corpse from bottom
 			if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
-				removeCockRoach(cockroach, movingIterator);
+				cockroach.removeObject(cockroach, movingIterator, levelManager, gameOverManager, heartManager, gameActivity, mScenePlayArea);
 			}
 		}
 		// END cockroach
 
 	}
 
-	/**
-	 * remove CockRoach from scene and list
-	 * 
-	 * @param object
-	 * @param iterator
-	 */
-	public synchronized void removeCockRoach(final MovingObject object, Iterator<MovingObject> iterator) {
-		iterator.remove();
-		levelManager.removeUnit(object);
-		// TODO
-		if (--health <= 0) {
-			gameOverManager.finish();
-		}
-		heartManager.setHeartValue(health);
 
-		this.gameActivity.runOnUpdateThread(new Runnable() {
-
-			@Override
-			public void run() {
-				object.clearEntityModifiers();
-				object.clearUpdateHandlers();
-				mScenePlayArea.detachChild(object.getMainSprite());
-				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
-
-			}
-		});
-	}
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {

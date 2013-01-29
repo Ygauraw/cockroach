@@ -12,6 +12,7 @@ public class CockroachRandomAngle extends MovingObject {
 
 	public CockroachRandomAngle(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+		mMainSprite.animate(animationSpeed);
 
 		moving = 200;
 

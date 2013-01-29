@@ -1,14 +1,16 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
+import gark.tap.cockroach.Config;
+import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.HeartManager;
+import gark.tap.cockroach.mathengine.Utils;
+
 import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
 public class Spider extends MovingObject {
@@ -19,7 +21,7 @@ public class Spider extends MovingObject {
 	public Spider(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getSpider(), resourceManager.getVertexBufferObjectManager());
 		setHealth(2);
-		mMainSprite.animate(100);
+		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(2 * Config.SCALE);
 
 	}
@@ -51,9 +53,9 @@ public class Spider extends MovingObject {
 
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
-			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea) {
+			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
 		if (pSceneTouchEvent.isActionDown()) {
-			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea);
+			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
 		}
 	}
 

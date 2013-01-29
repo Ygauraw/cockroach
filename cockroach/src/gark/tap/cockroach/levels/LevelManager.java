@@ -3,6 +3,7 @@ package gark.tap.cockroach.levels;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.HeartManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
@@ -33,15 +34,17 @@ public class LevelManager {
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
+	private HeartManager heartManager;
 
 //	private MathEngine mathEngine;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
-			final MathEngine mathEngine) {
+			final MathEngine mathEngine, final HeartManager heartManager) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
 		this.gameActivity = gameActivity;
+		this.heartManager = heartManager;
 //		this.mathEngine = mathEngine;
 		startNewLevel(CURENT_LEVEL);
 	}
@@ -60,7 +63,7 @@ public class LevelManager {
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 
-			item.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea);
+			item.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
 
 		}
 		// if both list are empty - start new level
