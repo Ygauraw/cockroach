@@ -45,11 +45,12 @@ public class ResourceManager {
 	private TiledTextureRegion mCaterpillar;
 	private TiledTextureRegion mAnt;
 	private TiledTextureRegion mHeartAnimated;
+	private TiledTextureRegion mPlane;
 
 	private TextureRegion mResume;
 	private TextureRegion mPause;
 
-	// private Text mScoreText;
+	private Text mBonusValue;
 	private Text mScoreText;
 	private Text mBigVaweText;
 
@@ -58,6 +59,8 @@ public class ResourceManager {
 	private TextureRegion mHeart;
 	private TextureRegion mBackGround;
 	private TextureRegion mDeadCockroach;
+	private TextureRegion m10;
+	private TextureRegion m25;
 
 	private TextureRegion mStartButton;
 
@@ -95,7 +98,7 @@ public class ResourceManager {
 		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas heartAtlas1 = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas planeAtlas = new BitmapTextureAtlas(textureManager, 113, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas pauseStartTextureAtlas = new BitmapTextureAtlas(textureManager, 72, 72, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -108,6 +111,8 @@ public class ResourceManager {
 		BitmapTextureAtlas caterpillarAtlas = new BitmapTextureAtlas(textureManager, 233, 29, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas antAtlas = new BitmapTextureAtlas(textureManager, 168, 36, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas beetleAtlas = new BitmapTextureAtlas(textureManager, 783, 231, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -136,6 +141,10 @@ public class ResourceManager {
 		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.6f, HorizontalAlign.LEFT));
 		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
+		// bonus font
+		mBonusValue = new Text(0, 0, mFont, "", "XX".length(), mVertexBufferObjectManager);
+		mBonusValue.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
 		// central font
 		mBigVaweText = new Text(Config.CAMERA_WIDTH / 2 - Config.CAMERA_WIDTH / 10, Config.CAMERA_HEIGHT / 2, mFont, Config.VAWE, "Vawe: XXX".length(), mVertexBufferObjectManager);
 
@@ -145,6 +154,8 @@ public class ResourceManager {
 		mDeadCockroach = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cockroachDeadTextureAtlas, baseGameActivity, "dead_cockroach.png", 0, 0);
 		mStartButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseStartTextureAtlas, baseGameActivity, "start_button.png", 0, 0);
 		mHeart = BitmapTextureAtlasTextureRegionFactory.createFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0);
+		m10 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus10Atlas, baseGameActivity, "10.png", 0, 0);
+		m25 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus25Atlas, baseGameActivity, "25.png", 0, 0);
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
@@ -152,7 +163,9 @@ public class ResourceManager {
 		mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_4.png", 0, 0, 5, 1);
 		mCaterpillar = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(caterpillarAtlas, baseGameActivity, "caterpillar_3.png", 0, 0, 8, 1);
 		mAnt = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(antAtlas, baseGameActivity, "ant_1.png", 0, 0, 4, 1);
-		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas1, baseGameActivity, "red_health.png", 0, 0, 1, 1);
+		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
+		mPlane = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(planeAtlas, baseGameActivity, "plane_small.png", 0, 0, 1, 1);
+
 		// mAnt =
 		// BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(beetleAtlas,
 		// baseGameActivity, "kind_of_beetle.png", 0, 0, 13, 4);
@@ -183,7 +196,9 @@ public class ResourceManager {
 		beetleAtlas.load();
 		antAtlas.load();
 		heartAtlas.load();
-		heartAtlas1.load();
+		planeAtlas.load();
+		bonus10Atlas.load();
+		bonus25Atlas.load();
 
 	}
 
@@ -269,6 +284,22 @@ public class ResourceManager {
 
 	public TiledTextureRegion getHeartAnimated() {
 		return mHeartAnimated;
+	}
+
+	public TiledTextureRegion getPlane() {
+		return mPlane;
+	}
+
+	public Text getBonusValue() {
+		return mBonusValue;
+	}
+
+	public TextureRegion get10Bonus() {
+		return m10;
+	}
+
+	public TextureRegion get25Bonus() {
+		return m25;
 	}
 
 }

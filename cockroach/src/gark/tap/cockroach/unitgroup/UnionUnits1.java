@@ -15,6 +15,7 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachSquare;
 import gark.tap.cockroach.mathengine.movingobjects.DragonFly;
 import gark.tap.cockroach.mathengine.movingobjects.Heart;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
+import gark.tap.cockroach.mathengine.movingobjects.Plane;
 import gark.tap.cockroach.mathengine.movingobjects.Spider;
 
 import java.util.LinkedList;
@@ -49,6 +50,11 @@ public class UnionUnits1 extends UnionUnits {
 		cockroachs.add(cockroach);
 
 		cockroach = new CockroachCircleEscort(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
+		cockroach.setDelayForStart(2000);
+		cockroachs.add(cockroach);
+		
+		
+		cockroach = new Plane(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(2000);
 		cockroachs.add(cockroach);
 		
