@@ -46,6 +46,9 @@ public class ResourceManager {
 	private TiledTextureRegion mAnt;
 	private TiledTextureRegion mHeartAnimated;
 	private TiledTextureRegion mPlane;
+	private TiledTextureRegion mBat;
+	private TiledTextureRegion mGreyCockroach;
+	private TiledTextureRegion mBigCockroach;
 
 	private TextureRegion mResume;
 	private TextureRegion mPause;
@@ -61,6 +64,7 @@ public class ResourceManager {
 	private TextureRegion mDeadCockroach;
 	private TextureRegion m10;
 	private TextureRegion m25;
+	private TextureRegion wasper;
 
 	private TextureRegion mStartButton;
 
@@ -113,6 +117,10 @@ public class ResourceManager {
 		BitmapTextureAtlas beetleAtlas = new BitmapTextureAtlas(textureManager, 783, 231, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas waperAtlas = new BitmapTextureAtlas(textureManager, 200, 133, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 540, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas greyCockroachAtlas = new BitmapTextureAtlas(textureManager, 361, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas bigCockroachAtlas = new BitmapTextureAtlas(textureManager, 810, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -128,13 +136,6 @@ public class ResourceManager {
 		float sizeLenth = Config.CAMERA_WIDTH;
 		float size = sizeLenth / 25 * Config.SCALE;
 		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Plok.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
-		// mScoreText = new Text(50, 15, mFont, Config.HEALTH +
-		// Config.HEALTH_SCORE, "Score: XXXXX".length(),
-		// mVertexBufferObjectManager);
-		// mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth *
-		// 0.6f, HorizontalAlign.LEFT));
-		// mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA,
-		// GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// vawe font
 		mScoreText = new Text(sizeLenth - sizeLenth * 0.6f, 15 * Config.SCALE, mFont, Config.SCORE + 0, "Vawe: XXXXX".length(), mVertexBufferObjectManager);
@@ -156,6 +157,7 @@ public class ResourceManager {
 		mHeart = BitmapTextureAtlasTextureRegionFactory.createFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0);
 		m10 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus10Atlas, baseGameActivity, "10.png", 0, 0);
 		m25 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus25Atlas, baseGameActivity, "25.png", 0, 0);
+		wasper = BitmapTextureAtlasTextureRegionFactory.createFromAsset(waperAtlas, baseGameActivity, "wasper.png", 0, 0);
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
@@ -165,6 +167,9 @@ public class ResourceManager {
 		mAnt = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(antAtlas, baseGameActivity, "ant_1.png", 0, 0, 4, 1);
 		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
 		mPlane = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(planeAtlas, baseGameActivity, "plane_small.png", 0, 0, 1, 1);
+		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat.png", 0, 0, 5, 1);
+		mGreyCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(greyCockroachAtlas, baseGameActivity, "grey_cockroach.png", 0, 0, 5, 1);
+		mBigCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bigCockroachAtlas, baseGameActivity, "big_cockroach.png", 0, 0, 5, 1);
 
 		// mAnt =
 		// BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(beetleAtlas,
@@ -199,6 +204,10 @@ public class ResourceManager {
 		planeAtlas.load();
 		bonus10Atlas.load();
 		bonus25Atlas.load();
+		waperAtlas.load();
+		greyCockroachAtlas.load();
+		bigCockroachAtlas.load();
+		batAtlas.load();
 
 	}
 
@@ -300,6 +309,22 @@ public class ResourceManager {
 
 	public TextureRegion get25Bonus() {
 		return m25;
+	}
+
+	public TextureRegion getWasper() {
+		return wasper;
+	}
+
+	public TiledTextureRegion getBat() {
+		return mBat;
+	}
+
+	public TiledTextureRegion getGreyCockroach() {
+		return mGreyCockroach;
+	}
+
+	public TiledTextureRegion getBigCockroach() {
+		return mBigCockroach;
 	}
 
 }

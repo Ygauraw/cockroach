@@ -43,8 +43,6 @@ public abstract class MovingObject extends BaseObject {
 	protected int scoreValue = 1;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
-		// super(point.x, point.y, mainTextureRegion,
-		// vertexBufferObjectManager);
 
 		mPoint = point;
 		mNextPoint = point;
@@ -55,11 +53,6 @@ public abstract class MovingObject extends BaseObject {
 		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
 		// speed animation
 		mSpeed = /* Utils.generateRandomPositive(300f, 400f) */Config.SPEED * Config.SCALE;
-
-		// long[] duration = { moving, moving, moving, moving, moving, moving };
-		// int[] frames = { 0, 1, 2, 3, 4, 5 };
-		// mMainSprite.animate(duration, frames, true);
-		// mMainSprite.animate(100);
 
 		mMainSprite.setScale(Config.SCALE);
 	}
