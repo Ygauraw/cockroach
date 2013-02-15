@@ -49,6 +49,7 @@ public class ResourceManager {
 	private TiledTextureRegion mBat;
 	private TiledTextureRegion mGreyCockroach;
 	private TiledTextureRegion mBigCockroach;
+	private TiledTextureRegion mLaguBug;
 
 	private TextureRegion mResume;
 	private TextureRegion mPause;
@@ -108,8 +109,8 @@ public class ResourceManager {
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontBigTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 400, 52, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas dragonFlyAtlas = new BitmapTextureAtlas(textureManager, 354, 60, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1665, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas dragonFlyAtlas = new BitmapTextureAtlas(textureManager, 1432, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 30, 30, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas caterpillarAtlas = new BitmapTextureAtlas(textureManager, 233, 29, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -121,6 +122,7 @@ public class ResourceManager {
 		BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 540, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas greyCockroachAtlas = new BitmapTextureAtlas(textureManager, 361, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bigCockroachAtlas = new BitmapTextureAtlas(textureManager, 810, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas ladyBug = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -161,8 +163,8 @@ public class ResourceManager {
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
-		mDragonFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(dragonFlyAtlas, baseGameActivity, "dragon_fly.png", 0, 0, 6, 1);
-		mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_4.png", 0, 0, 5, 1);
+		mDragonFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(dragonFlyAtlas, baseGameActivity, "dragonfly_new.png", 0, 0, 11, 1);
+		mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_new.png", 0, 0, 13, 1);
 		mCaterpillar = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(caterpillarAtlas, baseGameActivity, "caterpillar_3.png", 0, 0, 8, 1);
 		mAnt = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(antAtlas, baseGameActivity, "ant_1.png", 0, 0, 4, 1);
 		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
@@ -170,6 +172,7 @@ public class ResourceManager {
 		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat.png", 0, 0, 5, 1);
 		mGreyCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(greyCockroachAtlas, baseGameActivity, "grey_cockroach.png", 0, 0, 5, 1);
 		mBigCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bigCockroachAtlas, baseGameActivity, "big_cockroach.png", 0, 0, 5, 1);
+		mLaguBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
 
 		// mAnt =
 		// BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(beetleAtlas,
@@ -208,6 +211,7 @@ public class ResourceManager {
 		greyCockroachAtlas.load();
 		bigCockroachAtlas.load();
 		batAtlas.load();
+		ladyBug.load();
 
 	}
 
@@ -325,6 +329,10 @@ public class ResourceManager {
 
 	public TiledTextureRegion getBigCockroach() {
 		return mBigCockroach;
+	}
+
+	public TiledTextureRegion getLagyBug() {
+		return mLaguBug;
 	}
 
 }

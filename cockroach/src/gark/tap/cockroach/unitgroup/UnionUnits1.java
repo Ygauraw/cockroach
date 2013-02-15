@@ -8,7 +8,7 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachBigAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachGrey;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachGreySmall;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachRandomAngle;
@@ -16,6 +16,7 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachSquare;
 import gark.tap.cockroach.mathengine.movingobjects.DragonFly;
 import gark.tap.cockroach.mathengine.movingobjects.Heart;
+import gark.tap.cockroach.mathengine.movingobjects.LadyBug;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.movingobjects.Plane;
 import gark.tap.cockroach.mathengine.movingobjects.Spider;
@@ -46,12 +47,12 @@ public class UnionUnits1 extends UnionUnits {
 	public Queue<MovingObject> getUnionUnits() {
 
 		cockroachs = new LinkedList<MovingObject>();
-		
+
 		MovingObject cockroach = new CockroachSin(new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mResourceManager, 0.5f);
 		cockroach.setDelayForStart(1000);
 		cockroachs.add(cockroach);
 
-		cockroach = new CockroachBigAngle(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager, true);
+		cockroach = new LadyBug(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(2000);
 		cockroachs.add(cockroach);
 
@@ -59,12 +60,15 @@ public class UnionUnits1 extends UnionUnits {
 		cockroach.setDelayForStart(2000);
 		cockroachs.add(cockroach);
 
+		cockroach = new CockroachBigAngle(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager, true);
+		cockroach.setDelayForStart(2000);
+		cockroachs.add(cockroach);
 
 		cockroach = new CockroachCircleEscort(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(2000);
 		cockroachs.add(cockroach);
 
-		cockroach = new CockroachGrey(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
+		cockroach = new CockroachGreySmall(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(2000);
 		cockroachs.add(cockroach);
 

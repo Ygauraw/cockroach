@@ -5,15 +5,15 @@ import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
-public class CockroachGrey extends MovingObject {
+public class LadyBug extends MovingObject {
 
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public CockroachGrey(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getGreyCockroach(), resourceManager.getVertexBufferObjectManager());
+	public LadyBug(PointF point, ResourceManager resourceManager) {
+		super(point, resourceManager.getLagyBug(), resourceManager.getVertexBufferObjectManager());
 		mMainSprite.animate(animationSpeed);
-
+//		setMoving(400f);
 		moving = 200;
 
 	}

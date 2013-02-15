@@ -20,7 +20,7 @@ public class DragonFly extends MovingObject {
 	public DragonFly(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getDragonFly(), resourceManager.getVertexBufferObjectManager());
 		setHealth(1);
-		mMainSprite.setScale(2 * Config.SCALE);
+		mMainSprite.setScale(Config.SCALE);
 		mMainSprite.animate(animationSpeed);
 
 	}
@@ -38,7 +38,7 @@ public class DragonFly extends MovingObject {
 			float angle = Utils.generateRandom(90);
 
 			xDistance = (float) (distance * Math.tan(Math.toRadians(-angle)));
-			mMainSprite.setRotation(angle);
+			// mMainSprite.setRotation(angle);
 			mMainSprite.setFlippedHorizontal(angle > 0);
 
 			oneStep = 0;

@@ -22,7 +22,7 @@ public class Spider extends MovingObject {
 		super(point, resourceManager.getSpider(), resourceManager.getVertexBufferObjectManager());
 		setHealth(2);
 		mMainSprite.animate(animationSpeed);
-		mMainSprite.setScale(2 * Config.SCALE);
+		mMainSprite.setScale(1.5f * Config.SCALE);
 
 	}
 
@@ -39,7 +39,7 @@ public class Spider extends MovingObject {
 			float angle = Utils.generateRandom(90);
 
 			xDistance = (float) (distance * Math.tan(Math.toRadians(-angle)));
-			mMainSprite.setRotation(angle);
+			// mMainSprite.setRotation(angle);
 			mMainSprite.setFlippedHorizontal(angle < 0);
 
 			oneStep = 0;
