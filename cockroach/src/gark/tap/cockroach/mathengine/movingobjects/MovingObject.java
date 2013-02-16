@@ -62,7 +62,8 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	public void resumeAnimate() {
-		mMainSprite.animate(100);
+		if (mMainSprite.getTileCount() > 1)
+			mMainSprite.animate(animationSpeed);
 	}
 
 	public float posX() {
