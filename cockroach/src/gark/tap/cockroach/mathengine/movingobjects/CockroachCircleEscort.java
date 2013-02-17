@@ -32,7 +32,7 @@ public class CockroachCircleEscort extends MovingObject {
 		initBatY = mMainSprite.getHeight() / 2 - resourceManager.getBat().getHeight() / 2;
 		bat = new AnimatedSprite(0, 0, resourceManager.getBat(), resourceManager.getVertexBufferObjectManager());
 		bat.animate(animationSpeed);
-		bat.setScale(Config.SCALE);
+		bat.setScale(0.5f * Config.SCALE);
 
 		mMainSprite.attachChild(bat);
 	}

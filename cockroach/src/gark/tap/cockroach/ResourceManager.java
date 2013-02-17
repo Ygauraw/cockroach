@@ -121,7 +121,7 @@ public class ResourceManager {
 		BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas waperAtlas = new BitmapTextureAtlas(textureManager, 200, 133, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 540, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 1600, 184, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas greyCockroachAtlas = new BitmapTextureAtlas(textureManager, 361, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bigCockroachAtlas = new BitmapTextureAtlas(textureManager, 810, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas ladyBug = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -173,7 +173,7 @@ public class ResourceManager {
 		mAnt = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(antAtlas, baseGameActivity, "ant_1.png", 0, 0, 4, 1);
 		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
 		mPlane = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(planeAtlas, baseGameActivity, "plane_small.png", 0, 0, 1, 1);
-		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat.png", 0, 0, 5, 1);
+		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new.png", 0, 0, 8, 1);
 		mGreyCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(greyCockroachAtlas, baseGameActivity, "grey_cockroach.png", 0, 0, 5, 1);
 		mBigCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bigCockroachAtlas, baseGameActivity, "big_cockroach.png", 0, 0, 5, 1);
 		mLaguBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
