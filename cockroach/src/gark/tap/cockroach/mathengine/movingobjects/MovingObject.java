@@ -53,7 +53,6 @@ public abstract class MovingObject extends BaseObject {
 		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
 		// speed animation
 		mSpeed = /* Utils.generateRandomPositive(300f, 400f) */Config.SPEED * Config.SCALE;
-
 		mMainSprite.setScale(Config.SCALE);
 	}
 
