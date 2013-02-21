@@ -2,13 +2,12 @@ package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.HeartManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
 import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.BaseGameActivity;
 
@@ -75,9 +74,9 @@ public class CockroachHandsUp extends MovingObject {
 
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
-			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final MathEngine mathEngine) {
 		if (pSceneTouchEvent.isActionDown()) {
-			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
+			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 		}
 	}
 

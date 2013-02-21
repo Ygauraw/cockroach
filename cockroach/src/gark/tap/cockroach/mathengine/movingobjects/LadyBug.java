@@ -11,7 +11,7 @@ public class LadyBug extends MovingObject {
 	float oneStep = 0;
 
 	public LadyBug(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getLagyBug(), resourceManager.getVertexBufferObjectManager());
+		super(point, resourceManager.getLagyBugSmall(), resourceManager.getVertexBufferObjectManager());
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(0.5f);
 		// setMoving(400f);

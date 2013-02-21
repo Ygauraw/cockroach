@@ -38,7 +38,7 @@ public class Heart extends MovingObject {
 
 	@Override
 	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
-			final Scene mScenePlayArea, TouchEvent pSceneTouchEvent, Scene mSceneDeadArea, final HeartManager heartManager) {
+			final Scene mScenePlayArea, TouchEvent pSceneTouchEvent, Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		float xPos = item.posX();
 		float yPos = item.posY();
@@ -49,8 +49,8 @@ public class Heart extends MovingObject {
 			movingIterator.remove();
 			// TODO
 			// remove from UI
-			if (heartManager.getLiveCount() < Config.HEALTH_SCORE) {
-				heartManager.setHeartValue(++MathEngine.health);
+			if (mathEngine.getHeartManager().getLiveCount() < Config.HEALTH_SCORE) {
+				mathEngine.getHeartManager().setHeartValue(++MathEngine.health);
 			}
 
 			gameActivity.runOnUpdateThread(new Runnable() {

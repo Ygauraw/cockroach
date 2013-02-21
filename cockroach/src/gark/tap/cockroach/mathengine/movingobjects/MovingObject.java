@@ -5,8 +5,6 @@ import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.DeadManager;
-import gark.tap.cockroach.mathengine.GameOverManager;
-import gark.tap.cockroach.mathengine.HeartManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
@@ -128,7 +126,7 @@ public abstract class MovingObject extends BaseObject {
 	public abstract void tact(long now, long period);
 
 	public void calculateRemove(final MovingObject item, final Iterator<MovingObject> movingIterator, final float x, final float y, final ResourceManager mResourceManager,
-			final BaseGameActivity gameActivity, final Scene mScenePlayArea, final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+			final BaseGameActivity gameActivity, final Scene mScenePlayArea, final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		float xPos = item.posX();
 		float yPos = item.posY();
@@ -168,15 +166,14 @@ public abstract class MovingObject extends BaseObject {
 		}
 	};
 
-	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final LevelManager levelManager, final GameOverManager gameOverManager,
-			final HeartManager heartManager, final GameActivity gameActivity, final Scene mScenePlayArea) {
+	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final GameActivity gameActivity, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		iterator.remove();
-		levelManager.removeUnit(object);
+		mathEngine.getLevelManager().removeUnit(object);
 		// TODO
 		if (--MathEngine.health <= 0) {
-			gameOverManager.finish();
+			mathEngine.getGameOverManager().finish();
 		}
-		heartManager.setHeartValue(MathEngine.health);
+		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 
 		gameActivity.runOnUpdateThread(new Runnable() {
 

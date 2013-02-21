@@ -67,7 +67,7 @@ public class Plane extends MovingObject {
 
 	@Override
 	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
-			final Scene mScenePlayArea, TouchEvent pSceneTouchEvent, Scene mSceneDeadArea, final HeartManager heartManager) {
+			final Scene mScenePlayArea, TouchEvent pSceneTouchEvent, Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		float xPos = item.posX();
 		float yPos = item.posY();

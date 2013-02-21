@@ -2,7 +2,7 @@ package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.HeartManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 
 import java.util.Iterator;
 
@@ -65,7 +65,7 @@ public class CockroachCircleEscort extends MovingObject {
 
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, final BaseGameActivity gameActivity,
-			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		Sprite sprite = (Sprite) item.getMainSprite().getChildByIndex(0);
 		if (sprite.contains(x, y)) {
@@ -73,19 +73,12 @@ public class CockroachCircleEscort extends MovingObject {
 
 				@Override
 				public void run() {
-					// Game Over
-					// View view =
-					// LayoutInflater.from(gameActivity).inflate(R.layout.game_over,
-					// null);
-					// gameActivity.addContentView(view, new
-					// RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					// LayoutParams.MATCH_PARENT));
-					// mathEngine.stop(true);
+					mathEngine.getGameOverManager().finish();
 				}
 			});
 		}
 
-		super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
+		super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 	}
 
 }
