@@ -1,26 +1,26 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
+import gark.tap.cockroach.Config;
+import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
+import gark.tap.cockroach.mathengine.Utils;
+
 import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.input.touch.TouchEvent;
 
-import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.MathEngine;
-import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
-public class LadyBug extends MovingObject {
+public class LadyBugBig extends MovingObject {
 
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public LadyBug(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getLagySmall(), resourceManager.getVertexBufferObjectManager());
+	public LadyBugBig(PointF point, ResourceManager resourceManager) {
+		super(point, resourceManager.getLagyBug(), resourceManager.getVertexBufferObjectManager());
 		mMainSprite.animate(animationSpeed);
-		mMainSprite.setScale(1f);
-		// setMoving(400f);
+		mMainSprite.setScale(0.75f * Config.SCALE);
 		moving = 200;
 
 	}
@@ -49,8 +49,11 @@ public class LadyBug extends MovingObject {
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
 			Scene mSceneDeadArea, final MathEngine mathEngine) {
+
 		float xPos = item.posX();
 		float yPos = item.posY();
+
+		// remove near cockroaches
 		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
 			mathEngine.getGameActivity().runOnUiThread(new Runnable() {
 
@@ -60,14 +63,13 @@ public class LadyBug extends MovingObject {
 				}
 			});
 		}
+
+		super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 	}
 
 	@Override
 	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		// super.removeObject(object, iterator, mScenePlayArea, mathEngine);
 		iterator.remove();
-		mathEngine.getLevelManager().removeUnit(object);
-
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override

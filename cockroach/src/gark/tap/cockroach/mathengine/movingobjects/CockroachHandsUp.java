@@ -64,12 +64,22 @@ public class CockroachHandsUp extends MovingObject {
 		// resourceManager.getVertexBufferObjectManager());
 	}
 
+//<<<<<<< HEAD
+////	@Override
+////	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
+////			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+////		if (pSceneTouchEvent.isActionDown()) {
+////			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
+////		}
+////	}
+//=======
 //	@Override
 //	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
-//			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+//			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final MathEngine mathEngine) {
 //		if (pSceneTouchEvent.isActionDown()) {
-//			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
+//			super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 //		}
 //	}
+//>>>>>>> 3aca84f9ef9c4fb1fef2a9e861692a6531107ca7
 
 }
