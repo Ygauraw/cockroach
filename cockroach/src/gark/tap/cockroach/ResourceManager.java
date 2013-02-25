@@ -49,7 +49,8 @@ public class ResourceManager {
 	private TiledTextureRegion mBat;
 	private TiledTextureRegion mGreyCockroach;
 	private TiledTextureRegion mBigCockroach;
-	private TiledTextureRegion mLaguBug;
+	private TiledTextureRegion mLagyBug;
+	private TiledTextureRegion mLagySmall;
 	private TiledTextureRegion mCockroachFly;
 	private TiledTextureRegion mCockroachHandsUP;
 
@@ -117,7 +118,7 @@ public class ResourceManager {
 		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas caterpillarAtlas = new BitmapTextureAtlas(textureManager, 233, 29, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas antAtlas = new BitmapTextureAtlas(textureManager, 168, 36, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas beetleAtlas = new BitmapTextureAtlas(textureManager, 783, 231, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+//		BitmapTextureAtlas beetleAtlas = new BitmapTextureAtlas(textureManager, 783, 231, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas waperAtlas = new BitmapTextureAtlas(textureManager, 200, 133, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -125,6 +126,7 @@ public class ResourceManager {
 		BitmapTextureAtlas greyCockroachAtlas = new BitmapTextureAtlas(textureManager, 361, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bigCockroachAtlas = new BitmapTextureAtlas(textureManager, 810, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas ladyBug = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas ladyBugSmall = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas cockroachFly = new BitmapTextureAtlas(textureManager, 1650, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas cockroachHandsUP = new BitmapTextureAtlas(textureManager, 1035, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
@@ -176,7 +178,8 @@ public class ResourceManager {
 		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new.png", 0, 0, 8, 1);
 		mGreyCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(greyCockroachAtlas, baseGameActivity, "grey_cockroach.png", 0, 0, 5, 1);
 		mBigCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bigCockroachAtlas, baseGameActivity, "big_cockroach.png", 0, 0, 5, 1);
-		mLaguBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
+		mLagyBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
+		mLagySmall = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBugSmall, baseGameActivity, "ladybug_yellow.png", 0, 0, 5, 1);
 		mCockroachFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachFly, baseGameActivity, "cockroachFly.png", 0, 0, 11, 1);
 		mCockroachHandsUP = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachHandsUP, baseGameActivity, "Cockroach_HandUp.png", 0, 0, 6, 1);
 
@@ -197,25 +200,26 @@ public class ResourceManager {
 		cockroachTextureAtlas.load();
 		pauseAtlas.load();
 		medicRedCircleAtlas.load();
-		dragonFlyAtlas.load();
+//		dragonFlyAtlas.load();
 		redCrossAtlas.load();
 		mSpiderAtlas.load();
 		mFontBigTexture.load();
 		pauseStartTextureAtlas.load();
-		caterpillarAtlas.load();
-		beetleAtlas.load();
-		antAtlas.load();
+//		caterpillarAtlas.load();
+//		beetleAtlas.load();
+//		antAtlas.load();
 		heartAtlas.load();
 		planeAtlas.load();
 		bonus10Atlas.load();
 		bonus25Atlas.load();
-		waperAtlas.load();
+//		waperAtlas.load();
 		greyCockroachAtlas.load();
 		bigCockroachAtlas.load();
 		batAtlas.load();
 		ladyBug.load();
 		cockroachFly.load();
-		cockroachHandsUP.load();
+//		cockroachHandsUP.load();
+		ladyBugSmall.load();
 
 	}
 
@@ -336,7 +340,7 @@ public class ResourceManager {
 	}
 
 	public TiledTextureRegion getLagyBug() {
-		return mLaguBug;
+		return mLagyBug;
 	}
 
 	public TiledTextureRegion getmCockroachFly() {
@@ -345,6 +349,10 @@ public class ResourceManager {
 
 	public TiledTextureRegion getCockroachHandsUP() {
 		return mCockroachHandsUP;
+	}
+
+	public TiledTextureRegion getLagySmall() {
+		return mLagySmall;
 	}
 
 }

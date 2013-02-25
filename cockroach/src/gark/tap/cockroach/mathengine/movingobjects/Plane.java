@@ -1,11 +1,7 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.levels.LevelManager;
-import gark.tap.cockroach.mathengine.GameOverManager;
-import gark.tap.cockroach.mathengine.HeartManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
@@ -15,7 +11,6 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.TextureRegion;
-import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
 import android.util.Log;
@@ -66,8 +61,8 @@ public class Plane extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, BaseGameActivity gameActivity,
-			final Scene mScenePlayArea, TouchEvent pSceneTouchEvent, Scene mSceneDeadArea, final HeartManager heartManager) {
+	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, final Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
+			Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		float xPos = item.posX();
 		float yPos = item.posY();
@@ -79,7 +74,7 @@ public class Plane extends MovingObject {
 			// remove from UI
 			MathEngine.SCORE += bonusArray[position].getValue();
 
-			gameActivity.runOnUpdateThread(new Runnable() {
+			mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 				@Override
 				public void run() {
 					mScenePlayArea.detachChild(item.getMainSprite());
@@ -93,13 +88,13 @@ public class Plane extends MovingObject {
 
 		}
 	}
-
-	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final LevelManager levelManager, final GameOverManager gameOverManager,
-			final HeartManager heartManager, final GameActivity gameActivity, final Scene mScenePlayArea) {
+	@Override
+	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
+//		super.removeObject(object, iterator, mScenePlayArea, mathEngine);
 		iterator.remove();
-		levelManager.removeUnit(object);
+		mathEngine.getLevelManager().removeUnit(object);
 
-		gameActivity.runOnUpdateThread(new Runnable() {
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -110,7 +105,26 @@ public class Plane extends MovingObject {
 
 			}
 		});
+
 	}
+
+//	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final LevelManager levelManager, final GameOverManager gameOverManager,
+//			final HeartManager heartManager, final GameActivity gameActivity, final Scene mScenePlayArea) {
+//		iterator.remove();
+//		levelManager.removeUnit(object);
+//
+//		gameActivity.runOnUpdateThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				object.getMainSprite().clearEntityModifiers();
+//				object.getMainSprite().clearUpdateHandlers();
+//				mScenePlayArea.detachChild(object.getMainSprite());
+//				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
+//
+//			}
+//		});
+//	}
 
 	public class Bonus {
 		private int value;

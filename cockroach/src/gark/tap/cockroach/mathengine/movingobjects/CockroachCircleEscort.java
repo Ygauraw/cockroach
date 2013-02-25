@@ -2,7 +2,7 @@ package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.HeartManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 
 import java.util.Iterator;
 
@@ -10,7 +10,6 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
 
@@ -64,28 +63,21 @@ public class CockroachCircleEscort extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, ResourceManager mResourceManager, final BaseGameActivity gameActivity,
-			Scene mScenePlayArea, TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
+			final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		Sprite sprite = (Sprite) item.getMainSprite().getChildByIndex(0);
 		if (sprite.contains(x, y)) {
-			gameActivity.runOnUiThread(new Runnable() {
+			mathEngine.getGameActivity().runOnUiThread(new Runnable() {
 
 				@Override
 				public void run() {
-					// Game Over
-					// View view =
-					// LayoutInflater.from(gameActivity).inflate(R.layout.game_over,
-					// null);
-					// gameActivity.addContentView(view, new
-					// RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					// LayoutParams.MATCH_PARENT));
-					// mathEngine.stop(true);
+					mathEngine.getGameOverManager().finish();
 				}
 			});
 		}
 
-		super.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
+		super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 	}
 
 }

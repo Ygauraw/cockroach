@@ -11,15 +11,15 @@ import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
-public class LadyBug extends MovingObject {
+public class LadyBugSmall extends MovingObject {
 
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public LadyBug(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getLagyBug(), resourceManager.getVertexBufferObjectManager());
+	public LadyBugSmall(PointF point, ResourceManager resourceManager) {
+		super(point, resourceManager.getLagySmall(), resourceManager.getVertexBufferObjectManager());
 		mMainSprite.animate(animationSpeed);
-		mMainSprite.setScale(1f);
+		mMainSprite.setScale(0.5f);
 		// setMoving(400f);
 		moving = 200;
 
@@ -49,22 +49,23 @@ public class LadyBug extends MovingObject {
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
 			Scene mSceneDeadArea, final MathEngine mathEngine) {
-		float xPos = item.posX();
-		float yPos = item.posY();
-		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-			mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					mathEngine.getGameOverManager().finish();
-				}
-			});
-		}
+		super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
+		// float xPos = item.posX();
+		// float yPos = item.posY();
+		// if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos -
+		// PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
+		// mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// mathEngine.getGameOverManager().finish();
+		// }
+		// });
+		// }
 	}
 
 	@Override
 	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		// super.removeObject(object, iterator, mScenePlayArea, mathEngine);
 		iterator.remove();
 		mathEngine.getLevelManager().removeUnit(object);
 

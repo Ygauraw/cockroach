@@ -3,7 +3,6 @@ package gark.tap.cockroach.levels;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.HeartManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.ui.activity.BaseGameActivity;
 
 public class LevelManager {
 
@@ -34,18 +32,13 @@ public class LevelManager {
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
-	private HeartManager heartManager;
-
-//	private MathEngine mathEngine;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
-			final MathEngine mathEngine, final HeartManager heartManager) {
+			final MathEngine mathEngine) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
 		this.gameActivity = gameActivity;
-		this.heartManager = heartManager;
-//		this.mathEngine = mathEngine;
 		startNewLevel(CURENT_LEVEL);
 	}
 
@@ -57,13 +50,13 @@ public class LevelManager {
 		}
 	}
 
-	public synchronized void removeUnit(final float x, final float y, final ResourceManager mResourceManager, final BaseGameActivity gameActivity, final Scene mScenePlayArea,
-			final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent) {
+	public synchronized void removeUnit(final float x, final float y, final Scene mScenePlayArea, final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent,
+			final MathEngine mathEngine) {
 
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 
-			item.calculateRemove(item, movingIterator, x, y, mResourceManager, gameActivity, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, heartManager);
+			item.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 
 		}
 		// if both list are empty - start new level
@@ -147,10 +140,9 @@ public class LevelManager {
 		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
 	}
 
-	// TODO
 	public void destroyLauncher() {
 		executor.shutdown();
-		
+
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 			mScenePlayArea.detachChild(item.getMainSprite());

@@ -2,8 +2,8 @@ package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.DeadManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.lang.reflect.Constructor;
@@ -51,7 +51,7 @@ public class CockroachMedic extends MovingObject {
 	}
 
 	@Override
-	public void recoveryAction(final Scene mSceneDeadArea, final ResourceManager mResourceManager, final LevelManager levelManager) {
+	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEnginer) {
 
 		// reanimation dead cockroach
 		for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
@@ -69,26 +69,27 @@ public class CockroachMedic extends MovingObject {
 					if (Caterpillar.class.getName().equals(staticObject.getDeadObject())) {
 						Class<?> clazz = Class.forName(Caterpillar.class.getName());
 						Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
-						riseCockroach = (Caterpillar) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
+						riseCockroach = (Caterpillar) constructor.newInstance(new Object[] { new PointF(x, y), mathEnginer.getmResourceManager() });
 					} else if (CockroachHalfLefAngle.class.getName().equals(staticObject.getDeadObject())) {
 						Class<?> clazz = Class.forName(CockroachHalfLefAngle.class.getName());
 						Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class, Boolean.class);
-						riseCockroach = (CockroachHalfLefAngle) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager, false });
+						riseCockroach = (CockroachHalfLefAngle) constructor.newInstance(new Object[] { new PointF(x, y), mathEnginer.getmResourceManager(), false });
 					} else if (DragonFly.class.getName().equals(staticObject.getDeadObject())) {
 						Class<?> clazz = Class.forName(DragonFly.class.getName());
 						Constructor<?> constructor = clazz.getConstructor(PointF.class, ResourceManager.class);
-						riseCockroach = (DragonFly) constructor.newInstance(new Object[] { new PointF(x, y), mResourceManager });
+						riseCockroach = (DragonFly) constructor.newInstance(new Object[] { new PointF(x, y), mathEnginer.getmResourceManager() });
 					}
 
 					else {
-						riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
+						riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer.getmResourceManager());
 					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					riseCockroach = new CockroachDirect(new PointF(x, y), mResourceManager);
+					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer.getmResourceManager());
+					riseCockroach.isRecovered = true;
 				}
-				levelManager.reanimateCockroach(riseCockroach);
+				mathEnginer.getLevelManager().reanimateCockroach(riseCockroach);
 			}
 		}
 	}

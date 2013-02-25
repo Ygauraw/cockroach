@@ -36,7 +36,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private Scene mSceneControls;
 	private Scene mScenePlayArea;
 	private Scene mSceneDeadArea;
-	private ResourceManager mResourceManager;
 
 	private MenuScene mMenuScene;
 
@@ -46,9 +45,9 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private boolean mPaused = false;
 
 	private GameActivity gameActivity;
+	private ResourceManager mResourceManager;
 	private GameOverManager gameOverManager;
 	private HeartManager heartManager;
-
 	private LevelManager levelManager;
 
 	public MathEngine(final GameActivity gameActivity) {
@@ -113,8 +112,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		heartManager.setHeartValue(health);
 
 		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls, pause);
-		
-		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this, heartManager);
+
+		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this);
 	}
 
 	public void start() {
@@ -185,19 +184,17 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
 			MovingObject cockroach = (MovingObject) movingIterator.next();
 
-			cockroach.recoveryAction(mSceneDeadArea, mResourceManager, levelManager);
+			cockroach.recoveryAction(mSceneDeadArea, this);
 			cockroach.tact(now, time);
 
 			// remove corpse from bottom
 			if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
-				cockroach.removeObject(cockroach, movingIterator, levelManager, gameOverManager, heartManager, gameActivity, mScenePlayArea);
+				cockroach.removeObject(cockroach, movingIterator, mScenePlayArea, this);
 			}
 		}
 		// END cockroach
 
 	}
-
-
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
@@ -245,10 +242,30 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
-			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mResourceManager, gameActivity, mScenePlayArea, mSceneDeadArea, pSceneTouchEvent);
+			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mScenePlayArea, mSceneDeadArea, pSceneTouchEvent, this);
 			return true;
 		}
 		return false;
+	}
+
+	public GameActivity getGameActivity() {
+		return gameActivity;
+	}
+
+	public ResourceManager getmResourceManager() {
+		return mResourceManager;
+	}
+
+	public GameOverManager getGameOverManager() {
+		return gameOverManager;
+	}
+
+	public HeartManager getHeartManager() {
+		return heartManager;
+	}
+
+	public LevelManager getLevelManager() {
+		return levelManager;
 	}
 
 }

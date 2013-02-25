@@ -1,12 +1,7 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.GameActivity;
-import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.DeadManager;
-import gark.tap.cockroach.mathengine.GameOverManager;
-import gark.tap.cockroach.mathengine.HeartManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
@@ -20,7 +15,6 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.PointF;
 
@@ -41,6 +35,7 @@ public abstract class MovingObject extends BaseObject {
 	protected int moving;
 	protected int mHealth = 0;
 	protected int scoreValue = 1;
+	protected boolean isRecovered = false;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
 
@@ -127,8 +122,8 @@ public abstract class MovingObject extends BaseObject {
 
 	public abstract void tact(long now, long period);
 
-	public void calculateRemove(final MovingObject item, final Iterator<MovingObject> movingIterator, final float x, final float y, final ResourceManager mResourceManager,
-			final BaseGameActivity gameActivity, final Scene mScenePlayArea, final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final HeartManager heartManager) {
+	public void calculateRemove(final MovingObject item, final Iterator<MovingObject> movingIterator, final float x, final float y, final Scene mScenePlayArea,
+			final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 		float xPos = item.posX();
 		float yPos = item.posY();
@@ -140,7 +135,7 @@ public abstract class MovingObject extends BaseObject {
 				movingIterator.remove();
 				MathEngine.SCORE += scoreValue;
 				// remove from UI
-				gameActivity.runOnUpdateThread(new Runnable() {
+				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
 						mScenePlayArea.detachChild(item.getMainSprite());
@@ -152,10 +147,11 @@ public abstract class MovingObject extends BaseObject {
 					}
 				});
 
-				mResourceManager.getSoudOnTap().play();
+				mathEngine.getmResourceManager().getSoudOnTap().play();
 				// create dead cockroach
 
-				StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mResourceManager.getDeadCockroach(), gameActivity.getVertexBufferObjectManager());
+				StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mathEngine.getmResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
+						.getVertexBufferObjectManager());
 				deadObject.setDeadObject(item.getClass().getName());
 				deadObject.setRotation(item.getMainSprite().getRotation());
 				// DeadManager.getStackDeadUnits().add(deadObject);
@@ -168,17 +164,16 @@ public abstract class MovingObject extends BaseObject {
 		}
 	};
 
-	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final LevelManager levelManager, final GameOverManager gameOverManager,
-			final HeartManager heartManager, final GameActivity gameActivity, final Scene mScenePlayArea) {
+	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		iterator.remove();
-		levelManager.removeUnit(object);
+		mathEngine.getLevelManager().removeUnit(object);
 		// TODO
 		if (--MathEngine.health <= 0) {
-			gameOverManager.finish();
+			mathEngine.getGameOverManager().finish();
 		}
-		heartManager.setHeartValue(MathEngine.health);
+		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 
-		gameActivity.runOnUpdateThread(new Runnable() {
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -191,7 +186,7 @@ public abstract class MovingObject extends BaseObject {
 		});
 	}
 
-	public void recoveryAction(final Scene mSceneDeadArea, final ResourceManager mResourceManager, final LevelManager levelManager) {
+	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 	}
 
