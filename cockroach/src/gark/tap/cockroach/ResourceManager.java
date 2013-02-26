@@ -49,7 +49,8 @@ public class ResourceManager {
 	private TiledTextureRegion mLagyBug;
 	private TiledTextureRegion mLagySmall;
 	private TiledTextureRegion mCockroachFly;
-	private TiledTextureRegion mCockroachHandsUP;
+	private TiledTextureRegion mCockroachHandsUP_1;
+//	private TiledTextureRegion mCockroachHandsUP_2;
 
 	private TextureRegion mResume;
 	private TextureRegion mPause;
@@ -119,7 +120,8 @@ public class ResourceManager {
 		BitmapTextureAtlas ladyBug = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas ladyBugSmall = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas cockroachFly = new BitmapTextureAtlas(textureManager, 1650, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas cockroachHandsUP = new BitmapTextureAtlas(textureManager, 1035, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas cockroachHandsUP_1 = new BitmapTextureAtlas(textureManager, 880, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+//		BitmapTextureAtlas cockroachHandsUP_2 = new BitmapTextureAtlas(textureManager, 1350, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -161,7 +163,8 @@ public class ResourceManager {
 		mLagyBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
 		mLagySmall = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBugSmall, baseGameActivity, "ladybug_yellow.png", 0, 0, 5, 1);
 		mCockroachFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachFly, baseGameActivity, "cockroachFly.png", 0, 0, 11, 1);
-		mCockroachHandsUP = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachHandsUP, baseGameActivity, "Cockroach_HandUp.png", 0, 0, 6, 1);
+		mCockroachHandsUP_1 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachHandsUP_1, baseGameActivity, "cockroach_hands_up_11.png", 0, 0, 6, 2);
+//		mCockroachHandsUP_2 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachHandsUP_2, baseGameActivity, "cockroach_hands_up_2.png", 0, 0, 6, 1);
 
 		// radar medic
 		mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createFromAsset(medicRedCircleAtlas, baseGameActivity, "red_circle_small.png", 0, 0);
@@ -198,7 +201,7 @@ public class ResourceManager {
 		batAtlas.load();
 		ladyBug.load();
 		cockroachFly.load();
-		// cockroachHandsUP.load();
+		cockroachHandsUP_1.load();
 		ladyBugSmall.load();
 
 	}
@@ -316,8 +319,12 @@ public class ResourceManager {
 	}
 
 	public TiledTextureRegion getCockroachHandsUP() {
-		return mCockroachHandsUP;
+		return mCockroachHandsUP_1;
 	}
+	
+//	public TiledTextureRegion getCockroachHandsUP2() {
+//		return mCockroachHandsUP_2;
+//	}
 
 	public TiledTextureRegion getLagySmall() {
 		return mLagySmall;
