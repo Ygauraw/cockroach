@@ -22,6 +22,7 @@ public class LadyBugBig extends MovingObject {
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(0.75f * Config.SCALE);
 		moving = 200;
+		scoreValue = 0;
 
 	}
 

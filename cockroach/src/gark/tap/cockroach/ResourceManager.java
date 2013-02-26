@@ -7,9 +7,7 @@ import javax.microedition.khronos.opengles.GL10;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
-import org.andengine.entity.text.AutoWrap;
 import org.andengine.entity.text.Text;
-import org.andengine.entity.text.TextOptions;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.font.FontManager;
@@ -21,7 +19,6 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.BaseGameActivity;
-import org.andengine.util.HorizontalAlign;
 import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
 
@@ -58,8 +55,6 @@ public class ResourceManager {
 	private TextureRegion mPause;
 
 	private Text mBonusValue;
-	private Text mScoreText;
-	private Text mBigVaweText;
 
 	private TextureRegion mRedCircleMedecine;
 	private TextureRegion mRedCross;
@@ -113,12 +108,8 @@ public class ResourceManager {
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontBigTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1665, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-//		BitmapTextureAtlas dragonFlyAtlas = new BitmapTextureAtlas(textureManager, 1432, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 30, 30, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-//		BitmapTextureAtlas caterpillarAtlas = new BitmapTextureAtlas(textureManager, 233, 29, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-//		BitmapTextureAtlas antAtlas = new BitmapTextureAtlas(textureManager, 168, 36, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-//		BitmapTextureAtlas beetleAtlas = new BitmapTextureAtlas(textureManager, 783, 231, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas waperAtlas = new BitmapTextureAtlas(textureManager, 200, 133, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -143,19 +134,11 @@ public class ResourceManager {
 		// score text
 		float sizeLenth = Config.CAMERA_WIDTH;
 		float size = sizeLenth / 25 * Config.SCALE;
-		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Plok.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
-
-		// vawe font
-		mScoreText = new Text(sizeLenth - sizeLenth * 0.6f, 15 * Config.SCALE, mFont, Config.SCORE + 0, "Vawe: XXXXX".length(), mVertexBufferObjectManager);
-		mScoreText.setTextOptions(new TextOptions(AutoWrap.CJK, sizeLenth * 0.6f, HorizontalAlign.LEFT));
-		mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
 
 		// bonus font
 		mBonusValue = new Text(0, 0, mFont, "", "XX".length(), mVertexBufferObjectManager);
 		mBonusValue.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-
-		// central font
-		mBigVaweText = new Text(Config.CAMERA_WIDTH / 2 - Config.CAMERA_WIDTH / 10, Config.CAMERA_HEIGHT / 2, mFont, Config.VAWE, "Vawe: XXX".length(), mVertexBufferObjectManager);
 
 		// background
 		mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
@@ -169,10 +152,7 @@ public class ResourceManager {
 
 		// cockroach sprite
 		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
-//		mDragonFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(dragonFlyAtlas, baseGameActivity, "dragonfly_new.png", 0, 0, 11, 1);
 		mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_new.png", 0, 0, 13, 1);
-//		mCaterpillar = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(caterpillarAtlas, baseGameActivity, "caterpillar_3.png", 0, 0, 8, 1);
-//		mAnt = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(antAtlas, baseGameActivity, "ant_1.png", 0, 0, 4, 1);
 		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
 		mPlane = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(planeAtlas, baseGameActivity, "plane_small.png", 0, 0, 1, 1);
 		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new.png", 0, 0, 8, 1);
@@ -200,25 +180,25 @@ public class ResourceManager {
 		cockroachTextureAtlas.load();
 		pauseAtlas.load();
 		medicRedCircleAtlas.load();
-//		dragonFlyAtlas.load();
+		// dragonFlyAtlas.load();
 		redCrossAtlas.load();
 		mSpiderAtlas.load();
 		mFontBigTexture.load();
 		pauseStartTextureAtlas.load();
-//		caterpillarAtlas.load();
-//		beetleAtlas.load();
-//		antAtlas.load();
+		// caterpillarAtlas.load();
+		// beetleAtlas.load();
+		// antAtlas.load();
 		heartAtlas.load();
 		planeAtlas.load();
 		bonus10Atlas.load();
 		bonus25Atlas.load();
-//		waperAtlas.load();
+		// waperAtlas.load();
 		greyCockroachAtlas.load();
 		bigCockroachAtlas.load();
 		batAtlas.load();
 		ladyBug.load();
 		cockroachFly.load();
-//		cockroachHandsUP.load();
+		// cockroachHandsUP.load();
 		ladyBugSmall.load();
 
 	}
@@ -233,14 +213,6 @@ public class ResourceManager {
 
 	public TextureRegion getDeadCockroach() {
 		return mDeadCockroach;
-	}
-
-	// public Text getScoreText() {
-	// return mScoreText;
-	// }
-
-	public Text getScoreText() {
-		return mScoreText;
 	}
 
 	public TiledTextureRegion getCockroach() {
@@ -277,10 +249,6 @@ public class ResourceManager {
 
 	public TextureRegion getCircleMedecine() {
 		return mRedCircleMedecine;
-	}
-
-	public Text getBigVaweText() {
-		return mBigVaweText;
 	}
 
 	public TiledTextureRegion getDragonFly() {

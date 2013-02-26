@@ -4,34 +4,36 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/game_over"
+        android:id="@+id/attention"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="@string/game_over"
-        android:textSize="32sp" />
+        android:text="@string/attention"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/highScore"
+        android:id="@+id/vawe_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/game_over"
+        android:layout_below="@id/attention"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textIsSelectable="true"
-        android:textSize="20sp"
+        android:textIsSelectable="false"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/try_again"
+    <TextView
+        android:id="@+id/score_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/highScore"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="@string/play_again"
-        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="30dp"
+        android:textColor="@android:color/black"
+        android:textIsSelectable="false"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

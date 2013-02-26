@@ -45,6 +45,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private boolean mPaused = false;
 
 	private GameActivity gameActivity;
+	private TextManager textManager;
 	private ResourceManager mResourceManager;
 	private GameOverManager gameOverManager;
 	private HeartManager heartManager;
@@ -57,6 +58,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 		this.gameActivity = gameActivity;
 		mResourceManager = gameActivity.getResourceManager();
+		textManager = new TextManager(this);
 
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
@@ -89,7 +91,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		mSceneControls = new Scene();
 		mSceneControls.setBackgroundEnabled(false);
 
-		mSceneControls.attachChild(mResourceManager.getScoreText());
+		// mSceneControls.attachChild(mResourceManager.getScoreText());
 		mScenePlayArea.setChildScene(mSceneControls);
 
 		// pause button
@@ -166,7 +168,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	public synchronized void tact(long time) {
 
 		final long now = System.currentTimeMillis();
-		mResourceManager.getScoreText().setText(Config.SCORE + SCORE);
+		textManager.setScore(Config.SCORE.concat(String.valueOf(SCORE)));
+		// mResourceManager.getScoreText().setText(Config.SCORE + SCORE);
 
 		// tact cockroach start
 
@@ -218,17 +221,15 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	final OnUpdateLevelListener levelListener = new OnUpdateLevelListener() {
 		@Override
-		public void getCurrentVawe(int level) {
+		public void getCurrentVawe(final int level) {
 
-			// show vawe in center
-			mSceneControls.attachChild(mResourceManager.getBigVaweText());
-			mResourceManager.getBigVaweText().setText(Config.VAWE + level);
+			textManager.showVawe(Config.VAWE + level);
 
 			timer.schedule(new TimerTask() {
 
 				@Override
 				public void run() {
-					mSceneControls.detachChild(mResourceManager.getBigVaweText());
+					textManager.hideVawe();
 
 				}
 			}, 3000);
