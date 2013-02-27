@@ -2,6 +2,7 @@ package gark.tap.cockroach.unitgroup;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.movingobjects.Bug;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachBigAngle;
@@ -55,6 +56,11 @@ public class UnionUnits1 extends UnionUnits {
 		
 		
 		cockroach = new LadyBugBig(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
+		cockroach.setDelayForStart(2000);
+		cockroachs.add(cockroach);
+		
+		
+		cockroach = new Bug(new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mResourceManager);
 		cockroach.setDelayForStart(2000);
 		cockroachs.add(cockroach);
 

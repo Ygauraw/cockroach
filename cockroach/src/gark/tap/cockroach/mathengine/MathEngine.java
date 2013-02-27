@@ -269,4 +269,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		return levelManager;
 	}
 
+	public Scene getScenePlayArea() {
+		return mScenePlayArea;
+	}
+
 }
