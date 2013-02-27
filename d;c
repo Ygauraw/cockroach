@@ -1,0 +1,235 @@
+[33mcommit cd3eaa87aa70d310f27c565cd925580d79b2d046[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Feb 26 23:58:13 2013 +0200
+
+     handsUP cockroach
+
+[33mcommit 4b67536a3f6ef788406f84e3d2f51f0ed6067834[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Feb 26 15:55:49 2013 +0200
+
+    text rework
+
+[33mcommit b2f9e6f9d26c4122b6737d4ff359915c61282643[m
+Merge: 6ebd457 3aca84f
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Feb 25 22:24:20 2013 +0200
+
+    merge fix
+
+[33mcommit 6ebd457eab839da3349154c615ac05e27679f898[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Feb 25 22:13:17 2013 +0200
+
+    bugfixing + codeclean up + refactoring
+
+[33mcommit 3aca84f9ef9c4fb1fef2a9e861692a6531107ca7[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Thu Feb 21 23:22:02 2013 +0200
+
+    logic fix
+
+[33mcommit ff7b233584891186ce0d872002fa5189b9e0303c[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Feb 18 00:10:37 2013 +0200
+
+    bat modified
+
+[33mcommit a349ed7cf3a227db39b84ef1c11b2bc2f62ab071[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Feb 18 00:10:23 2013 +0200
+
+    bat modified
+
+[33mcommit 0871f6608ebd546908976675b6c70d5c1f43d87c[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Sun Feb 17 15:06:56 2013 +0200
+
+    cockroach fly + graphics
+
+[33mcommit f234d6d7749888d450421fa5276a3d6b20344bbb[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Sat Feb 16 22:56:29 2013 +0200
+
+    minor fix
+
+[33mcommit 718a808eccfcad5c39f665d28da5b63a6aa00070[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Fri Feb 15 22:00:27 2013 +0200
+
+    new units
+
+[33mcommit c6eaf5c2fd2d756c61cb5c0136027ba83effb73e[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Feb 12 22:14:48 2013 +0200
+
+    new cockroach type
+
+[33mcommit 8f8f4546781a3257ca50c77e7908c94dc17151c4[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Thu Jan 31 00:49:30 2013 +0200
+
+    bonuses
+
+[33mcommit be3647e94e8c24dda5c677234bb73480ba302fc2[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Jan 29 22:17:33 2013 +0200
+
+    heart flying
+
+[33mcommit f5ba01f024ab5b2216a37eb63a079077a6417e30[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 28 21:46:23 2013 +0200
+
+    health, heart, score , lives
+
+[33mcommit 6cc6a8f6e605dc4a9c6e436836a5cbe4ebbb2c3f[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Sat Jan 26 20:51:57 2013 +0200
+
+    code refactoring
+
+[33mcommit 31f265e24caa6bd0bf3e0e8db70d9c0cb516a9f2[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Fri Jan 25 22:22:57 2013 +0200
+
+    escort cockroach
+
+[33mcommit 6c2b534f85b851a4ff1298e5fc4179bf761f6d42[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Fri Jan 25 01:26:52 2013 +0200
+
+    new units were added
+
+[33mcommit 1f2daadd9ea1610401f53590a8144063f7bf0684[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 23 18:32:52 2013 +0200
+
+    medic radius fix, speed proportional vawe, scaling of moving
+
+[33mcommit 08d47edc101fe78082220a2bb3ecb5c188f6c897[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 23 00:27:03 2013 +0200
+
+    one main base game activity
+
+[33mcommit a8d091bc9c2734c0c91c03b6422d8caf3dab70a3[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Jan 22 22:03:55 2013 +0200
+
+    pause fix, cutting, stop animation on pause
+
+[33mcommit c40f9162bddd365d2d5342424111c8a72df9a3d2[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 21 00:51:12 2013 +0200
+
+    2 new unit
+
+[33mcommit b7a9bb2fc17427ffa8df24b6179ef06c71846c1f[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Sat Jan 19 00:30:30 2013 +0200
+
+    cockroach accelerate
+
+[33mcommit 08311c1ee148f07c0cf0e47a8d739de2086fe3a8[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Fri Jan 18 23:17:54 2013 +0200
+
+    medic fixed
+
+[33mcommit 8f04778191622ec248de34da5343358aa73f14b6[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Fri Jan 18 01:03:05 2013 +0200
+
+    scene touch reimplement
+
+[33mcommit 9dc424e43013846b7526ed3d0c272e316b17240b[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 16 23:47:31 2013 +0200
+
+    medicCockroach + game stuck fix
+
+[33mcommit 6c5caf1b33f21c37fa3a8cf5dede06333775cab1[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Jan 15 23:26:14 2013 +0200
+
+    composed few cockroch behaviour
+
+[33mcommit 48b36149a57c0ab54ae95345aec14864e7e670f8[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 14 21:49:41 2013 +0200
+
+    level generator
+
+[33mcommit 709bd8b40ae818e817d338557f3967c21d419e89[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 14 18:18:42 2013 +0200
+
+    vawes implemented + 1st rush
+
+[33mcommit 303bf350ff632d49c7c3ac97c5f4b8e6699803c6[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Sat Jan 12 11:49:07 2013 +0200
+
+    screen orientetion fix
+
+[33mcommit cb58ffc982d666e76fd4c6c695473cf4c7259c0e[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Thu Jan 10 20:54:07 2013 +0200
+
+    sounds , submenu, text
+
+[33mcommit 1da7aefb8475ee212afc2f67388b94e5d80ddbff[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Thu Jan 10 00:25:07 2013 +0200
+
+    small fixes
+
+[33mcommit 4266a58ccab39c17655564167b18b922a9d5440b[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 9 19:59:08 2013 +0200
+
+    wtf
+
+[33mcommit 8b34a5a54a02c0a351207e5d12bfba819cfeea5a[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Wed Jan 9 19:36:35 2013 +0200
+
+    touch handling
+
+[33mcommit 44d17c0d2c8271d4aa8d43dbcc793ebf96312f4a[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Tue Jan 8 22:45:30 2013 +0200
+
+    object moving
+
+[33mcommit 14af819da8bb785c6af911c8a45a10ff06a7205c[m
+Author: Garkusha Artem <garkusha@teufel.de>
+Date:   Tue Jan 8 14:00:34 2013 +0200
+
+    create game object
+
+[33mcommit 9205bcb239c2ef80d76289964c406060aa5b285e[m
+Author: Garkusha Artem <garkusha@teufel.de>
+Date:   Tue Jan 8 00:13:46 2013 +0200
+
+    test commit from laptop
+
+[33mcommit ac54d3c20dc7be1316311f91d5ffc842e2a2f127[m
+Merge: b09fc6d 981fb56
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 7 23:54:38 2013 +0200
+
+    init
+
+[33mcommit b09fc6d3b471f2f0e427c0dd4818e473b295d50b[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 7 23:47:40 2013 +0200
+
+    initial commit
+
+[33mcommit 981fb564c73c7260fdd049f8e0a56df113dac7e4[m
+Author: Gark <artem.garkusha@gmail.com>
+Date:   Mon Jan 7 13:29:48 2013 -0800
+
+    Initial commit

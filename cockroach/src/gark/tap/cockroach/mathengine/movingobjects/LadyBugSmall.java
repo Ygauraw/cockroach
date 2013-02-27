@@ -19,8 +19,8 @@ public class LadyBugSmall extends MovingObject {
 	public LadyBugSmall(PointF point, ResourceManager resourceManager) {
 		super(point, resourceManager.getLagySmall(), resourceManager.getVertexBufferObjectManager());
 		mMainSprite.animate(animationSpeed);
+		scoreValue = 0;
 		mMainSprite.setScale(0.5f);
-		// setMoving(400f);
 		moving = 200;
 
 	}
@@ -49,19 +49,21 @@ public class LadyBugSmall extends MovingObject {
 	@Override
 	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
 			Scene mSceneDeadArea, final MathEngine mathEngine) {
+
+		float xPos = item.posX();
+		float yPos = item.posY();
+		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
+			mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					if (--MathEngine.health <= 0) {
+						mathEngine.getGameOverManager().finish();
+					}
+					mathEngine.getHeartManager().setHeartValue(MathEngine.health);
+				}
+			});
+		}
 		super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
-		// float xPos = item.posX();
-		// float yPos = item.posY();
-		// if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos -
-		// PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-		// mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// mathEngine.getGameOverManager().finish();
-		// }
-		// });
-		// }
 	}
 
 	@Override
