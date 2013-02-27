@@ -11,6 +11,7 @@ proguard.cfg
 .project
 .classpath
 .settings
+project.properties
 
 #IntelliJ IDEA
 .idea
