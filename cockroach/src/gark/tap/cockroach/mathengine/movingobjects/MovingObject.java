@@ -166,7 +166,6 @@ public abstract class MovingObject extends BaseObject {
 
 	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		iterator.remove();
-		mathEngine.getLevelManager().removeUnit(object);
 		// TODO
 		if (--MathEngine.health <= 0) {
 			mathEngine.getGameOverManager().finish();
@@ -192,7 +191,6 @@ public abstract class MovingObject extends BaseObject {
 
 	public void forceRemove(final MovingObject item, Iterator<MovingObject> iterator, final MathEngine mathEngine) {
 		iterator.remove();
-		mathEngine.getLevelManager().removeUnit(item);
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override

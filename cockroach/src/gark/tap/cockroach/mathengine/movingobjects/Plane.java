@@ -92,8 +92,6 @@ public class Plane extends MovingObject {
 	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
 //		super.removeObject(object, iterator, mScenePlayArea, mathEngine);
 		iterator.remove();
-		mathEngine.getLevelManager().removeUnit(object);
-
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override

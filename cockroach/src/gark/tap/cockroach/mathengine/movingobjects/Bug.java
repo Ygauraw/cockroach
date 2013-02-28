@@ -48,7 +48,6 @@ public class Bug extends MovingObject {
 				final int SCALE = 5;
 				float wight = mathEngine.getmResourceManager().getSmoke().getWidth() / 2;
 				float height = 2 * mathEngine.getmResourceManager().getSmoke().getHeight();
-				// TODO
 
 				float initCrossX = xPos - wight;
 				float initCrossY = yPos - height;
@@ -68,7 +67,6 @@ public class Bug extends MovingObject {
 
 					@Override
 					public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex, int pNewFrameIndex) {
-						// smoke.setScale(5 * count / (pNewFrameIndex + 1));
 					}
 
 					@Override
@@ -87,9 +85,9 @@ public class Bug extends MovingObject {
 						mathEngine.getScenePlayArea().attachChild(smoke);
 					}
 				});
+//				mathEngine.getLevelManager().removeAllUnits();
 			}
-			super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
-			mathEngine.getLevelManager().removeAllUnits();
+//			super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 		}
 
 	}

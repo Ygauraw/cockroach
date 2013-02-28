@@ -32,41 +32,45 @@ public class LevelManager {
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
-	private MathEngine mathEngine;
+//	private MathEngine mathEngine;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
 			final MathEngine mathEngine) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
-		this.mathEngine = mathEngine;
+//		this.mathEngine = mathEngine;
 		this.gameActivity = gameActivity;
 		startNewLevel(CURENT_LEVEL);
 	}
 
-	public synchronized void removeAllUnits() {
-		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-			final MovingObject item = ((MovingObject) movingIterator.next());
-			item.forceRemove(item, movingIterator, mathEngine);
-		}
-	}
+//	public void removeAllUnits() {
+//		synchronized (listOfVisibleUnits) {
+//			for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
+//				final MovingObject item = ((MovingObject) movingIterator.next());
+//				item.forceRemove(item, movingIterator, mathEngine);
+//			}
+//		}
+//	}
 
-	public synchronized void removeUnit(MovingObject object) {
-		listOfVisibleUnits.remove(object);
-		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
-			++CURENT_LEVEL;
-			startNewLevel(CURENT_LEVEL);
-		}
-	}
+	// public void removeUnit(MovingObject object) {
+	// // listOfVisibleUnits.remove(object);
+	// if (isLevelFinished(queueOfAllLevelUnit.size(),
+	// listOfVisibleUnits.size())) {
+	// ++CURENT_LEVEL;
+	// startNewLevel(CURENT_LEVEL);
+	// }
+	// }
 
-	public synchronized void removeUnit(final float x, final float y, final Scene mScenePlayArea, final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent,
-			final MathEngine mathEngine) {
+	public void removeUnit(final float x, final float y, final Scene mScenePlayArea, final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent, final MathEngine mathEngine) {
 
-		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-			final MovingObject item = ((MovingObject) movingIterator.next());
+		synchronized (listOfVisibleUnits) {
+			for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
+				final MovingObject item = ((MovingObject) movingIterator.next());
 
-			item.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
+				item.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
 
+			}
 		}
 		// if both list are empty - start new level
 		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
@@ -133,14 +137,14 @@ public class LevelManager {
 		return (count1 == 0 && count2 == 0);
 	}
 
-	public void pauseLauncher() {
+	public synchronized void pauseLauncher() {
 		pause = true;
 		for (MovingObject cockroach : listOfVisibleUnits) {
 			cockroach.stopAnimate();
 		}
 	}
 
-	public void resumeLauncher() {
+	public synchronized void resumeLauncher() {
 		// put unit to scene with delay
 		pause = false;
 		for (MovingObject cockroach : listOfVisibleUnits) {
@@ -149,7 +153,7 @@ public class LevelManager {
 		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
 	}
 
-	public void destroyLauncher() {
+	public synchronized void destroyLauncher() {
 		executor.shutdown();
 
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {

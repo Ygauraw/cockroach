@@ -83,8 +83,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 		// scene for cockroach
 		mScenePlayArea = new Scene();
 		mScenePlayArea.setBackgroundEnabled(false);
-		// TODO
-		// mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
+		mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
 
 		mSceneDeadArea.setChildScene(mScenePlayArea);
 
@@ -150,7 +149,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 	@Override
 	public void run() {
-		mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
 		try {
 			while (mAlive) {
 
@@ -182,21 +180,25 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 		// mSceneDeadArea.attachChild(staticObject.getSprite());
 		// }
 
-		while (!levelManager.getStack().isEmpty()) {
-			levelManager.getUnitList().add(levelManager.getStack().pop());
-		}
+		synchronized (levelManager.getUnitList()) {
 
-		for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
-			MovingObject cockroach = (MovingObject) movingIterator.next();
+			while (!levelManager.getStack().isEmpty()) {
+				levelManager.getUnitList().add(levelManager.getStack().pop());
+			}
 
-			cockroach.recoveryAction(mSceneDeadArea, this);
-			cockroach.tact(now, time);
+			for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
+				MovingObject cockroach = (MovingObject) movingIterator.next();
 
-			// remove corpse from bottom
-			if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
-				cockroach.removeObject(cockroach, movingIterator, mScenePlayArea, this);
+				cockroach.recoveryAction(mSceneDeadArea, this);
+				cockroach.tact(now, time);
+
+				// remove corpse from bottom
+				if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
+					cockroach.removeObject(cockroach, movingIterator, mScenePlayArea, this);
+				}
 			}
 		}
+
 		// END cockroach
 
 	}

@@ -68,7 +68,7 @@ public class Heart extends MovingObject {
 	@Override
 	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		iterator.remove();
-		mathEngine.getLevelManager().removeUnit(object);
+//		mathEngine.getLevelManager().removeUnit(object);
 
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
