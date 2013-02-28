@@ -45,12 +45,15 @@ public class Bug extends MovingObject {
 			float xPos = item.posX();
 			float yPos = item.posY();
 			if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-				float wight = mathEngine.getmResourceManager().getSmoke().getWidth();
-				float height = mathEngine.getmResourceManager().getSmoke().getHeight();
+				final int SCALE = 5;
+				float wight = mathEngine.getmResourceManager().getSmoke().getWidth() / 2;
+				float height = 2 * mathEngine.getmResourceManager().getSmoke().getHeight();
 				// TODO
-				smoke = new AnimatedSprite(xPos, yPos, mathEngine.getmResourceManager().getSmoke(), mathEngine.getmResourceManager().getVertexBufferObjectManager());
 
-				smoke.setScale(10f);
+				float initCrossX = xPos - wight;
+				float initCrossY = yPos - height;
+				smoke = new AnimatedSprite(initCrossX, initCrossY, mathEngine.getmResourceManager().getSmoke(), mathEngine.getmResourceManager().getVertexBufferObjectManager());
+				smoke.setScale(SCALE);
 				smoke.animate(animationSpeed, false, new IAnimationListener() {
 
 					@Override
@@ -86,6 +89,7 @@ public class Bug extends MovingObject {
 				});
 			}
 			super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
+			mathEngine.getLevelManager().removeAllUnits();
 		}
 
 	}

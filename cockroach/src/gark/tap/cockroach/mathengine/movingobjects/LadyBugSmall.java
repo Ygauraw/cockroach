@@ -20,7 +20,7 @@ public class LadyBugSmall extends MovingObject {
 		super(point, resourceManager.getLagySmall(), resourceManager.getVertexBufferObjectManager());
 		mMainSprite.animate(animationSpeed);
 		scoreValue = 0;
-		mMainSprite.setScale(0.5f);
+		mMainSprite.setScale(0.5f * Config.SCALE);
 		moving = 200;
 
 	}

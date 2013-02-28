@@ -32,14 +32,23 @@ public class LevelManager {
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
+	private MathEngine mathEngine;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
 			final MathEngine mathEngine) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
 		this.mResourceManager = mResourceManager;
+		this.mathEngine = mathEngine;
 		this.gameActivity = gameActivity;
 		startNewLevel(CURENT_LEVEL);
+	}
+
+	public synchronized void removeAllUnits() {
+		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
+			final MovingObject item = ((MovingObject) movingIterator.next());
+			item.forceRemove(item, movingIterator, mathEngine);
+		}
 	}
 
 	public synchronized void removeUnit(MovingObject object) {

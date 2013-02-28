@@ -24,7 +24,7 @@ import org.andengine.input.touch.TouchEvent;
 import android.graphics.PointF;
 import android.util.Log;
 
-public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneTouchListener {
+public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 	public static final int UPDATE_PERIOD = 40;
 	public static int health = Config.HEALTH_SCORE;
@@ -83,7 +83,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		// scene for cockroach
 		mScenePlayArea = new Scene();
 		mScenePlayArea.setBackgroundEnabled(false);
-		mScenePlayArea.setOnSceneTouchListener(this);
+		// TODO
+		// mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
 
 		mSceneDeadArea.setChildScene(mScenePlayArea);
 
@@ -149,6 +150,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	@Override
 	public void run() {
+		mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
 		try {
 			while (mAlive) {
 
@@ -206,7 +208,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			/* Restart the animation. */
 			mLastUpdateScene = System.currentTimeMillis();
 			this.start();
-			mScenePlayArea.setOnSceneTouchListener(this);
+			mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
 			levelManager.resumeLauncher();
 			mSceneControls.reset();
 			return true;
@@ -240,14 +242,28 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		}
 	};
 
-	@Override
-	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
-			levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mScenePlayArea, mSceneDeadArea, pSceneTouchEvent, this);
-			return true;
+	final IOnSceneTouchListener iOnSceneTouchListener = new IOnSceneTouchListener() {
+
+		@Override
+		public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+			if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
+				levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), mScenePlayArea, mSceneDeadArea, pSceneTouchEvent, MathEngine.this);
+				return true;
+			}
+			return false;
 		}
-		return false;
-	}
+	};
+
+	// @Override
+	// public boolean onSceneTouchEvent(Scene pScene, TouchEvent
+	// pSceneTouchEvent) {
+	// if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
+	// levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(),
+	// mScenePlayArea, mSceneDeadArea, pSceneTouchEvent, this);
+	// return true;
+	// }
+	// return false;
+	// }
 
 	public GameActivity getGameActivity() {
 		return gameActivity;
@@ -271,6 +287,10 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	public Scene getScenePlayArea() {
 		return mScenePlayArea;
+	}
+
+	public Scene getSceneDeadArea() {
+		return mSceneDeadArea;
 	}
 
 }

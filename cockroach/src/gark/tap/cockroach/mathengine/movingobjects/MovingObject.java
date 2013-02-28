@@ -190,4 +190,32 @@ public abstract class MovingObject extends BaseObject {
 
 	}
 
+	public void forceRemove(final MovingObject item, Iterator<MovingObject> iterator, final MathEngine mathEngine) {
+		iterator.remove();
+		mathEngine.getLevelManager().removeUnit(item);
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+				item.getMainSprite().clearEntityModifiers();
+				item.getMainSprite().clearUpdateHandlers();
+				mathEngine.getScenePlayArea().detachChild(item.getMainSprite());
+				mathEngine.getScenePlayArea().unregisterTouchArea(item.getMainSprite());
+
+			}
+		});
+
+		float xPos = item.posX();
+		float yPos = item.posY();
+
+		StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mathEngine.getmResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
+				.getVertexBufferObjectManager());
+		deadObject.setDeadObject(item.getClass().getName());
+		deadObject.setRotation(item.getMainSprite().getRotation());
+		// DeadManager.getStackDeadUnits().add(deadObject);
+		DeadManager.add(deadObject);
+		// // attach dead cockroach to scene background
+		mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
+	}
+
 }
