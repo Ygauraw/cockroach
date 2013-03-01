@@ -1,11 +1,9 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
-import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 
-import java.util.Iterator;
+import java.util.Arrays;
 
-import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.input.touch.TouchEvent;
@@ -16,19 +14,20 @@ public class Bug extends MovingObject {
 
 	float xDistance = 0;
 	float oneStep = 0;
-	AnimatedSprite smoke;
+	private AnimatedSprite smoke;
 
-	public Bug(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getBug(), resourceManager.getVertexBufferObjectManager());
+	public Bug(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getBug(), mathEngine);
 		mMainSprite.animate(animationSpeed / 2);
 		scoreValue = 0;
-		// mMainSprite.setScale(0.5f);
+		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		moving = 200;
 
 	}
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
 		setY(posY() + distance);
@@ -38,58 +37,54 @@ public class Bug extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			final Scene mSceneDeadArea, final MathEngine mathEngine) {
+	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
-		if (pSceneTouchEvent.isActionDown()) {
-			float xPos = item.posX();
-			float yPos = item.posY();
-			if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-				final int SCALE = 5;
-				float wight = mathEngine.getmResourceManager().getSmoke().getWidth() / 2;
-				float height = 2 * mathEngine.getmResourceManager().getSmoke().getHeight();
+		final int SCALE = 5;
+		float wight = mathEngine.getResourceManager().getSmoke().getWidth() / 2;
+		float height = 2 * mathEngine.getResourceManager().getSmoke().getHeight();
 
-				float initCrossX = xPos - wight;
-				float initCrossY = yPos - height;
-				smoke = new AnimatedSprite(initCrossX, initCrossY, mathEngine.getmResourceManager().getSmoke(), mathEngine.getmResourceManager().getVertexBufferObjectManager());
-				smoke.setScale(SCALE);
-				smoke.animate(animationSpeed, false, new IAnimationListener() {
+		float initCrossX = posX() - wight;
+		float initCrossY = posY() - height;
+		smoke = new AnimatedSprite(initCrossX, initCrossY, mathEngine.getResourceManager().getSmoke(), mathEngine.getResourceManager().getVertexBufferObjectManager());
+		smoke.setScale(SCALE);
+		smoke.animate(animationSpeed, false, new IAnimationListener() {
 
-					@Override
-					public void onAnimationStarted(AnimatedSprite pAnimatedSprite, int pInitialLoopCount) {
+			@Override
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite, int pInitialLoopCount) {
 
-					}
+			}
 
-					@Override
-					public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite, int pRemainingLoopCount, int pInitialLoopCount) {
+			@Override
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite, int pRemainingLoopCount, int pInitialLoopCount) {
 
-					}
+			}
 
-					@Override
-					public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex, int pNewFrameIndex) {
-					}
+			@Override
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex, int pNewFrameIndex) {
+			}
 
-					@Override
-					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-						mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								mathEngine.getScenePlayArea().detachChild(smoke);
-							}
-						});
-					}
-				});
+			@Override
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				mathEngine.getGameActivity().runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						mathEngine.getScenePlayArea().attachChild(smoke);
+						mathEngine.getScenePlayArea().detachChild(smoke);
 					}
 				});
-//				mathEngine.getLevelManager().removeAllUnits();
 			}
-//			super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
-		}
+		});
+		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mathEngine.getScenePlayArea().attachChild(smoke);
+			}
+		});
 
+		super.calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
+
+		for (MovingObject item : mathEngine.getLevelManager().getUnitList()) {
+			item.needToDelete = true;
+		}
 	}
 
 }

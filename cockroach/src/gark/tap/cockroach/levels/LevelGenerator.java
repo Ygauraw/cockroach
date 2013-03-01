@@ -1,22 +1,20 @@
 package gark.tap.cockroach.levels;
 
-import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.unitgroup.UnionUnits;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedList;
 import java.util.Queue;
 
 public class LevelGenerator {
-	public static final int LEVEL_COUNT = 4;
-	private static final Queue<MovingObject> queue = new LinkedList<MovingObject>();
+	public static final int LEVEL_COUNT = 1;
+	// private static Queue<MovingObject> queue ;
 	private static UnionUnits unionUnits;
 
-	public static Queue<MovingObject> getUnitList(int level, ResourceManager mResourceManager) {
-
+	public static Queue<MovingObject> fillContent(int level, MathEngine mathEngine, Queue<MovingObject> queue) {
 		queue.clear();
 
 		int unionHealth = 0;
@@ -28,8 +26,8 @@ public class LevelGenerator {
 
 			try {
 				Class<?> clazz = Class.forName("gark.tap.cockroach.unitgroup.UnionUnits" + randomLevel);
-				Constructor<?> constructor = clazz.getConstructor(ResourceManager.class);
-				unionUnits = (UnionUnits) constructor.newInstance(new Object[] { mResourceManager });
+				Constructor<?> constructor = clazz.getConstructor(MathEngine.class);
+				unionUnits = (UnionUnits) constructor.newInstance(new Object[] { mathEngine });
 				queue.addAll(unionUnits.getUnionUnits());
 
 				unionHealth += unionUnits.getHealth();
@@ -53,7 +51,7 @@ public class LevelGenerator {
 		return queue;
 	}
 
-	public static void clearList() {
+	public static void clearList(Queue<MovingObject> queue) {
 		queue.clear();
 	}
 }

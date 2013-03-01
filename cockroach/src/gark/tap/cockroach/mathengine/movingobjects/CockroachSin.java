@@ -1,22 +1,23 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import android.graphics.PointF;
 
 public class CockroachSin extends MovingObject {
 	float prevX;
 	float relationPosition;
 
-	public CockroachSin(PointF point, ResourceManager resourceManager, float relationPosition) {
-		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+	public CockroachSin(PointF point, MathEngine mathEngine, float relationPosition) {
+		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
-		
+
 		this.relationPosition = relationPosition;
 	}
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		int coef = (int) (Config.CAMERA_WIDTH * relationPosition);
 

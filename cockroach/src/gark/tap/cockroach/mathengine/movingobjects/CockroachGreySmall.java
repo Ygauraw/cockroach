@@ -1,7 +1,7 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
@@ -10,8 +10,8 @@ public class CockroachGreySmall extends MovingObject {
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public CockroachGreySmall(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getGreyCockroach(), resourceManager.getVertexBufferObjectManager());
+	public CockroachGreySmall(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getGreyCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		setMoving(400f);
 		moving = 200;
@@ -20,6 +20,7 @@ public class CockroachGreySmall extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
 

@@ -9,6 +9,7 @@ import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
@@ -17,7 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.andengine.entity.scene.Scene;
-import org.andengine.input.touch.TouchEvent;
+
+import android.util.Log;
 
 public class LevelManager {
 
@@ -25,33 +27,34 @@ public class LevelManager {
 	private static boolean pause;
 
 	private Scene mScenePlayArea;
-	private ResourceManager mResourceManager;
-	private GameActivity gameActivity;
-	private Queue<MovingObject> queueOfAllLevelUnit;
-	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new ArrayList<MovingObject>());;
+	// private ResourceManager mResourceManager;
+	// private GameActivity gameActivity;
+	private Queue<MovingObject> queueOfAllLevelUnit = new MyLinkedList<MovingObject>();;
+	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new MyArrayList<MovingObject>());;
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
-//	private MathEngine mathEngine;
+	private MathEngine mathEngine;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
 			final MathEngine mathEngine) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
-		this.mResourceManager = mResourceManager;
-//		this.mathEngine = mathEngine;
-		this.gameActivity = gameActivity;
+		// this.mResourceManager = mResourceManager;
+		this.mathEngine = mathEngine;
+		// this.gameActivity = gameActivity;
 		startNewLevel(CURENT_LEVEL);
 	}
 
-//	public void removeAllUnits() {
-//		synchronized (listOfVisibleUnits) {
-//			for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-//				final MovingObject item = ((MovingObject) movingIterator.next());
-//				item.forceRemove(item, movingIterator, mathEngine);
-//			}
-//		}
-//	}
+	// public void removeAllUnits() {
+	// synchronized (listOfVisibleUnits) {
+	// for (Iterator<MovingObject> movingIterator =
+	// listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
+	// final MovingObject item = ((MovingObject) movingIterator.next());
+	// item.forceRemove(item, movingIterator, mathEngine);
+	// }
+	// }
+	// }
 
 	// public void removeUnit(MovingObject object) {
 	// // listOfVisibleUnits.remove(object);
@@ -62,22 +65,27 @@ public class LevelManager {
 	// }
 	// }
 
-	public void removeUnit(final float x, final float y, final Scene mScenePlayArea, final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent, final MathEngine mathEngine) {
-
-		synchronized (listOfVisibleUnits) {
-			for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-				final MovingObject item = ((MovingObject) movingIterator.next());
-
-				item.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
-
-			}
-		}
-		// if both list are empty - start new level
-		if (isLevelFinished(queueOfAllLevelUnit.size(), listOfVisibleUnits.size())) {
-			++CURENT_LEVEL;
-			startNewLevel(CURENT_LEVEL);
-		}
-	}
+	// public void removeUnit(final float x, final float y, final Scene
+	// mScenePlayArea, final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent,
+	// final MathEngine mathEngine) {
+	//
+	// synchronized (listOfVisibleUnits) {
+	// for (Iterator<MovingObject> movingIterator =
+	// listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
+	// final MovingObject item = ((MovingObject) movingIterator.next());
+	//
+	// item.calculateRemove(item, movingIterator, x, y, mScenePlayArea,
+	// pSceneTouchEvent, mSceneDeadArea, mathEngine);
+	//
+	// }
+	// }
+	// // if both list are empty - start new level
+	// if (isLevelFinished(queueOfAllLevelUnit.size(),
+	// listOfVisibleUnits.size())) {
+	// ++CURENT_LEVEL;
+	// startNewLevel(CURENT_LEVEL);
+	// }
+	// }
 
 	final Runnable runnable = new Runnable() {
 		@Override
@@ -93,7 +101,7 @@ public class LevelManager {
 
 		Config.SPEED += 10;
 		levelListener.getCurrentVawe(CURENT_LEVEL);
-		queueOfAllLevelUnit = LevelGenerator.getUnitList(CURENT_LEVEL, mResourceManager);
+		LevelGenerator.fillContent(CURENT_LEVEL, mathEngine, queueOfAllLevelUnit);
 
 		resumeLauncher();
 
@@ -108,14 +116,8 @@ public class LevelManager {
 
 	public void addCockroach(final MovingObject item) {
 		stackUnits.add(item);
-
-		this.gameActivity.runOnUpdateThread(new Runnable() {
-
-			@Override
-			public void run() {
-				mScenePlayArea.attachChild(item.getMainSprite());
-			}
-		});
+		mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
+		mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());
 	}
 
 	/**
@@ -134,6 +136,7 @@ public class LevelManager {
 	 * @return
 	 */
 	private boolean isLevelFinished(int count1, int count2) {
+		Log.e("", "" + count1 + " " + count2);
 		return (count1 == 0 && count2 == 0);
 	}
 
@@ -167,12 +170,64 @@ public class LevelManager {
 		return listOfVisibleUnits;
 	}
 
+	public Queue<MovingObject> getQueueOfAllLevelUnit() {
+		return queueOfAllLevelUnit;
+	}
+
 	public static void setCURENT_LEVEL(int cURENT_LEVEL) {
 		CURENT_LEVEL = cURENT_LEVEL;
 	}
 
 	public Stack<MovingObject> getStack() {
 		return stackUnits;
+	}
+
+	public class MyArrayList<E> extends ArrayList<MovingObject> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public boolean remove(Object object) {
+			boolean movingObject = super.remove(object);
+			if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
+				++CURENT_LEVEL;
+				startNewLevel(CURENT_LEVEL);
+			}
+			return movingObject;
+		}
+
+		@Override
+		public int size() {
+			return super.size();
+		}
+
+	}
+
+	public class MyLinkedList<E> extends LinkedList<MovingObject> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public MovingObject poll() {
+			MovingObject movingObject = super.poll();
+			if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
+				++CURENT_LEVEL;
+				startNewLevel(CURENT_LEVEL);
+			}
+			return movingObject;
+		}
+
+		@Override
+		public int size() {
+			return super.size();
+		}
+
 	}
 
 }

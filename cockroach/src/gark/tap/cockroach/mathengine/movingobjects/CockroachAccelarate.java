@@ -1,7 +1,7 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import android.graphics.PointF;
 
 public class CockroachAccelarate extends MovingObject {
@@ -10,13 +10,14 @@ public class CockroachAccelarate extends MovingObject {
 	private boolean isDecseleration = false;
 	private static final int ACCELERATION = 6;
 
-	public CockroachAccelarate(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+	public CockroachAccelarate(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 	}
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		if (posX() < (0 + getWidth() / 3 / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / 3 / Config.SCALE))
 			setmShiftX(-getShiftX());

@@ -1,14 +1,13 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
+import gark.tap.cockroach.Config;
+import gark.tap.cockroach.mathengine.MathEngine;
+import gark.tap.cockroach.mathengine.Utils;
+
 import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
-import org.andengine.input.touch.TouchEvent;
 
-import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.MathEngine;
-import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
 public class LadyBugSmall extends MovingObject {
@@ -16,8 +15,8 @@ public class LadyBugSmall extends MovingObject {
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public LadyBugSmall(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getLagySmall(), resourceManager.getVertexBufferObjectManager());
+	public LadyBugSmall(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getLagySmall(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		scoreValue = 0;
 		mMainSprite.setScale(0.5f * Config.SCALE);
@@ -27,6 +26,7 @@ public class LadyBugSmall extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
 
@@ -47,23 +47,19 @@ public class LadyBugSmall extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			Scene mSceneDeadArea, final MathEngine mathEngine) {
+	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
-		float xPos = item.posX();
-		float yPos = item.posY();
-		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-			mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if (--MathEngine.health <= 0) {
-						mathEngine.getGameOverManager().finish();
-					}
-					mathEngine.getHeartManager().setHeartValue(MathEngine.health);
+		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (--MathEngine.health <= 0) {
+					mathEngine.getGameOverManager().finish();
 				}
-			});
-		}
-		super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
+				mathEngine.getHeartManager().setHeartValue(MathEngine.health);
+			}
+		});
+
+		super.calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
 	}
 
 	@Override

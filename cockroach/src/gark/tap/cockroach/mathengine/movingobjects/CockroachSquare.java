@@ -1,10 +1,11 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
+import gark.tap.cockroach.Config;
+import gark.tap.cockroach.mathengine.MathEngine;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
-import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
 import android.graphics.PointF;
 
 public class CockroachSquare extends MovingObject {
@@ -14,12 +15,12 @@ public class CockroachSquare extends MovingObject {
 	float oneStep = 0;
 	private Queue<Integer> angles;
 
-	public CockroachSquare(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+	public CockroachSquare(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 
 		moving = 400;
-		
+
 		angles = new LinkedList<Integer>();
 		angles.add(0);
 		angles.add(-90);
@@ -30,6 +31,7 @@ public class CockroachSquare extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
 		oneStep += distance;

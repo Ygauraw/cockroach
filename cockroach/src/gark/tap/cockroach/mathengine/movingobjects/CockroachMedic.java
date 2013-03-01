@@ -17,10 +17,12 @@ public class CockroachMedic extends MovingObject {
 
 	protected Sprite mRadar;
 	private final int MAX_SCALE = 10;
+	private ResourceManager resourceManager;
 
-	public CockroachMedic(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCockroach(), resourceManager.getVertexBufferObjectManager());
+	public CockroachMedic(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
+		this.resourceManager = mathEngine.getResourceManager();
 
 		float initCrossX = mMainSprite.getWidth() / 2 - resourceManager.getRedCross().getWidth() / 2;
 		float initCrossY = mMainSprite.getHeight() / 2 - resourceManager.getRedCross().getHeight() / 2;
@@ -37,6 +39,7 @@ public class CockroachMedic extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float radarScale = (float) (posY() % (0.1 * Config.CAMERA_HEIGHT)) / 100;
 		mRadar.setScale(MAX_SCALE * radarScale);
@@ -65,10 +68,10 @@ public class CockroachMedic extends MovingObject {
 				// recovery corpse
 				MovingObject riseCockroach = null;
 				try {
-					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer.getmResourceManager());
+					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer);
 				} catch (Exception e) {
 					e.printStackTrace();
-					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer.getmResourceManager());
+					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer);
 					riseCockroach.isRecovered = true;
 				}
 				mathEnginer.getLevelManager().reanimateCockroach(riseCockroach);

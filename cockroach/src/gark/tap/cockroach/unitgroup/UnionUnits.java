@@ -1,16 +1,16 @@
 package gark.tap.cockroach.unitgroup;
 
-import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
 import java.util.Queue;
 
 public abstract class UnionUnits {
 
-	protected ResourceManager mResourceManager;
+	protected MathEngine mathEngine;
 
-	public UnionUnits(ResourceManager mResourceManager) {
-		this.mResourceManager = mResourceManager;
+	public UnionUnits(MathEngine mathEngine) {
+		this.mathEngine = mathEngine;
 	}
 
 	public abstract Queue<MovingObject> getUnionUnits();

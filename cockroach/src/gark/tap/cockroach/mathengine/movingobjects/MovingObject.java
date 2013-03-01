@@ -7,18 +7,20 @@ import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 import gark.tap.cockroach.units.BaseObject;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.graphics.PointF;
 
 public abstract class MovingObject extends BaseObject {
+	private MathEngine mathEngine;
 
 	protected static final int PRESS_RANGE = Config.CAMERA_WIDTH / 7;
 
@@ -36,18 +38,32 @@ public abstract class MovingObject extends BaseObject {
 	protected int mHealth = 0;
 	protected int scoreValue = 1;
 	protected boolean isRecovered = false;
+	protected List<Integer> touches = Arrays.asList(TouchEvent.ACTION_DOWN, TouchEvent.ACTION_MOVE);
+	protected boolean needToDelete = false;
 
-	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
-
+	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, final MathEngine mathEngine) {
+		this.mathEngine = mathEngine;
 		mPoint = point;
 		mNextPoint = point;
 
 		mPointOffset = new PointF(mainTextureRegion.getWidth() / 2, mainTextureRegion.getHeight() / 2);
 		moving = 100;
 
-		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, vertexBufferObjectManager);
+		mMainSprite = new AnimatedSprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, mainTextureRegion, mathEngine.getResourceManager().getVertexBufferObjectManager()) {
+
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				if (touches.contains(pSceneTouchEvent.getAction())) {
+					calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
+					return true;
+				}
+				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+			}
+
+		};
+
 		// speed animation
-		mSpeed = /* Utils.generateRandomPositive(300f, 400f) */Config.SPEED * Config.SCALE;
+		mSpeed = Config.SPEED * Config.SCALE;
 		mMainSprite.setScale(Config.SCALE);
 	}
 
@@ -120,99 +136,60 @@ public abstract class MovingObject extends BaseObject {
 		return this.mMainSprite.getWidth();
 	}
 
-	public abstract void tact(long now, long period);
+	public void tact(long now, long period) {
+		if (needToDelete) {
+			MathEngine.SCORE += scoreValue;
+			mathEngine.getLevelManager().getUnitList().remove(MovingObject.this);
+			eraseData(mathEngine);
+			mathEngine.getResourceManager().getSoudOnTap().play();
+			// create dead cockroach
+			attachCorpse(mathEngine);
+		}
+	};
 
-	public void calculateRemove(final MovingObject item, final Iterator<MovingObject> movingIterator, final float x, final float y, final Scene mScenePlayArea,
-			final TouchEvent pSceneTouchEvent, final Scene mSceneDeadArea, final MathEngine mathEngine) {
+	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
-		float xPos = item.posX();
-		float yPos = item.posY();
-
-		// remove near cockroaches
-		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-			if (item.getHealth() <= 0) {
-
-				movingIterator.remove();
-				MathEngine.SCORE += scoreValue;
-				// remove from UI
-				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-					@Override
-					public void run() {
-						mScenePlayArea.detachChild(item.getMainSprite());
-						mScenePlayArea.unregisterTouchArea(item.getMainSprite());
-						item.getMainSprite().detachChildren();
-						item.getMainSprite().clearEntityModifiers();
-						item.getMainSprite().clearUpdateHandlers();
-
-					}
-				});
-
-				mathEngine.getmResourceManager().getSoudOnTap().play();
-				// create dead cockroach
-
-				StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mathEngine.getmResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
-						.getVertexBufferObjectManager());
-				deadObject.setDeadObject(item.getClass().getName());
-				deadObject.setRotation(item.getMainSprite().getRotation());
-				// DeadManager.getStackDeadUnits().add(deadObject);
-				DeadManager.add(deadObject);
-				// // attach dead cockroach to scene background
-				mSceneDeadArea.attachChild(deadObject.getSprite());
-			} else {
-				item.setHealth(item.getHealth() - 1);
-			}
+		if (getHealth() <= 0) {
+			MathEngine.SCORE += scoreValue;
+			mathEngine.getLevelManager().getUnitList().remove(MovingObject.this);
+			eraseData(mathEngine);
+			mathEngine.getResourceManager().getSoudOnTap().play();
+			
+			attachCorpse(mathEngine);
+		} else {
+			setHealth(getHealth() - 1);
 		}
 	};
 
 	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		iterator.remove();
-		// TODO
 		if (--MathEngine.health <= 0) {
 			mathEngine.getGameOverManager().finish();
 		}
 		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 
-		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-
-			@Override
-			public void run() {
-				object.getMainSprite().clearEntityModifiers();
-				object.getMainSprite().clearUpdateHandlers();
-				mScenePlayArea.detachChild(object.getMainSprite());
-				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
-
-			}
-		});
+		eraseData(mathEngine);
+		iterator.remove();
 	}
 
 	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
 	}
 
-	public void forceRemove(final MovingObject item, Iterator<MovingObject> iterator, final MathEngine mathEngine) {
-		iterator.remove();
-		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+	protected void eraseData(final MathEngine mathEngine) {
 
-			@Override
-			public void run() {
-				item.getMainSprite().clearEntityModifiers();
-				item.getMainSprite().clearUpdateHandlers();
-				mathEngine.getScenePlayArea().detachChild(item.getMainSprite());
-				mathEngine.getScenePlayArea().unregisterTouchArea(item.getMainSprite());
+		mathEngine.getScenePlayArea().detachChild(mMainSprite);
+		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
+		mMainSprite.detachChildren();
+		mMainSprite.clearEntityModifiers();
+		mMainSprite.clearUpdateHandlers();
+	}
 
-			}
-		});
-
-		float xPos = item.posX();
-		float yPos = item.posY();
-
-		StaticObject deadObject = new BackgroundObject(new PointF(xPos, yPos), mathEngine.getmResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
+	protected void attachCorpse(final MathEngine mathEngine) {
+		StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), mathEngine.getResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
 				.getVertexBufferObjectManager());
-		deadObject.setDeadObject(item.getClass().getName());
-		deadObject.setRotation(item.getMainSprite().getRotation());
-		// DeadManager.getStackDeadUnits().add(deadObject);
+		deadObject.setDeadObject(getClass().getName());
+		deadObject.setRotation(getMainSprite().getRotation());
 		DeadManager.add(deadObject);
-		// // attach dead cockroach to scene background
 		mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
 	}
 

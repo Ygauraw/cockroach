@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.PointF;
@@ -20,9 +19,11 @@ public class Plane extends MovingObject {
 	float prevX;
 	private Bonus[] bonusArray;
 	private int position;
+	private ResourceManager resourceManager;
 
-	public Plane(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getPlane(), resourceManager.getVertexBufferObjectManager());
+	public Plane(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getPlane(), mathEngine);
+		this.resourceManager = mathEngine.getResourceManager();
 		setMoving(moving * 2);
 
 		Bonus bonus0 = new Bonus(10, resourceManager.get10Bonus());
@@ -44,6 +45,7 @@ public class Plane extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		int coef = (int) (Config.CAMERA_WIDTH * 0.5f);
 
@@ -61,68 +63,19 @@ public class Plane extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, final Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			Scene mSceneDeadArea, final MathEngine mathEngine) {
-
-		float xPos = item.posX();
-		float yPos = item.posY();
-
-		// remove near cockroaches
-		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-
-			movingIterator.remove();
-			// remove from UI
-			MathEngine.SCORE += bonusArray[position].getValue();
-
-			mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-				@Override
-				public void run() {
-					mScenePlayArea.detachChild(item.getMainSprite());
-					mScenePlayArea.unregisterTouchArea(item.getMainSprite());
-					item.getMainSprite().detachChildren();
-					item.getMainSprite().clearEntityModifiers();
-					item.getMainSprite().clearUpdateHandlers();
-
-				}
-			});
-
-		}
+	public void calculateRemove(MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		mathEngine.getLevelManager().getUnitList().remove(this);
+		MathEngine.SCORE += bonusArray[position].getValue();
+		eraseData(mathEngine);
 	}
+
 	@Override
 	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-//		super.removeObject(object, iterator, mScenePlayArea, mathEngine);
+		// super.removeObject(object, iterator, mScenePlayArea, mathEngine);
 		iterator.remove();
-		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-
-			@Override
-			public void run() {
-				object.getMainSprite().clearEntityModifiers();
-				object.getMainSprite().clearUpdateHandlers();
-				mScenePlayArea.detachChild(object.getMainSprite());
-				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
-
-			}
-		});
+		eraseData(mathEngine);
 
 	}
-
-//	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final LevelManager levelManager, final GameOverManager gameOverManager,
-//			final HeartManager heartManager, final GameActivity gameActivity, final Scene mScenePlayArea) {
-//		iterator.remove();
-//		levelManager.removeUnit(object);
-//
-//		gameActivity.runOnUpdateThread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				object.getMainSprite().clearEntityModifiers();
-//				object.getMainSprite().clearUpdateHandlers();
-//				mScenePlayArea.detachChild(object.getMainSprite());
-//				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
-//
-//			}
-//		});
-//	}
 
 	public class Bonus {
 		private int value;

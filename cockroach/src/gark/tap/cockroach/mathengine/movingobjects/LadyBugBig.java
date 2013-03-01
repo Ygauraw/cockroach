@@ -1,14 +1,12 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
 import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
-import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 
@@ -17,8 +15,8 @@ public class LadyBugBig extends MovingObject {
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public LadyBugBig(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getLagyBug(), resourceManager.getVertexBufferObjectManager());
+	public LadyBugBig(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getLagyBug(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(0.75f * Config.SCALE);
 		moving = 200;
@@ -28,6 +26,7 @@ public class LadyBugBig extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
 
@@ -48,24 +47,16 @@ public class LadyBugBig extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			Scene mSceneDeadArea, final MathEngine mathEngine) {
+	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
 
-		float xPos = item.posX();
-		float yPos = item.posY();
+			@Override
+			public void run() {
+				mathEngine.getGameOverManager().finish();
+			}
+		});
 
-		// remove near cockroaches
-		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-			mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					mathEngine.getGameOverManager().finish();
-				}
-			});
-		}
-
-		super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
+		super.calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
 	}
 
 	@Override

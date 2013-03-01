@@ -1,7 +1,7 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 import android.graphics.PointF;
 
@@ -10,8 +10,8 @@ public class CockroachFly extends MovingObject {
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public CockroachFly(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getmCockroachFly(), resourceManager.getVertexBufferObjectManager());
+	public CockroachFly(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getmCockroachFly(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 //		mMainSprite.setScale(0.5f);
 		// setMoving(400f);
@@ -21,6 +21,7 @@ public class CockroachFly extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
 

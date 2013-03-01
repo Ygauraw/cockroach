@@ -1,14 +1,14 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
-import java.util.Iterator;
-
-import org.andengine.entity.scene.Scene;
-import org.andengine.input.touch.TouchEvent;
+import java.util.Arrays;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
+
+import org.andengine.input.touch.TouchEvent;
+
 import android.graphics.PointF;
 
 public class CockroachHandsUp extends MovingObject {
@@ -23,11 +23,12 @@ public class CockroachHandsUp extends MovingObject {
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public CockroachHandsUp(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getCockroachHandsUP(), resourceManager.getVertexBufferObjectManager());
+	public CockroachHandsUp(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getCockroachHandsUP(), mathEngine);
 
-		this.resourceManager = resourceManager;
+		this.resourceManager = mathEngine.getResourceManager();
 		setHealth(1);
+		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		// setMoving(100f);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.animate(durationMinimazed, framesMinimazed, true);
@@ -37,6 +38,7 @@ public class CockroachHandsUp extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		if (getHealth() > 0) {
 
@@ -73,17 +75,5 @@ public class CockroachHandsUp extends MovingObject {
 
 	}
 
-	@Override
-	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			final Scene mSceneDeadArea, final MathEngine mathEngine) {
-		if (pSceneTouchEvent.isActionDown()) {
-			super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
-		}
-	}
-
-	@Override
-	public void removeObject(MovingObject object, Iterator<MovingObject> iterator, Scene mScenePlayArea, MathEngine mathEngine) {
-		super.removeObject(object, iterator, mScenePlayArea, mathEngine);
-	}
 
 }

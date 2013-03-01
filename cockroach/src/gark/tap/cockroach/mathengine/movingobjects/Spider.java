@@ -1,13 +1,11 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
+import java.util.Arrays;
+
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
-import java.util.Iterator;
-
-import org.andengine.entity.scene.Scene;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
@@ -17,9 +15,10 @@ public class Spider extends MovingObject {
 	float xDistance = 0;
 	float oneStep = 0;
 
-	public Spider(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getSpider(), resourceManager.getVertexBufferObjectManager());
+	public Spider(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getSpider(), mathEngine);
 		setHealth(2);
+		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(1.5f * Config.SCALE);
 
@@ -27,6 +26,7 @@ public class Spider extends MovingObject {
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		if (posX() < (0 + getWidth() / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / Config.SCALE)) {
 			xDistance = -xDistance;
@@ -48,14 +48,6 @@ public class Spider extends MovingObject {
 		setX(posX() + xDistance);
 
 		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
-	}
-
-	@Override
-	public void calculateRemove(MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			final Scene mSceneDeadArea, final MathEngine mathEngine) {
-		if (pSceneTouchEvent.isActionDown()) {
-			super.calculateRemove(item, movingIterator, x, y, mScenePlayArea, pSceneTouchEvent, mSceneDeadArea, mathEngine);
-		}
 	}
 
 }

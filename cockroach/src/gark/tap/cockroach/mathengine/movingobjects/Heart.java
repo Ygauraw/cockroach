@@ -1,26 +1,24 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 
 import java.util.Iterator;
 
 import org.andengine.entity.scene.Scene;
-import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 
 public class Heart extends MovingObject {
 
-	public Heart(PointF point, ResourceManager resourceManager) {
-		super(point, resourceManager.getHeartAnimated(), resourceManager.getVertexBufferObjectManager());
+	public Heart(PointF point, MathEngine mathEngine) {
+		super(point, mathEngine.getResourceManager().getHeartAnimated(), mathEngine);
 		setMoving(moving * 2);
-		// stopAnimate();
 	}
 
 	@Override
 	public void tact(long now, long period) {
+		super.tact(now, period);
 
 		int coef = (int) (Config.CAMERA_WIDTH * 0.5f);
 		float distance = (float) period / 1000 * getMoving();
@@ -32,46 +30,24 @@ public class Heart extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(final MovingObject item, Iterator<MovingObject> movingIterator, float x, float y, final Scene mScenePlayArea, TouchEvent pSceneTouchEvent,
-			Scene mSceneDeadArea, final MathEngine mathEngine) {
+	public void calculateRemove(MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		mathEngine.getLevelManager().getUnitList().remove(this);
+		mathEngine.getScenePlayArea().detachChild(mMainSprite);
+		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
+		mMainSprite.detachChildren();
+		mMainSprite.clearEntityModifiers();
+		mMainSprite.clearUpdateHandlers();
 
-		float xPos = item.posX();
-		float yPos = item.posY();
-
-		// remove near cockroaches
-		if ((xPos - PRESS_RANGE < x && xPos + PRESS_RANGE > x) && (yPos - PRESS_RANGE < y && yPos + PRESS_RANGE > y)) {
-
-			movingIterator.remove();
-			// TODO
-			// remove from UI
-			if (mathEngine.getHeartManager().getLiveCount() < Config.HEALTH_SCORE) {
-				mathEngine.getHeartManager().setHeartValue(++MathEngine.health);
-			}
-
-			mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-				@Override
-				public void run() {
-					mScenePlayArea.detachChild(item.getMainSprite());
-					mScenePlayArea.unregisterTouchArea(item.getMainSprite());
-					item.getMainSprite().detachChildren();
-					item.getMainSprite().clearEntityModifiers();
-					item.getMainSprite().clearUpdateHandlers();
-
-				}
-			});
-
-			mathEngine.getmResourceManager().getSoudOnTap().play();
-			// create dead cockroach
+		if (mathEngine.getHeartManager().getLiveCount() < Config.HEALTH_SCORE) {
+			mathEngine.getHeartManager().setHeartValue(++MathEngine.health);
 		}
+
 	}
 
 	@Override
 	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		iterator.remove();
-//		mathEngine.getLevelManager().removeUnit(object);
-
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-
 			@Override
 			public void run() {
 				object.getMainSprite().clearEntityModifiers();
