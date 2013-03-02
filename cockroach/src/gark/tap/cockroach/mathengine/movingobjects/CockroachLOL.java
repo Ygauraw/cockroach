@@ -6,9 +6,9 @@ import android.graphics.PointF;
 
 public class CockroachLOL extends MovingObject {
 	float prevX;
-	float relationPosition;
+	Float relationPosition;
 
-	public CockroachLOL(PointF point, MathEngine mathEngine, float relationPosition) {
+	public CockroachLOL(PointF point, MathEngine mathEngine, Float relationPosition) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		this.relationPosition = relationPosition;
 		mMainSprite.animate(animationSpeed);

@@ -170,18 +170,17 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 		final long now = System.currentTimeMillis();
 		textManager.setScore(Config.SCORE.concat(String.valueOf(SCORE)));
-		// mResourceManager.getScoreText().setText(Config.SCORE + SCORE);
 
 		// tact cockroach start
 
-		// while (!DeadManager.getStackDeadUnits().isEmpty()) {
-		// StaticObject staticObject = DeadManager.getStackDeadUnits().pop();
-		// DeadManager.add(staticObject);
-		// // attach dead cockroach to scene background
-		// mSceneDeadArea.attachChild(staticObject.getSprite());
-		// }
 
 		synchronized (levelManager.getUnitList()) {
+
+			while (!levelManager.getStackUnitsForRemove().isEmpty()) {
+				levelManager.getUnitList().remove(levelManager.getStackUnitsForRemove().pop());
+			}
+
+			
 			while (!levelManager.getStack().isEmpty()) {
 				levelManager.getUnitList().add(levelManager.getStack().pop());
 			}

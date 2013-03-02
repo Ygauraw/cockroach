@@ -8,7 +8,7 @@ public class CockroachSin extends MovingObject {
 	float prevX;
 	float relationPosition;
 
-	public CockroachSin(PointF point, MathEngine mathEngine, float relationPosition) {
+	public CockroachSin(PointF point, MathEngine mathEngine, Float relationPosition) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 

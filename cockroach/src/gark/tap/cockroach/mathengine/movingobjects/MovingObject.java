@@ -139,7 +139,7 @@ public abstract class MovingObject extends BaseObject {
 	public void tact(long now, long period) {
 		if (needToDelete) {
 			MathEngine.SCORE += scoreValue;
-			mathEngine.getLevelManager().getUnitList().remove(MovingObject.this);
+			mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 			eraseData(mathEngine);
 			mathEngine.getResourceManager().getSoudOnTap().play();
 			// create dead cockroach
@@ -151,7 +151,7 @@ public abstract class MovingObject extends BaseObject {
 
 		if (getHealth() <= 0) {
 			MathEngine.SCORE += scoreValue;
-			mathEngine.getLevelManager().getUnitList().remove(MovingObject.this);
+			mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 			eraseData(mathEngine);
 			mathEngine.getResourceManager().getSoudOnTap().play();
 			

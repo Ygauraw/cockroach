@@ -5,7 +5,9 @@ import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
+import gark.tap.cockroach.units.UnitBot;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -27,11 +29,10 @@ public class LevelManager {
 	private static boolean pause;
 
 	private Scene mScenePlayArea;
-	// private ResourceManager mResourceManager;
-	// private GameActivity gameActivity;
-	private Queue<MovingObject> queueOfAllLevelUnit = new MyLinkedList<MovingObject>();;
+	private Queue<UnitBot> queueOfAllLevelUnit = new MyLinkedList<UnitBot>();
 	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new MyArrayList<MovingObject>());;
 	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
+	private Stack<MovingObject> stackUnitsForRemove = new Stack<MovingObject>();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
 	private MathEngine mathEngine;
@@ -40,71 +41,26 @@ public class LevelManager {
 			final MathEngine mathEngine) {
 		this.mScenePlayArea = mScenePlayArea;
 		this.levelListener = levelListener;
-		// this.mResourceManager = mResourceManager;
 		this.mathEngine = mathEngine;
-		// this.gameActivity = gameActivity;
 		startNewLevel(CURENT_LEVEL);
 	}
-
-	// public void removeAllUnits() {
-	// synchronized (listOfVisibleUnits) {
-	// for (Iterator<MovingObject> movingIterator =
-	// listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-	// final MovingObject item = ((MovingObject) movingIterator.next());
-	// item.forceRemove(item, movingIterator, mathEngine);
-	// }
-	// }
-	// }
-
-	// public void removeUnit(MovingObject object) {
-	// // listOfVisibleUnits.remove(object);
-	// if (isLevelFinished(queueOfAllLevelUnit.size(),
-	// listOfVisibleUnits.size())) {
-	// ++CURENT_LEVEL;
-	// startNewLevel(CURENT_LEVEL);
-	// }
-	// }
-
-	// public void removeUnit(final float x, final float y, final Scene
-	// mScenePlayArea, final Scene mSceneDeadArea, TouchEvent pSceneTouchEvent,
-	// final MathEngine mathEngine) {
-	//
-	// synchronized (listOfVisibleUnits) {
-	// for (Iterator<MovingObject> movingIterator =
-	// listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
-	// final MovingObject item = ((MovingObject) movingIterator.next());
-	//
-	// item.calculateRemove(item, movingIterator, x, y, mScenePlayArea,
-	// pSceneTouchEvent, mSceneDeadArea, mathEngine);
-	//
-	// }
-	// }
-	// // if both list are empty - start new level
-	// if (isLevelFinished(queueOfAllLevelUnit.size(),
-	// listOfVisibleUnits.size())) {
-	// ++CURENT_LEVEL;
-	// startNewLevel(CURENT_LEVEL);
-	// }
-	// }
 
 	final Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
 			if (!queueOfAllLevelUnit.isEmpty() && !pause) {
 				addCockroach(queueOfAllLevelUnit.poll());
-				executor.schedule(runnable, (int) queueOfAllLevelUnit.peek().getDelayForStart(), TimeUnit.MILLISECONDS);
+				executor.schedule(runnable, (int) queueOfAllLevelUnit.peek().getDelay(), TimeUnit.MILLISECONDS);
 			}
 		}
 	};
 
 	private synchronized void startNewLevel(int level) {
-
 		Config.SPEED += 10;
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		LevelGenerator.fillContent(CURENT_LEVEL, mathEngine, queueOfAllLevelUnit);
 
 		resumeLauncher();
-
 	}
 
 	/**
@@ -114,10 +70,23 @@ public class LevelManager {
 	 * @param item
 	 */
 
-	public void addCockroach(final MovingObject item) {
-		stackUnits.add(item);
-		mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
-		mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());
+	public void addCockroach(final UnitBot unitBot) {
+
+		try {
+			final MovingObject item = (MovingObject) unitBot.getConstructor().newInstance(unitBot.getObjects());
+			stackUnits.add(item);
+			mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
+			mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -125,8 +94,8 @@ public class LevelManager {
 	 * 
 	 * @param item
 	 */
-	public void reanimateCockroach(final MovingObject item) {
-		addCockroach(item);
+	public void reanimateCockroach(final UnitBot unitBot) {
+		addCockroach(unitBot);
 	}
 
 	/**
@@ -170,7 +139,7 @@ public class LevelManager {
 		return listOfVisibleUnits;
 	}
 
-	public Queue<MovingObject> getQueueOfAllLevelUnit() {
+	public Queue<UnitBot> getQueueOfAllLevelUnit() {
 		return queueOfAllLevelUnit;
 	}
 
@@ -180,6 +149,10 @@ public class LevelManager {
 
 	public Stack<MovingObject> getStack() {
 		return stackUnits;
+	}
+
+	public Stack<MovingObject> getStackUnitsForRemove() {
+		return stackUnitsForRemove;
 	}
 
 	public class MyArrayList<E> extends ArrayList<MovingObject> {
@@ -206,7 +179,7 @@ public class LevelManager {
 
 	}
 
-	public class MyLinkedList<E> extends LinkedList<MovingObject> {
+	public class MyLinkedList<E> extends LinkedList<UnitBot> {
 
 		/**
 		 * 
@@ -214,8 +187,8 @@ public class LevelManager {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public MovingObject poll() {
-			MovingObject movingObject = super.poll();
+		public UnitBot poll() {
+			UnitBot movingObject = super.poll();
 			if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
 				++CURENT_LEVEL;
 				startNewLevel(CURENT_LEVEL);

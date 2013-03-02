@@ -3,6 +3,7 @@ package gark.tap.cockroach.mathengine;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.R;
+import gark.tap.cockroach.levels.LevelManager;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
@@ -42,6 +43,8 @@ public class GameOverManager implements OnClickListener {
 				// Game Over
 				mScenePlayArea.setOnAreaTouchListener(null);
 				mSceneControls.unregisterTouchArea(pause);
+				
+				LevelManager.setCURENT_LEVEL(1);
 
 				View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
 				TextView highScore = (TextView) view.findViewById(R.id.highScore);

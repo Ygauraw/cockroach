@@ -4,6 +4,7 @@ import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.unitgroup.UnionUnits;
+import gark.tap.cockroach.units.UnitBot;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +15,7 @@ public class LevelGenerator {
 	// private static Queue<MovingObject> queue ;
 	private static UnionUnits unionUnits;
 
-	public static Queue<MovingObject> fillContent(int level, MathEngine mathEngine, Queue<MovingObject> queue) {
+	public static Queue<UnitBot> fillContent(int level, MathEngine mathEngine, Queue<UnitBot> queue) {
 		queue.clear();
 
 		int unionHealth = 0;

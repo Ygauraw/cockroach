@@ -31,7 +31,8 @@ public class Heart extends MovingObject {
 
 	@Override
 	public void calculateRemove(MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-		mathEngine.getLevelManager().getUnitList().remove(this);
+//		mathEngine.getLevelManager().getUnitList().remove(this);
+		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 		mathEngine.getScenePlayArea().detachChild(mMainSprite);
 		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 		mMainSprite.detachChildren();

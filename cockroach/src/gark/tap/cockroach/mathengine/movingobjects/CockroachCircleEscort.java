@@ -46,7 +46,7 @@ public class CockroachCircleEscort extends MovingObject {
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
-//		mathEngine.getScenePlayArea().registerTouchArea(bat);
+		mathEngine.getScenePlayArea().registerTouchArea(bat);
 		bat.animate(animationSpeed);
 		bat.setScale(0.5f * Config.SCALE);
 

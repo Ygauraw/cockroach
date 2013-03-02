@@ -9,7 +9,7 @@ public class CockroachBigAngle extends MovingObject {
 	private static final int initialAngle = 45;
 	public static final float coef = (float) (Math.log10(Config.CAMERA_HEIGHT) / Math.log10(Config.CAMERA_WIDTH));
 
-	public CockroachBigAngle(PointF point, MathEngine mathEngine, boolean direction) {
+	public CockroachBigAngle(PointF point, MathEngine mathEngine, Boolean direction) {
 		super(point, mathEngine.getResourceManager().getBigCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		setmShiftX((direction) ? 10 : -10);
