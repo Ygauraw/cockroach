@@ -192,8 +192,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 				cockroach.tact(now, time);
 
 				// remove corpse from bottom
-				if (cockroach.posY() > Config.CAMERA_HEIGHT + 100) {
-					cockroach.removeObject(cockroach, movingIterator, mScenePlayArea, this);
+				if (cockroach.posY() > Config.CAMERA_HEIGHT + 50 * Config.SCALE) {
+					cockroach.removeObject(cockroach, mScenePlayArea, this);
 				}
 			}
 		}

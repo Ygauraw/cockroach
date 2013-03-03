@@ -4,8 +4,6 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
-import java.util.Iterator;
-
 import org.andengine.entity.scene.Scene;
 
 import android.graphics.PointF;
@@ -42,6 +40,12 @@ public class LadyBugBig extends MovingObject {
 
 		setY(posY() + distance);
 		setX(posX() + xDistance);
+		
+		if (posX() < 0)
+			setX(Math.abs(posX()));
+
+		if (posX() > Config.CAMERA_WIDTH)
+			setX(Config.CAMERA_WIDTH - (posX() - Config.CAMERA_WIDTH));
 
 		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}
@@ -60,8 +64,8 @@ public class LadyBugBig extends MovingObject {
 	}
 
 	@Override
-	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		iterator.remove();
+	public void removeObject(final MovingObject object,  final Scene mScenePlayArea, final MathEngine mathEngine) {
+		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override

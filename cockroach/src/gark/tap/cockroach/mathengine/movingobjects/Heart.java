@@ -3,8 +3,6 @@ package gark.tap.cockroach.mathengine.movingobjects;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.mathengine.MathEngine;
 
-import java.util.Iterator;
-
 import org.andengine.entity.scene.Scene;
 
 import android.graphics.PointF;
@@ -46,8 +44,8 @@ public class Heart extends MovingObject {
 	}
 
 	@Override
-	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		iterator.remove();
+	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
+		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {

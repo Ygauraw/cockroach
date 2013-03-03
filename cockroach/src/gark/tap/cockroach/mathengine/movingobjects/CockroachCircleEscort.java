@@ -1,7 +1,5 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
-import java.util.Iterator;
-
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
@@ -87,8 +85,8 @@ public class CockroachCircleEscort extends MovingObject {
 	}
 
 	@Override
-	public void removeObject(MovingObject object, Iterator<MovingObject> iterator, Scene mScenePlayArea, MathEngine mathEngine) {
-		super.removeObject(object, iterator, mScenePlayArea, mathEngine);
+	public void removeObject(MovingObject object, Scene mScenePlayArea, MathEngine mathEngine) {
+		super.removeObject(object, mScenePlayArea, mathEngine);
 		mathEngine.getScenePlayArea().unregisterTouchArea(bat);
 	}
 

@@ -36,6 +36,7 @@ public class LevelManager {
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
 	private MathEngine mathEngine;
+	private boolean allowNewLevel = false;
 
 	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
 			final MathEngine mathEngine) {
@@ -46,11 +47,15 @@ public class LevelManager {
 	}
 
 	final Runnable runnable = new Runnable() {
+
 		@Override
 		public void run() {
 			if (!queueOfAllLevelUnit.isEmpty() && !pause) {
-				addCockroach(queueOfAllLevelUnit.poll());
+				allowNewLevel = false;
 				executor.schedule(runnable, (int) queueOfAllLevelUnit.peek().getDelay(), TimeUnit.MILLISECONDS);
+				addCockroach(queueOfAllLevelUnit.poll());
+			} else if (queueOfAllLevelUnit.isEmpty()){
+				allowNewLevel = true;
 			}
 		}
 	};
@@ -71,7 +76,6 @@ public class LevelManager {
 	 */
 
 	public void addCockroach(final UnitBot unitBot) {
-
 		try {
 			final MovingObject item = (MovingObject) unitBot.getConstructor().newInstance(unitBot.getObjects());
 			stackUnits.add(item);
@@ -105,8 +109,8 @@ public class LevelManager {
 	 * @return
 	 */
 	private boolean isLevelFinished(int count1, int count2) {
-		Log.e("", "" + count1 + " " + count2);
-		return (count1 == 0 && count2 == 0);
+		Log.e("", "" + count1 + " " + count2 + " ");
+		return (allowNewLevel && count1 == 0 && count2 == 0);
 	}
 
 	public synchronized void pauseLauncher() {
@@ -155,6 +159,13 @@ public class LevelManager {
 		return stackUnitsForRemove;
 	}
 
+	public void checkForStartNewLevel() {
+		if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
+			++CURENT_LEVEL;
+			startNewLevel(CURENT_LEVEL);
+		}
+	}
+
 	public class MyArrayList<E> extends ArrayList<MovingObject> {
 
 		/**
@@ -165,10 +176,7 @@ public class LevelManager {
 		@Override
 		public boolean remove(Object object) {
 			boolean movingObject = super.remove(object);
-			if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
-				++CURENT_LEVEL;
-				startNewLevel(CURENT_LEVEL);
-			}
+			checkForStartNewLevel();
 			return movingObject;
 		}
 
@@ -189,10 +197,7 @@ public class LevelManager {
 		@Override
 		public UnitBot poll() {
 			UnitBot movingObject = super.poll();
-			if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
-				++CURENT_LEVEL;
-				startNewLevel(CURENT_LEVEL);
-			}
+			checkForStartNewLevel();
 			return movingObject;
 		}
 

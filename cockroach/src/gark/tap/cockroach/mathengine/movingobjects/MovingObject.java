@@ -8,7 +8,6 @@ import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 import gark.tap.cockroach.units.BaseObject;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.andengine.entity.scene.Scene;
@@ -40,6 +39,7 @@ public abstract class MovingObject extends BaseObject {
 	protected boolean isRecovered = false;
 	protected List<Integer> touches = Arrays.asList(TouchEvent.ACTION_DOWN, TouchEvent.ACTION_MOVE);
 	protected boolean needToDelete = false;
+	protected boolean needCorpse = true;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
@@ -154,21 +154,20 @@ public abstract class MovingObject extends BaseObject {
 			mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 			eraseData(mathEngine);
 			mathEngine.getResourceManager().getSoudOnTap().play();
-			
+
 			attachCorpse(mathEngine);
 		} else {
 			setHealth(getHealth() - 1);
 		}
 	};
 
-	public void removeObject(final MovingObject object, Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
+	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		if (--MathEngine.health <= 0) {
 			mathEngine.getGameOverManager().finish();
 		}
 		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
-
 		eraseData(mathEngine);
-		iterator.remove();
+		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 	}
 
 	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEngine) {
@@ -176,7 +175,6 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	protected void eraseData(final MathEngine mathEngine) {
-
 		mathEngine.getScenePlayArea().detachChild(mMainSprite);
 		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 		mMainSprite.detachChildren();
@@ -185,12 +183,14 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	protected void attachCorpse(final MathEngine mathEngine) {
-		StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), mathEngine.getResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
-				.getVertexBufferObjectManager());
-		deadObject.setDeadObject(getClass().getName());
-		deadObject.setRotation(getMainSprite().getRotation());
-		DeadManager.add(deadObject);
-		mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
+		if (needCorpse) {
+			StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), mathEngine.getResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
+					.getVertexBufferObjectManager());
+			deadObject.setDeadObject(getClass().getName());
+			deadObject.setRotation(getMainSprite().getRotation());
+			DeadManager.add(deadObject);
+			mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
+		}
 	}
 
 }

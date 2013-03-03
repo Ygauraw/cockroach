@@ -5,14 +5,11 @@ import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
-import java.util.Iterator;
-
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.PointF;
-import android.util.Log;
 
 public class Plane extends MovingObject {
 
@@ -32,7 +29,7 @@ public class Plane extends MovingObject {
 		bonusArray = new Bonus[] { bonus0, bonus1 };
 		// position = (int) (System.currentTimeMillis() % bonusArray.length);
 		position = ((int) Utils.generateRandomPositive(100)) % bonusArray.length;
-		Log.e("c", "" + position);
+//		Log.e("c", "" + position);
 
 		float initCrossX = mMainSprite.getWidth() / 2 - resourceManager.getRedCross().getWidth();
 		float initCrossY = mMainSprite.getHeight() / 2 - resourceManager.getRedCross().getHeight();
@@ -72,9 +69,9 @@ public class Plane extends MovingObject {
 	}
 
 	@Override
-	public void removeObject(final MovingObject object, final Iterator<MovingObject> iterator, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		// super.removeObject(object, iterator, mScenePlayArea, mathEngine);
-		iterator.remove();
+	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
+//		iterator.remove();
+		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 		eraseData(mathEngine);
 
 	}

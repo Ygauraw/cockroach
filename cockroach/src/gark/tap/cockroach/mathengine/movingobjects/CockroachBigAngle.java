@@ -19,7 +19,7 @@ public class CockroachBigAngle extends MovingObject {
 	public void tact(long now, long period) {
 		super.tact(now, period);
 
-		if (posX() < (0 + getWidth() / 3 / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / 3 / Config.SCALE))
+		if (posX() < (0 + mMainSprite.getWidth() / 2) || posX() > (Config.CAMERA_WIDTH - mMainSprite.getWidth() / 2))
 			setmShiftX(-getShiftX());
 
 		float distance = (float) period / 1000 * getMoving();

@@ -36,6 +36,12 @@ public class CockroachRandomAngle extends MovingObject {
 
 		setY(posY() + distance);
 		setX(posX() + xDistance);
+		
+		if (posX() < 0)
+			setX(Math.abs(posX()));
+
+		if (posX() > Config.CAMERA_WIDTH)
+			setX(Config.CAMERA_WIDTH - (posX() - Config.CAMERA_WIDTH));
 
 		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}

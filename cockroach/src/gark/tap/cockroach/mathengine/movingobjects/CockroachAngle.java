@@ -8,7 +8,7 @@ public class CockroachAngle extends MovingObject {
 	float relationPosition;
 	public static final float coef = (float) (Math.log10(Config.CAMERA_HEIGHT) / Math.log10(Config.CAMERA_WIDTH));
 
-	public CockroachAngle(PointF point, MathEngine mathEngine, boolean direction) {
+	public CockroachAngle(PointF point, MathEngine mathEngine, Boolean direction) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		setmShiftX((direction) ? 10 : -10);
@@ -18,7 +18,7 @@ public class CockroachAngle extends MovingObject {
 	public void tact(long now, long period) {
 		super.tact(now, period);
 
-		if (posX() < (0 + getWidth() / 3 / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / 3 / Config.SCALE))
+		if (posX() < (0 + mMainSprite.getWidth() / 2) || posX() > (Config.CAMERA_WIDTH - mMainSprite.getWidth() / 2))
 			setmShiftX(-getShiftX());
 
 		float distance = (float) period / 1000 * getMoving();
