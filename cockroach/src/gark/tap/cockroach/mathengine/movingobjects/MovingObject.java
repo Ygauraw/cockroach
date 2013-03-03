@@ -14,6 +14,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.graphics.PointF;
@@ -40,9 +41,11 @@ public abstract class MovingObject extends BaseObject {
 	protected List<Integer> touches = Arrays.asList(TouchEvent.ACTION_DOWN, TouchEvent.ACTION_MOVE);
 	protected boolean needToDelete = false;
 	protected boolean needCorpse = true;
+	protected TextureRegion corpse;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
+		corpse = mathEngine.getResourceManager().getDeadCockroach();
 		mPoint = point;
 		mNextPoint = point;
 
@@ -184,8 +187,7 @@ public abstract class MovingObject extends BaseObject {
 
 	protected void attachCorpse(final MathEngine mathEngine) {
 		if (needCorpse) {
-			StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), mathEngine.getResourceManager().getDeadCockroach(), mathEngine.getGameActivity()
-					.getVertexBufferObjectManager());
+			StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
 			deadObject.setDeadObject(getClass().getName());
 			deadObject.setRotation(getMainSprite().getRotation());
 			DeadManager.add(deadObject);

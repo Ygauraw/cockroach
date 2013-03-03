@@ -43,14 +43,19 @@ public class GameOverManager implements OnClickListener {
 				// Game Over
 				mScenePlayArea.setOnAreaTouchListener(null);
 				mSceneControls.unregisterTouchArea(pause);
-				
+
 				LevelManager.setCURENT_LEVEL(1);
 
 				View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
 				TextView highScore = (TextView) view.findViewById(R.id.highScore);
+				TextView gameOver = (TextView) view.findViewById(R.id.game_over);
 				Button play_again = (Button) view.findViewById(R.id.try_again);
 				play_again.setOnClickListener(GameOverManager.this);
 				highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
+
+				gameOver.setTypeface(Utils.getTypeface());
+				highScore.setTypeface(Utils.getTypeface());
+				play_again.setTypeface(Utils.getTypeface());
 
 				gameActivity.addContentView(view, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 				mathEngine.stop(true);

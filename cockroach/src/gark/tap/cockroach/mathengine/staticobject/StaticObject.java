@@ -1,5 +1,6 @@
 package gark.tap.cockroach.mathengine.staticobject;
 
+import gark.tap.cockroach.Config;
 import gark.tap.cockroach.units.BaseObject;
 
 import org.andengine.entity.sprite.Sprite;
@@ -17,13 +18,10 @@ public class StaticObject extends BaseObject {
 	protected Sprite mSprite;
 
 	public StaticObject(PointF point, TextureRegion textureRegion, VertexBufferObjectManager vertexBufferObjectManager) {
-//		super(point.x, point.y, textureRegion, vertexBufferObjectManager);
-
 		mPoint = point;
 		mPointOffset = new PointF(textureRegion.getWidth() / 2, textureRegion.getHeight() / 2);
 		mSprite = new Sprite(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y, textureRegion, vertexBufferObjectManager);
-
-		// mSprite.setScale(1 / Config.SCALE);
+		mSprite.setScale(Config.SCALE);
 	}
 
 	public void setRotation(float angle) {
@@ -57,9 +55,7 @@ public class StaticObject extends BaseObject {
 
 	@Override
 	public void tact(long now, long period) {
-		
-	}
 
-	
+	}
 
 }

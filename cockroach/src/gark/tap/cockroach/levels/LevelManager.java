@@ -54,13 +54,15 @@ public class LevelManager {
 				allowNewLevel = false;
 				executor.schedule(runnable, (int) queueOfAllLevelUnit.peek().getDelay(), TimeUnit.MILLISECONDS);
 				addCockroach(queueOfAllLevelUnit.poll());
-			} else if (queueOfAllLevelUnit.isEmpty()){
+			} else if (queueOfAllLevelUnit.isEmpty()) {
 				allowNewLevel = true;
+				checkForStartNewLevel();
 			}
 		}
 	};
 
 	private synchronized void startNewLevel(int level) {
+		// allowNewLevel = false;
 		Config.SPEED += 10;
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		LevelGenerator.fillContent(CURENT_LEVEL, mathEngine, queueOfAllLevelUnit);
@@ -103,13 +105,13 @@ public class LevelManager {
 	}
 
 	/**
-	 * check new level fo starting
+	 * check new level for starting
 	 * 
 	 * @param count
 	 * @return
 	 */
 	private boolean isLevelFinished(int count1, int count2) {
-		Log.e("", "" + count1 + " " + count2 + " ");
+//		Log.e("", "" + count1 + " " + count2 + " " + allowNewLevel);
 		return (allowNewLevel && count1 == 0 && count2 == 0);
 	}
 
@@ -117,6 +119,7 @@ public class LevelManager {
 		pause = true;
 		for (MovingObject cockroach : listOfVisibleUnits) {
 			cockroach.stopAnimate();
+			mathEngine.getScenePlayArea().unregisterTouchArea(cockroach.getMainSprite());
 		}
 	}
 
@@ -125,6 +128,7 @@ public class LevelManager {
 		pause = false;
 		for (MovingObject cockroach : listOfVisibleUnits) {
 			cockroach.resumeAnimate();
+			mathEngine.getScenePlayArea().registerTouchArea(cockroach.getMainSprite());
 		}
 		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
 	}
@@ -161,6 +165,7 @@ public class LevelManager {
 
 	public void checkForStartNewLevel() {
 		if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
+			Log.e("level ", "level started");
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
 		}

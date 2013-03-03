@@ -12,7 +12,7 @@ import android.graphics.PointF;
 public class CockroachLarva extends MovingObject {
 
 	public CockroachLarva(PointF point, MathEngine mathEngine) {
-		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
+		super(point, mathEngine.getResourceManager().getCockroachLavra(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		needCorpse = false;
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);

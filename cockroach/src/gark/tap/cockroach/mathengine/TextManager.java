@@ -1,7 +1,6 @@
 package gark.tap.cockroach.mathengine;
 
 import gark.tap.cockroach.R;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -15,7 +14,6 @@ public class TextManager {
 	private TextView attention;
 	private TextView scoreValue;
 	private View container;
-	private Typeface face;
 
 	public TextManager(final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
@@ -30,8 +28,9 @@ public class TextManager {
 				attention = (TextView) container.findViewById(R.id.attention);
 				scoreValue = (TextView) container.findViewById(R.id.score_value);
 
-				face = Typeface.createFromAsset(mathEngine.getGameActivity().getAssets(), "font/america1.ttf");
-				vaweText.setTypeface(face);
+				scoreValue.setTypeface(Utils.getTypeface());
+				attention.setTypeface(Utils.getTypeface());
+				vaweText.setTypeface(Utils.getTypeface());
 
 				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 				lp.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -78,9 +77,4 @@ public class TextManager {
 		});
 
 	}
-
-	public Typeface getFace() {
-		return face;
-	}
-
 }

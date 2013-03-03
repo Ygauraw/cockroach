@@ -14,6 +14,7 @@ public class CockroachFly extends MovingObject {
 		super(point, mathEngine.getResourceManager().getmCockroachFly(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		moving = 250;
+		corpse = mathEngine.getResourceManager().getDeadFly();
 
 	}
 
@@ -35,7 +36,7 @@ public class CockroachFly extends MovingObject {
 
 		setY(posY() + distance);
 		setX(posX() + xDistance);
-		
+
 		if (posX() < 0)
 			setX(Math.abs(posX()));
 

@@ -6,10 +6,12 @@ import org.andengine.ui.activity.BaseActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 
 public class Utils {
 	private static final Random random = new Random();
 	private static final String PREFS_HIDH_SCORE = "PREFS_HIDH_SCORE";
+	private static Typeface typeface;
 
 	public static float generateRandom(int n) {
 		n *= 1000;
@@ -41,4 +43,13 @@ public class Utils {
 
 		return settings.getInt(PREFS_HIDH_SCORE, 0);
 	}
+
+	public static void setTypeface(Typeface typeface) {
+		Utils.typeface = typeface;
+	}
+
+	public static Typeface getTypeface() {
+		return typeface;
+	}
+
 }
