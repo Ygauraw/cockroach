@@ -18,6 +18,7 @@ public class Spider extends MovingObject {
 	public Spider(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getSpider(), mathEngine);
 		setHealth(2);
+		corpse = mathEngine.getResourceManager().getDeadSpider();
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(1.5f * Config.SCALE);

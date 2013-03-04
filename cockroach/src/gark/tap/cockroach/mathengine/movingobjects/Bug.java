@@ -20,6 +20,7 @@ public class Bug extends MovingObject {
 		super(point, mathEngine.getResourceManager().getBug(), mathEngine);
 		mMainSprite.animate(animationSpeed / 2);
 		scoreValue = 0;
+		corpse = mathEngine.getResourceManager().getDeadBug();
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		moving = 200;
 

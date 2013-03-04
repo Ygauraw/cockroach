@@ -67,10 +67,14 @@ public class ResourceManager {
 	private TextureRegion mDeadDefault;
 	private TextureRegion mDeadLarva;
 	private TextureRegion mDeadFly;
+	private TextureRegion mDeadLadyBug;
+	private TextureRegion mDeadLadyBugBig;
+	private TextureRegion mDeadBug;
+	private TextureRegion mDeadGrey;
+	private TextureRegion mDeadSpider;
+
 	private TextureRegion m10;
 	private TextureRegion m25;
-
-	private TextureRegion mStartButton;
 
 	private Sound mSoundOnTap;
 	// private Music mMusic;
@@ -100,14 +104,13 @@ public class ResourceManager {
 		}
 
 		// atlases
-		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 800, 1280, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 640, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas cockroachDeadTextureAtlas = new BitmapTextureAtlas(textureManager, 100, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas planeAtlas = new BitmapTextureAtlas(textureManager, 113, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas pauseStartTextureAtlas = new BitmapTextureAtlas(textureManager, 72, 72, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -130,6 +133,11 @@ public class ResourceManager {
 		BitmapTextureAtlas cockroachLavraAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas deadLarvaAtlas = new BitmapTextureAtlas(textureManager, 50, 120, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas deadFlyAtlas = new BitmapTextureAtlas(textureManager, 130, 140, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas deadLadyBugSmallAtlas = new BitmapTextureAtlas(textureManager, 62, 70, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas deadLadyBugBigAtlas = new BitmapTextureAtlas(textureManager, 90, 102, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas deadBugAtlas = new BitmapTextureAtlas(textureManager, 144, 156, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas deadGreyAtlas = new BitmapTextureAtlas(textureManager, 72, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas deadSpiderAtlas = new BitmapTextureAtlas(textureManager, 110, 148, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -152,11 +160,16 @@ public class ResourceManager {
 
 		// background
 		mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
-		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "background_big.jpg", 0, 0);
+		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "wood_background.jpg", 0, 0);
 		mDeadDefault = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cockroachDeadTextureAtlas, baseGameActivity, "dead_defaulf.png", 0, 0);
 		mDeadFly = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadFlyAtlas, baseGameActivity, "dead_fly.png", 0, 0);
 		mDeadLarva = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLarvaAtlas, baseGameActivity, "dead_larva.png", 0, 0);
-		mStartButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseStartTextureAtlas, baseGameActivity, "start_button.png", 0, 0);
+		mDeadLadyBug = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLadyBugSmallAtlas, baseGameActivity, "lady_bug_small.png", 0, 0);
+		mDeadLadyBugBig = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLadyBugBigAtlas, baseGameActivity, "lady_bug_big.png", 0, 0);
+		mDeadBug = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadBugAtlas, baseGameActivity, "dead_bug.png", 0, 0);
+		mDeadGrey = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadGreyAtlas, baseGameActivity, "dead_grey.png", 0, 0);
+		mDeadSpider = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadSpiderAtlas, baseGameActivity, "dead_spider.png", 0, 0);
+
 		mHeart = BitmapTextureAtlasTextureRegionFactory.createFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0);
 		m10 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus10Atlas, baseGameActivity, "10.png", 0, 0);
 		m25 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus25Atlas, baseGameActivity, "25.png", 0, 0);
@@ -202,7 +215,6 @@ public class ResourceManager {
 		redCrossAtlas.load();
 		mSpiderAtlas.load();
 		mFontBigTexture.load();
-		pauseStartTextureAtlas.load();
 		heartAtlas.load();
 		planeAtlas.load();
 		bonus10Atlas.load();
@@ -219,11 +231,12 @@ public class ResourceManager {
 		cockroachLavraAtlas.load();
 		deadLarvaAtlas.load();
 		deadFlyAtlas.load();
+		deadLadyBugSmallAtlas.load();
+		deadBugAtlas.load();
+		deadGreyAtlas.load();
+		deadLadyBugBigAtlas.load();
+		deadSpiderAtlas.load();
 
-	}
-
-	public TextureRegion getStartButton() {
-		return mStartButton;
 	}
 
 	public TextureRegion getBackGround() {
@@ -310,10 +323,6 @@ public class ResourceManager {
 		return m25;
 	}
 
-	// public TextureRegion getWasper() {
-	// return wasper;
-	// }
-
 	public TiledTextureRegion getBat() {
 		return mBat;
 	}
@@ -364,6 +373,26 @@ public class ResourceManager {
 
 	public TextureRegion getDeadFly() {
 		return mDeadFly;
+	}
+
+	public TextureRegion getDeadLadyBug() {
+		return mDeadLadyBug;
+	}
+
+	public TextureRegion getDeadBug() {
+		return mDeadBug;
+	}
+
+	public TextureRegion getDeadGrey() {
+		return mDeadGrey;
+	}
+
+	public TextureRegion getDeadLadyBugBig() {
+		return mDeadLadyBugBig;
+	}
+
+	public TextureRegion getDeadSpider() {
+		return mDeadSpider;
 	}
 
 }

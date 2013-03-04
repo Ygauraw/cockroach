@@ -15,6 +15,7 @@ public class LadyBugSmall extends MovingObject {
 
 	public LadyBugSmall(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getLagySmall(), mathEngine);
+		corpse = mathEngine.getResourceManager().getDeadLadyBug();
 		mMainSprite.animate(animationSpeed);
 		scoreValue = 0;
 		mMainSprite.setScale(0.5f * Config.SCALE);

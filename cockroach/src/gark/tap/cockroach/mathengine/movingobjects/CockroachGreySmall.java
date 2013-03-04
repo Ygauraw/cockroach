@@ -13,6 +13,7 @@ public class CockroachGreySmall extends MovingObject {
 	public CockroachGreySmall(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getGreyCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
+		corpse = mathEngine.getResourceManager().getDeadGrey();
 		setMoving(400f);
 		moving = 200;
 

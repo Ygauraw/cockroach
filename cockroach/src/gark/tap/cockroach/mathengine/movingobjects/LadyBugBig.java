@@ -16,6 +16,7 @@ public class LadyBugBig extends MovingObject {
 	public LadyBugBig(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getLagyBug(), mathEngine);
 		mMainSprite.animate(animationSpeed);
+		corpse = mathEngine.getResourceManager().getDeadLadyBugBig();
 		mMainSprite.setScale(0.75f * Config.SCALE);
 		moving = 200;
 		scoreValue = 0;
@@ -40,7 +41,7 @@ public class LadyBugBig extends MovingObject {
 
 		setY(posY() + distance);
 		setX(posX() + xDistance);
-		
+
 		if (posX() < 0)
 			setX(Math.abs(posX()));
 
@@ -64,7 +65,7 @@ public class LadyBugBig extends MovingObject {
 	}
 
 	@Override
-	public void removeObject(final MovingObject object,  final Scene mScenePlayArea, final MathEngine mathEngine) {
+	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
