@@ -15,7 +15,7 @@ public class CockroachLarva extends MovingObject {
 		super(point, mathEngine.getResourceManager().getCockroachLavra(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		needCorpse = false;
-		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
+		touches = Arrays.asList(TouchEvent.ACTION_DOWN, TouchEvent.ACTION_MOVE);
 	}
 
 	@Override

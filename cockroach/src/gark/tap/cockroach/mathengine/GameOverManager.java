@@ -60,23 +60,23 @@ public class GameOverManager implements OnClickListener {
 				listView = (ListView) view.findViewById(R.id.list_statistic);
 				listView.setAdapter(new StaticArrayAdapter(gameActivity, android.R.layout.simple_list_item_1, StatisticManager.getResultList()));
 
+				TextView statistic_title = (TextView) view.findViewById(R.id.statistic_title);
 				TextView highScore = (TextView) view.findViewById(R.id.highScore);
 				TextView gameOver = (TextView) view.findViewById(R.id.game_over);
 				Button play_again = (Button) view.findViewById(R.id.try_again);
 				play_again.setOnClickListener(GameOverManager.this);
 				highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
 
+				statistic_title.setTypeface(Utils.getTypeface());
 				gameOver.setTypeface(Utils.getTypeface());
 				highScore.setTypeface(Utils.getTypeface());
 				play_again.setTypeface(Utils.getTypeface());
 
 				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				lp.setMargins(30, 30, 30, 30);
 				gameActivity.addContentView(view, lp);
 				mathEngine.stop(true);
 				MathEngine.health = Config.HEALTH_SCORE;
 
-				StatisticManager.printResults();
 				StatisticManager.prepareStatistic();
 
 			}

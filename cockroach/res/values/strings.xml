@@ -8,5 +8,6 @@
     <string name="attention">Attention</string>
     <string name="high_score">High Score: %s</string>
     <string name="play_again">Try again</string>
+    <string name="statisctic">Statistic</string>
 
 </resources>

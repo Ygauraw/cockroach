@@ -4,14 +4,16 @@ import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class StatisticManager {
 
-	private static TreeMap<String, Integer> missedMap = new TreeMap<String, Integer>();
-	private static TreeMap<String, Integer> killedMap = new TreeMap<String, Integer>();
+	private static HashMap<String, Integer> missedMap = new HashMap<String, Integer>();
+	private static HashMap<String, Integer> killedMap = new HashMap<String, Integer>();
+	final static ValueComparator bvc = new ValueComparator(killedMap);
 
 	public static void prepareStatistic() {
 		missedMap.clear();
@@ -35,7 +37,10 @@ public class StatisticManager {
 		ArrayList<StatisticUnit> list = new ArrayList<StatisticUnit>();
 		StatisticUnit statisticUnit = null;
 
-		for (Entry<String, Integer> entry : killedMap.entrySet()) {
+		TreeMap<String, Integer> killedTreeMap = new TreeMap<String, Integer>(bvc);
+		killedTreeMap.putAll(killedMap);
+
+		for (Entry<String, Integer> entry : killedTreeMap.entrySet()) {
 			statisticUnit = new StatisticUnit(entry.getValue(), entry.getKey());
 			list.add(statisticUnit);
 		}
@@ -65,7 +70,7 @@ public class StatisticManager {
 		}
 	}
 
-	class ValueComparator implements Comparator<String> {
+	static class ValueComparator implements Comparator<String> {
 
 		Map<String, Integer> base;
 
