@@ -67,35 +67,36 @@ public class CockroachMedic extends MovingObject {
 				mSceneDeadArea.detachChild(staticObject.getSprite());
 				iterator.remove();
 
-				
 				Class<?> clazz = null;
 				Constructor<?> constructor = null;
 				UnitBot unitBot = null;
 				try {
-					
+
 					clazz = Class.forName(CockroachDirect.class.getName());
 					constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 					unitBot = new UnitBot(constructor, new Object[] { new PointF(x, y), mathEnginer });
+					unitBot.setRecovered(true);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
 				}
-				
+
 				mathEnginer.getLevelManager().reanimateCockroach(unitBot);
-				
-				
-//				// recovery corpse
-//				MovingObject riseCockroach = null;
-//				try {
-//					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					riseCockroach = new CockroachDirect(new PointF(x, y), mathEnginer);
-//					riseCockroach.isRecovered = true;
-//				}
-				//TODO
-//				mathEnginer.getLevelManager().reanimateCockroach(riseCockroach);
+
+				// // recovery corpse
+				// MovingObject riseCockroach = null;
+				// try {
+				// riseCockroach = new CockroachDirect(new PointF(x, y),
+				// mathEnginer);
+				// } catch (Exception e) {
+				// e.printStackTrace();
+				// riseCockroach = new CockroachDirect(new PointF(x, y),
+				// mathEnginer);
+				// riseCockroach.isRecovered = true;
+				// }
+				// TODO
+				// mathEnginer.getLevelManager().reanimateCockroach(riseCockroach);
 			}
 		}
 	}

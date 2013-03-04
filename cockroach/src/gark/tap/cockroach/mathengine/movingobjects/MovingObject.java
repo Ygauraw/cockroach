@@ -5,6 +5,7 @@ import gark.tap.cockroach.mathengine.DeadManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
+import gark.tap.cockroach.statistic.StatisticManager;
 import gark.tap.cockroach.units.BaseObject;
 
 import java.util.Arrays;
@@ -79,6 +80,14 @@ public abstract class MovingObject extends BaseObject {
 			mMainSprite.animate(animationSpeed);
 	}
 
+	public boolean isRecovered() {
+		return isRecovered;
+	}
+
+	public void setRecovered(boolean isRecovered) {
+		this.isRecovered = isRecovered;
+	}
+
 	public float posX() {
 		return mPoint.x;
 	}
@@ -147,18 +156,23 @@ public abstract class MovingObject extends BaseObject {
 			mathEngine.getResourceManager().getSoudOnTap().play();
 			// create dead cockroach
 			attachCorpse(mathEngine);
+			// killed statistic
+			StatisticManager.addKilledUnit(this);
 		}
 	};
 
 	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
 		if (getHealth() <= 0) {
-			MathEngine.SCORE += scoreValue;
+			if (!isRecovered)
+				MathEngine.SCORE += scoreValue;
 			mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 			eraseData(mathEngine);
 			mathEngine.getResourceManager().getSoudOnTap().play();
-
 			attachCorpse(mathEngine);
+			// killed statistic
+			StatisticManager.addKilledUnit(this);
+
 		} else {
 			setHealth(getHealth() - 1);
 		}
@@ -171,6 +185,8 @@ public abstract class MovingObject extends BaseObject {
 		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 		eraseData(mathEngine);
 		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
+		// save statistic
+		StatisticManager.addMissedUnit(this);
 	}
 
 	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEngine) {

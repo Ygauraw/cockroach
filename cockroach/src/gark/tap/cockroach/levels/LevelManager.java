@@ -80,6 +80,7 @@ public class LevelManager {
 	public void addCockroach(final UnitBot unitBot) {
 		try {
 			final MovingObject item = (MovingObject) unitBot.getConstructor().newInstance(unitBot.getObjects());
+			item.setRecovered(unitBot.isRecovered());
 			stackUnits.add(item);
 			mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
 			mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());

@@ -8,10 +8,19 @@ public class UnitBot {
 	private Constructor<?> constructor;
 	private Object[] objects;
 	private int delay = 1;
+	private boolean isRecovered = false;
 
 	public UnitBot(Constructor<?> constructor, Object[] objects) {
 		this.constructor = constructor;
 		this.objects = objects;
+	}
+
+	public boolean isRecovered() {
+		return isRecovered;
+	}
+
+	public void setRecovered(boolean isRecovered) {
+		this.isRecovered = isRecovered;
 	}
 
 	public int getDelay() {
