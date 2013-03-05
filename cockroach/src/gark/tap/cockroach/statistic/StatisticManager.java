@@ -1,5 +1,17 @@
 package gark.tap.cockroach.statistic;
 
+import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachBigAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachLarva;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachRandomAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachSquare;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 
 import java.util.ArrayList;
@@ -41,7 +53,8 @@ public class StatisticManager {
 		killedTreeMap.putAll(killedMap);
 
 		for (Entry<String, Integer> entry : killedTreeMap.entrySet()) {
-			statisticUnit = new StatisticUnit(entry.getValue(), entry.getKey());
+			String name = entry.getKey();
+			statisticUnit = new StatisticUnit(entry.getValue(), name);
 			list.add(statisticUnit);
 		}
 
@@ -50,6 +63,22 @@ public class StatisticManager {
 
 	public static void addMissedUnit(MovingObject movingObject) {
 		String key = movingObject.getClass().getName();
+
+		// if (CockroachAccelarate.class.getName().equals(key) ||
+		// CockroachAngle.class.getName().equals(key) ||
+		// CockroachBigAngle.class.getName().equals(key)
+		// || CockroachCircleEscort.class.getName().equals(key) ||
+		// CockroachDirect.class.getName().equals(key) ||
+		// CockroachHalfLefAngle.class.getName().equals(key)
+		// || CockroachLOL.class.getName().equals(key) ||
+		// CockroachMedic.class.getName().equals(key) ||
+		// CockroachRandomAngle.class.getName().equals(key)
+		// || CockroachSin.class.getName().equals(key) ||
+		// CockroachLarva.class.getName().equals(key) ||
+		// CockroachSquare.class.getName().equals(key)) {
+		// key = CockroachDirect.class.getName();
+		// }
+
 		Integer count = missedMap.get(key);
 		if (count != null) {
 			count++;
@@ -61,6 +90,14 @@ public class StatisticManager {
 
 	public static void addKilledUnit(MovingObject movingObject) {
 		String key = movingObject.getClass().getName();
+
+		if (CockroachAccelarate.class.getName().equals(key) || CockroachAngle.class.getName().equals(key) || CockroachBigAngle.class.getName().equals(key)
+				|| CockroachCircleEscort.class.getName().equals(key) || CockroachDirect.class.getName().equals(key) || CockroachHalfLefAngle.class.getName().equals(key)
+				|| CockroachLOL.class.getName().equals(key) || CockroachMedic.class.getName().equals(key) || CockroachRandomAngle.class.getName().equals(key)
+				|| CockroachSin.class.getName().equals(key) || CockroachLarva.class.getName().equals(key) || CockroachSquare.class.getName().equals(key)) {
+			key = CockroachDirect.class.getName();
+		}
+
 		Integer count = killedMap.get(key);
 		if (count != null) {
 			count++;

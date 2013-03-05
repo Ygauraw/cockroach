@@ -7,6 +7,7 @@ import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
+import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
 import java.util.ListIterator;
 import java.util.Timer;
@@ -46,6 +47,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 	private GameActivity gameActivity;
 	private TextManager textManager;
 	private ResourceManager mResourceManager;
+	private CorpseManager corpseManager;
 	private GameOverManager gameOverManager;
 	private HeartManager heartManager;
 	private LevelManager levelManager;
@@ -103,6 +105,8 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 		mSceneControls.registerTouchArea(pause);
 		mSceneControls.attachChild(pause);
+
+		corpseManager = new CorpseManager();
 
 		heartManager = new HeartManager(mResourceManager, mSceneControls, gameActivity);
 		heartManager.setHeartValue(health);
@@ -174,12 +178,28 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 		synchronized (levelManager.getUnitList()) {
 
-			while (!levelManager.getStackUnitsForRemove().isEmpty()) {
-				levelManager.getUnitList().remove(levelManager.getStackUnitsForRemove().pop());
+			// add/remove corpse
+			while (!corpseManager.getQueueCorpseForRemove().isEmpty()) {
+				corpseManager.getListDeadObjects().remove(corpseManager.getQueueCorpseForRemove().poll());
 			}
 
-			while (!levelManager.getStack().isEmpty()) {
-				levelManager.getUnitList().add(levelManager.getStack().pop());
+			while (!corpseManager.getQueueCorpseForAdd().isEmpty()) {
+				StaticObject deadObject = corpseManager.getQueueCorpseForAdd().poll();
+				corpseManager.getListDeadObjects().add(deadObject);
+				getSceneDeadArea().attachChild(deadObject.getSprite());
+			}
+
+			// add/remove from visible unit list
+			while (!levelManager.getQueueUnitsForRemove().isEmpty()) {
+				levelManager.getUnitList().remove(levelManager.getQueueUnitsForRemove().poll());
+			}
+
+			while (!levelManager.getQueueForAdd().isEmpty()) {
+				MovingObject movingObject = levelManager.getQueueForAdd().poll();
+				levelManager.getUnitList().add(movingObject);
+				getScenePlayArea().attachChild(movingObject.getMainSprite());
+				getScenePlayArea().registerTouchArea(movingObject.getMainSprite());
+				
 			}
 
 			for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {
@@ -206,8 +226,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 			/* Restart the animation. */
 			mLastUpdateScene = System.currentTimeMillis();
 			this.start();
-			// TODO
-			// mScenePlayArea.setOnSceneTouchListener(iOnSceneTouchListener);
 			levelManager.resumeLauncher();
 			mSceneControls.reset();
 			return true;
@@ -236,7 +254,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 			}, 3000);
 
 			// erase all dead corpse
-			DeadManager.clearAreaSmooth(mSceneDeadArea);
+			corpseManager.clearAreaSmooth(mSceneDeadArea);
 
 		}
 	};
@@ -293,6 +311,10 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 	public Scene getSceneDeadArea() {
 		return mSceneDeadArea;
+	}
+
+	public CorpseManager getCorpseManager() {
+		return corpseManager;
 	}
 
 }

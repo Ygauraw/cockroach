@@ -4,6 +4,13 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.R;
 import gark.tap.cockroach.levels.LevelManager;
+import gark.tap.cockroach.mathengine.movingobjects.Bug;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachFly;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachGreySmall;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
+import gark.tap.cockroach.mathengine.movingobjects.LadyBugBig;
+import gark.tap.cockroach.mathengine.movingobjects.LadyBugSmall;
 import gark.tap.cockroach.statistic.StatisticManager;
 import gark.tap.cockroach.statistic.StatisticUnit;
 
@@ -22,7 +29,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -34,7 +42,8 @@ public class GameOverManager implements OnClickListener {
 	private Scene mScenePlayArea;
 	private Scene mSceneControls;
 	private Sprite pause;
-	private ListView listView;
+	// private ListView listView;
+	private GridView listView;
 
 	public GameOverManager(final MathEngine mathEngine, final BaseGameActivity gameActivity, final Scene mScenePlayArea, final Scene mSceneControls, final Sprite pause) {
 		this.gameActivity = gameActivity;
@@ -57,7 +66,7 @@ public class GameOverManager implements OnClickListener {
 				LevelManager.setCURENT_LEVEL(1);
 
 				View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
-				listView = (ListView) view.findViewById(R.id.list_statistic);
+				listView = (GridView) view.findViewById(R.id.list_statistic);
 				listView.setAdapter(new StaticArrayAdapter(gameActivity, android.R.layout.simple_list_item_1, StatisticManager.getResultList()));
 
 				TextView statistic_title = (TextView) view.findViewById(R.id.statistic_title);
@@ -99,6 +108,7 @@ public class GameOverManager implements OnClickListener {
 
 	static class ViewHolder {
 		public TextView textView;
+		public ImageView imageView;
 	}
 
 	class StaticArrayAdapter extends ArrayAdapter<StatisticUnit> {
@@ -117,50 +127,39 @@ public class GameOverManager implements OnClickListener {
 			View rowView = convertView;
 			if (rowView == null) {
 				LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-				rowView = inflater.inflate(android.R.layout.simple_list_item_1, null, true);
+				rowView = inflater.inflate(R.layout.game_over_list_item, null, true);
 				holder = new ViewHolder();
-				holder.textView = (TextView) rowView.findViewById(android.R.id.text1);
+				holder.textView = (TextView) rowView.findViewById(R.id.dead_count);
+				holder.textView.setTypeface(Utils.getTypeface());
+				holder.imageView = (ImageView) rowView.findViewById(R.id.dead_image);
 				rowView.setTag(holder);
 			} else {
 				holder = (ViewHolder) rowView.getTag();
 			}
 
-			holder.textView.setText(objects.get(position).getCount() + " " + objects.get(position).getName());
+			int image = R.drawable.single_cockroach;
+			String name = objects.get(position).getName();
+			if (LadyBugBig.class.getName().equals(name)) {
+				image = R.drawable.single_big_lady;
+			} else if (Bug.class.getName().equals(name)) {
+				image = R.drawable.single_bug;
+			} else if (CockroachDirect.class.getName().equals(name)) {
+				image = R.drawable.single_cockroach;
+			} else if (CockroachGreySmall.class.getName().equals(name)) {
+				image = R.drawable.single_grey;
+			} else if (CockroachFly.class.getName().equals(name)) {
+				image = R.drawable.single_fly;
+			} else if (CockroachHandsUp.class.getName().equals(name)) {
+				image = R.drawable.single_hands_up;
+			} else if (LadyBugSmall.class.getName().equals(name)) {
+				image = R.drawable.single_small_lady;
+			}
+			holder.textView.setText(" = " + objects.get(position).getCount());
+			holder.imageView.setImageResource(image);
 
 			return rowView;
 		}
 
 	}
-
-	// protected class StaticArrayAdapter extends ArrayAdapter<T> {
-	//
-	//
-	//
-	// @Override
-	// public View getView(int position, View convertView, ViewGroup parent) {
-	// ViewHolder holder;
-	// View rowView = convertView;
-	// if (rowView == null) {
-	// LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-	// rowView = inflater.inflate(android.R.layout.simple_list_item_1, null,
-	// true);
-	// holder = new ViewHolder();
-	// holder.textView = (TextView) rowView.findViewById(android.R.id.text1);
-	// rowView.setTag(holder);
-	// } else {
-	// holder = (ViewHolder) rowView.getTag();
-	// }
-	//
-	// holder.textView.setText(names[position]);
-	//
-	// return rowView;
-	// }
-	// }
-	//
-	// static class ViewHolder {
-	// public TextView textView;
-	// }
-	//
-	// }
 
 }

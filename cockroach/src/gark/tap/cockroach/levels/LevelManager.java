@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,9 +29,11 @@ public class LevelManager {
 
 	private Scene mScenePlayArea;
 	private Queue<UnitBot> queueOfAllLevelUnit = new MyLinkedList<UnitBot>();
-	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new MyArrayList<MovingObject>());;
-	private Stack<MovingObject> stackUnits = new Stack<MovingObject>();
-	private Stack<MovingObject> stackUnitsForRemove = new Stack<MovingObject>();
+	private List<MovingObject> listOfVisibleUnits = Collections.synchronizedList(new MyArrayList<MovingObject>());
+
+	private Queue<MovingObject> queueForAddUnits = new LinkedList<MovingObject>();
+	private Queue<MovingObject> queueUnitsForRemove = new LinkedList<MovingObject>();
+
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
 	private MathEngine mathEngine;
@@ -81,9 +82,10 @@ public class LevelManager {
 		try {
 			final MovingObject item = (MovingObject) unitBot.getConstructor().newInstance(unitBot.getObjects());
 			item.setRecovered(unitBot.isRecovered());
-			stackUnits.add(item);
-			mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
-			mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());
+			queueForAddUnits.add(item);
+			// TODO
+			// mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
+			// mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -112,7 +114,7 @@ public class LevelManager {
 	 * @return
 	 */
 	private boolean isLevelFinished(int count1, int count2) {
-//		Log.e("", "" + count1 + " " + count2 + " " + allowNewLevel);
+		// Log.e("", "" + count1 + " " + count2 + " " + allowNewLevel);
 		return (allowNewLevel && count1 == 0 && count2 == 0);
 	}
 
@@ -156,12 +158,12 @@ public class LevelManager {
 		CURENT_LEVEL = cURENT_LEVEL;
 	}
 
-	public Stack<MovingObject> getStack() {
-		return stackUnits;
+	public Queue<MovingObject> getQueueForAdd() {
+		return queueForAddUnits;
 	}
 
-	public Stack<MovingObject> getStackUnitsForRemove() {
-		return stackUnitsForRemove;
+	public Queue<MovingObject> getQueueUnitsForRemove() {
+		return queueUnitsForRemove;
 	}
 
 	public void checkForStartNewLevel() {

@@ -2,7 +2,6 @@ package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
-import gark.tap.cockroach.mathengine.DeadManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 import gark.tap.cockroach.units.UnitBot;
@@ -55,17 +54,18 @@ public class CockroachMedic extends MovingObject {
 	}
 
 	@Override
-	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEnginer) {
+	public void recoveryAction(final Scene mSceneDeadArea, final MathEngine mathEngine) {
 
-		// reanimation dead cockroach
-		for (Iterator<StaticObject> iterator = DeadManager.getListDeadObjects().iterator(); iterator.hasNext();) {
+		// recovery dead cockroach
+		for (Iterator<StaticObject> iterator = mathEngine.getCorpseManager().getListDeadObjects().iterator(); iterator.hasNext();) {
 			StaticObject staticObject = (StaticObject) iterator.next();
 			if (((Sprite) getMainSprite().getChildByIndex(0)).contains(staticObject.posX(), staticObject.posY())) {
 				float x = staticObject.posX();
 				float y = staticObject.posY();
 
 				mSceneDeadArea.detachChild(staticObject.getSprite());
-				iterator.remove();
+				mathEngine.getCorpseManager().getQueueCorpseForRemove().add(staticObject);
+				// iterator.remove();
 
 				Class<?> clazz = null;
 				Constructor<?> constructor = null;
@@ -74,7 +74,7 @@ public class CockroachMedic extends MovingObject {
 
 					clazz = Class.forName(CockroachDirect.class.getName());
 					constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-					unitBot = new UnitBot(constructor, new Object[] { new PointF(x, y), mathEnginer });
+					unitBot = new UnitBot(constructor, new Object[] { new PointF(x, y), mathEngine });
 					unitBot.setRecovered(true);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
@@ -82,21 +82,8 @@ public class CockroachMedic extends MovingObject {
 					e.printStackTrace();
 				}
 
-				mathEnginer.getLevelManager().reanimateCockroach(unitBot);
+				mathEngine.getLevelManager().reanimateCockroach(unitBot);
 
-				// // recovery corpse
-				// MovingObject riseCockroach = null;
-				// try {
-				// riseCockroach = new CockroachDirect(new PointF(x, y),
-				// mathEnginer);
-				// } catch (Exception e) {
-				// e.printStackTrace();
-				// riseCockroach = new CockroachDirect(new PointF(x, y),
-				// mathEnginer);
-				// riseCockroach.isRecovered = true;
-				// }
-				// TODO
-				// mathEnginer.getLevelManager().reanimateCockroach(riseCockroach);
 			}
 		}
 	}

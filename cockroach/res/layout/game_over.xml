@@ -26,7 +26,8 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
-        <ListView
+        <!--
+             <ListView
             android:id="@+id/list_statistic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,8 +41,25 @@
             android:listSelector="@drawable/list_selector"
             android:scrollbars="none"
             android:scrollingCache="false"
-            android:smoothScrollbar="false" >
-        </ListView>
+            android:smoothScrollbar="false" />
+        -->
+
+        <GridView
+            android:id="@+id/list_statistic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/game_over"
+            android:layout_below="@+id/statistic_title"
+            android:divider="@null"
+            android:fadeScrollbars="false"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:focusableInTouchMode="false"
+            android:listSelector="@drawable/list_selector"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:scrollingCache="false"
+            android:smoothScrollbar="false" />
 
         <TextView
             android:id="@+id/game_over"

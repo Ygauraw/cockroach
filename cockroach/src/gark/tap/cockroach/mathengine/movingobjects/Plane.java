@@ -63,7 +63,7 @@ public class Plane extends MovingObject {
 	public void calculateRemove(MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 //		mathEngine.getLevelManager().getUnitList().remove(this);
 		//TODO
-		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
+		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 		MathEngine.SCORE += bonusArray[position].getValue();
 		eraseData(mathEngine);
 	}
@@ -71,7 +71,7 @@ public class Plane extends MovingObject {
 	@Override
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
 //		iterator.remove();
-		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
+		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 		eraseData(mathEngine);
 
 	}

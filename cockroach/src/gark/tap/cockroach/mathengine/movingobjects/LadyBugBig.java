@@ -66,7 +66,7 @@ public class LadyBugBig extends MovingObject {
 
 	@Override
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
+		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override

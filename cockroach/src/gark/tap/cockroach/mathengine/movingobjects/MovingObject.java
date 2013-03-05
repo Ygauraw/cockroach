@@ -1,7 +1,6 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.mathengine.DeadManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
@@ -19,6 +18,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.graphics.PointF;
+import android.util.Log;
 
 public abstract class MovingObject extends BaseObject {
 	private MathEngine mathEngine;
@@ -149,10 +149,13 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	public void tact(long now, long period) {
+		
+		Log.e("zzz", "" + mathEngine.getLevelManager().getUnitList().size());
+		
 		if (needToDelete) {
 			MathEngine.SCORE += scoreValue;
-			mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 			eraseData(mathEngine);
+			mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 			mathEngine.getResourceManager().getSoudOnTap().play();
 			// create dead cockroach
 			attachCorpse(mathEngine);
@@ -162,16 +165,16 @@ public abstract class MovingObject extends BaseObject {
 	};
 
 	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-
 		if (getHealth() <= 0) {
 			if (!isRecovered)
 				MathEngine.SCORE += scoreValue;
-			mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
 			eraseData(mathEngine);
+			mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 			mathEngine.getResourceManager().getSoudOnTap().play();
 			attachCorpse(mathEngine);
 			// killed statistic
 			StatisticManager.addKilledUnit(this);
+//			Log.e("zzz", "" + mathEngine.getLevelManager().getUnitList().size());
 
 		} else {
 			setHealth(getHealth() - 1);
@@ -179,12 +182,13 @@ public abstract class MovingObject extends BaseObject {
 	};
 
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
+		Log.e("misseed", "missed");
 		if (--MathEngine.health <= 0) {
 			mathEngine.getGameOverManager().finish();
 		}
 		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 		eraseData(mathEngine);
-		mathEngine.getLevelManager().getStackUnitsForRemove().add(this);
+		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 		// save statistic
 		StatisticManager.addMissedUnit(this);
 	}
@@ -201,13 +205,17 @@ public abstract class MovingObject extends BaseObject {
 		mMainSprite.clearUpdateHandlers();
 	}
 
-	protected void attachCorpse(final MathEngine mathEngine) {
+	public void attachCorpse(final MathEngine mathEngine) {
 		if (needCorpse) {
 			StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
 			deadObject.setDeadObject(getClass().getName());
 			deadObject.setRotation(getMainSprite().getRotation());
-			DeadManager.add(deadObject);
-			mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
+			
+			//TODO
+			
+//			mathEngine.getCorpseManager().add(deadObject);
+			mathEngine.getCorpseManager().getQueueCorpseForAdd().add(deadObject);
+//			mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
 		}
 	}
 
