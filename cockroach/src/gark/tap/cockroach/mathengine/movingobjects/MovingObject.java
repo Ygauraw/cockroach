@@ -18,7 +18,6 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.graphics.PointF;
-import android.util.Log;
 
 public abstract class MovingObject extends BaseObject {
 	private MathEngine mathEngine;
@@ -177,7 +176,6 @@ public abstract class MovingObject extends BaseObject {
 	};
 
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
-		Log.e("misseed", "missed");
 		if (--MathEngine.health <= 0) {
 			mathEngine.getGameOverManager().finish();
 		}

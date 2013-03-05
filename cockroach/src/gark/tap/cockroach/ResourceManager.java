@@ -54,6 +54,7 @@ public class ResourceManager {
 	private TiledTextureRegion mSmoke;
 	private TiledTextureRegion mLarva;
 	private TiledTextureRegion mCockroachLavra;
+	private TiledTextureRegion mBatHiding;
 
 	private TextureRegion mResume;
 	private TextureRegion mPause;
@@ -138,6 +139,7 @@ public class ResourceManager {
 		BitmapTextureAtlas deadBugAtlas = new BitmapTextureAtlas(textureManager, 144, 156, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas deadGreyAtlas = new BitmapTextureAtlas(textureManager, 72, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas deadSpiderAtlas = new BitmapTextureAtlas(textureManager, 110, 148, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas batHideAtlas = new BitmapTextureAtlas(textureManager, 1000, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
 		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
@@ -193,6 +195,7 @@ public class ResourceManager {
 		mSmoke = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(smokeAtlas, baseGameActivity, "smoke.png", 0, 0, 8, 8);
 		mLarva = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(larvaAtlas, baseGameActivity, "larva.png", 0, 0, 1, 1);
 		mCockroachLavra = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachLavraAtlas, baseGameActivity, "cockroach_lavra.png", 0, 0, 6, 1);
+		mBatHiding = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batHideAtlas, baseGameActivity, "iceBlaster_hit.png", 0, 0, 5, 2);
 
 		// radar medic
 		mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createFromAsset(medicRedCircleAtlas, baseGameActivity, "red_circle_small.png", 0, 0);
@@ -236,6 +239,7 @@ public class ResourceManager {
 		deadGreyAtlas.load();
 		deadLadyBugBigAtlas.load();
 		deadSpiderAtlas.load();
+		batHideAtlas.load();
 
 	}
 
@@ -393,6 +397,10 @@ public class ResourceManager {
 
 	public TextureRegion getDeadSpider() {
 		return mDeadSpider;
+	}
+
+	public TiledTextureRegion getBatHiding() {
+		return mBatHiding;
 	}
 
 }

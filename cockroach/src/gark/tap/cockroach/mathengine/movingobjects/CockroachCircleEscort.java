@@ -6,6 +6,7 @@ import gark.tap.cockroach.mathengine.MathEngine;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
@@ -19,6 +20,8 @@ public class CockroachCircleEscort extends MovingObject {
 	private int cycleDirection = 1;
 	float initBatX;
 	float initBatY;
+
+	private AnimatedSprite blast;
 
 	public CockroachCircleEscort(PointF point, final MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
@@ -88,6 +91,58 @@ public class CockroachCircleEscort extends MovingObject {
 	public void removeObject(MovingObject object, Scene mScenePlayArea, MathEngine mathEngine) {
 		super.removeObject(object, mScenePlayArea, mathEngine);
 		mathEngine.getScenePlayArea().unregisterTouchArea(bat);
+	}
+
+	@Override
+	protected void eraseData(final MathEngine mathEngine) {
+		super.eraseData(mathEngine);
+
+		
+//		float initCrossX = this.posX() /*+ mMainSprite.getWidth() / 2 - mathEngine.getResourceManager().getRedCross().getWidth() / 2 */+ bat.getX();
+//		float initCrossY = this.posY() /*+ mMainSprite.getHeight() / 2 - mathEngine.getResourceManager().getRedCross().getHeight() / 2 */+ bat.getY();
+//		final Sprite cross = new Sprite(initCrossX, initCrossY, mathEngine.getResourceManager().getRedCross(), mathEngine.getResourceManager().getVertexBufferObjectManager());
+		
+		
+		float initCrossX = this.posX() + bat.getX() - mathEngine.getResourceManager().getBat().getWidth() / 2;
+		float initCrossY = this.posY() + bat.getY() - mathEngine.getResourceManager().getBat().getHeight() / 2;
+		
+//		float x = mMainSprite.getX() + mathEngine.getResourceManager().getBat().getWidth() / 2 + bat.getX();
+//		float y = mMainSprite.getY() + mathEngine.getResourceManager().getBat().getHeight() / 2 + bat.getY();
+
+		blast = new AnimatedSprite(initCrossX, initCrossY, mathEngine.getResourceManager().getBatHiding(), mathEngine.getResourceManager().getVertexBufferObjectManager());
+		blast.animate(animationSpeed, false, new IAnimationListener() {
+
+			@Override
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite, int pInitialLoopCount) {
+
+			}
+
+			@Override
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite, int pRemainingLoopCount, int pInitialLoopCount) {
+
+			}
+
+			@Override
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex, int pNewFrameIndex) {
+			}
+
+			@Override
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						mathEngine.getScenePlayArea().detachChild(blast);
+					}
+				});
+			}
+		});
+		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mathEngine.getScenePlayArea().attachChild(blast);
+//				mathEngine.getScenePlayArea().attachChild(cross);
+			}
+		});
 	}
 
 }
