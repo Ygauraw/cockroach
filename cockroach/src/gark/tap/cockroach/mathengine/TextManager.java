@@ -14,6 +14,7 @@ public class TextManager {
 	private TextView attention;
 	private TextView scoreValue;
 	private View container;
+//	private AdView adView;
 
 	public TextManager(final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
@@ -22,11 +23,20 @@ public class TextManager {
 
 			@Override
 			public void run() {
+				
 
 				container = LayoutInflater.from(mathEngine.getGameActivity()).inflate(R.layout.vawe, null);
 				vaweText = (TextView) container.findViewById(R.id.vawe_number);
 				attention = (TextView) container.findViewById(R.id.attention);
 				scoreValue = (TextView) container.findViewById(R.id.score_value);
+
+				
+				
+				//TODO
+				// adView = (AdView) container.findViewById(R.id.adView);
+				// AdRequest adRequest = new AdRequest();
+				// adRequest.setTesting(true);
+				// adView.loadAd(adRequest);
 
 				scoreValue.setTypeface(Utils.getTypeface());
 				attention.setTypeface(Utils.getTypeface());

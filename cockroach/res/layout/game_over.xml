@@ -26,8 +26,7 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
-        <!--
-             <ListView
+        <ListView
             android:id="@+id/list_statistic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,9 +41,9 @@
             android:scrollbars="none"
             android:scrollingCache="false"
             android:smoothScrollbar="false" />
-        -->
 
-        <GridView
+        <!--
+             <GridView
             android:id="@+id/list_statistic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,6 +59,7 @@
             android:scrollbars="none"
             android:scrollingCache="false"
             android:smoothScrollbar="false" />
+        -->
 
         <TextView
             android:id="@+id/game_over"

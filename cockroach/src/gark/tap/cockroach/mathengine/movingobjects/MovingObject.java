@@ -149,9 +149,6 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	public void tact(long now, long period) {
-		
-		Log.e("zzz", "" + mathEngine.getLevelManager().getUnitList().size());
-		
 		if (needToDelete) {
 			MathEngine.SCORE += scoreValue;
 			eraseData(mathEngine);
@@ -174,8 +171,6 @@ public abstract class MovingObject extends BaseObject {
 			attachCorpse(mathEngine);
 			// killed statistic
 			StatisticManager.addKilledUnit(this);
-//			Log.e("zzz", "" + mathEngine.getLevelManager().getUnitList().size());
-
 		} else {
 			setHealth(getHealth() - 1);
 		}
@@ -210,12 +205,7 @@ public abstract class MovingObject extends BaseObject {
 			StaticObject deadObject = new BackgroundObject(new PointF(posX(), posY()), corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
 			deadObject.setDeadObject(getClass().getName());
 			deadObject.setRotation(getMainSprite().getRotation());
-			
-			//TODO
-			
-//			mathEngine.getCorpseManager().add(deadObject);
 			mathEngine.getCorpseManager().getQueueCorpseForAdd().add(deadObject);
-//			mathEngine.getSceneDeadArea().attachChild(deadObject.getSprite());
 		}
 	}
 

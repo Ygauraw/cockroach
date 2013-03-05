@@ -29,8 +29,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -42,8 +42,7 @@ public class GameOverManager implements OnClickListener {
 	private Scene mScenePlayArea;
 	private Scene mSceneControls;
 	private Sprite pause;
-	// private ListView listView;
-	private GridView listView;
+	private ListView listView;
 
 	public GameOverManager(final MathEngine mathEngine, final BaseGameActivity gameActivity, final Scene mScenePlayArea, final Scene mSceneControls, final Sprite pause) {
 		this.gameActivity = gameActivity;
@@ -66,7 +65,7 @@ public class GameOverManager implements OnClickListener {
 				LevelManager.setCURENT_LEVEL(1);
 
 				View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
-				listView = (GridView) view.findViewById(R.id.list_statistic);
+				listView = (ListView) view.findViewById(R.id.list_statistic);
 				listView.setAdapter(new StaticArrayAdapter(gameActivity, android.R.layout.simple_list_item_1, StatisticManager.getResultList()));
 
 				TextView statistic_title = (TextView) view.findViewById(R.id.statistic_title);

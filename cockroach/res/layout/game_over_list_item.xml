@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"
-        android:scaleType="centerInside" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/dead_count"
@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/dead_image"
+        android:singleLine="true"
         android:textColor="@android:color/black"
         android:textIsSelectable="false"
         android:textSize="32sp" />
