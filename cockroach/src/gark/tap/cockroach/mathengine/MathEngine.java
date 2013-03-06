@@ -14,6 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -51,6 +52,10 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 	private GameOverManager gameOverManager;
 	private HeartManager heartManager;
 	private LevelManager levelManager;
+
+	int i = 0;
+	boolean isDrawing = false;
+	Rectangle[] rec = new Rectangle[250];
 
 	public MathEngine(final GameActivity gameActivity) {
 
@@ -92,6 +97,32 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 		// mSceneControls.attachChild(mResourceManager.getScoreText());
 		mScenePlayArea.setChildScene(mSceneControls);
+
+		// TODO
+
+//		mScenePlayArea.setOnSceneTouchListener(new IOnSceneTouchListener() {
+//			@Override
+//			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
+//				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+//					isDrawing = true;
+//					i = 0;
+//				}
+//				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+//					isDrawing = false;
+//				}
+//
+//				if (isDrawing = true) {
+//					rec[i] = new Rectangle(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), 1, 1, getResourceManager().getVertexBufferObjectManager());
+//					if (i != 0) {
+//						Line l = new Line(rec[i - 1].getX(), rec[i - 1].getY(), rec[i].getX(), rec[i].getY(), getResourceManager().getVertexBufferObjectManager());
+//						l.setColor(0.5f, 1f, 0.3f);
+//						mScenePlayArea.attachChild(l);
+//					}
+//					i++;
+//				}
+//				return true;
+//			}
+//		});
 
 		// pause button
 		Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE, Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
@@ -199,7 +230,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 				levelManager.getUnitList().add(movingObject);
 				getScenePlayArea().attachChild(movingObject.getMainSprite());
 				getScenePlayArea().registerTouchArea(movingObject.getMainSprite());
-				
+
 			}
 
 			for (ListIterator<MovingObject> movingIterator = levelManager.getUnitList().listIterator(); movingIterator.hasNext();) {

@@ -59,6 +59,8 @@ public class GameOverManager implements OnClickListener {
 			@Override
 			public void run() {
 				// Game Over
+				MathEngine.health = Config.HEALTH_SCORE;
+				mathEngine.stop(true);
 				mScenePlayArea.setOnAreaTouchListener(null);
 				mSceneControls.unregisterTouchArea(pause);
 
@@ -82,8 +84,6 @@ public class GameOverManager implements OnClickListener {
 
 				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 				gameActivity.addContentView(view, lp);
-				mathEngine.stop(true);
-				MathEngine.health = Config.HEALTH_SCORE;
 
 				StatisticManager.prepareStatistic();
 

@@ -56,6 +56,28 @@ public abstract class MovingObject extends BaseObject {
 
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				
+//				Log.e("", "" + pSceneTouchEvent.getMotionEvent(). + " " );
+//				switch (pSceneTouchEvent.getAction()) {
+//				case TouchEvent.ACTION_CANCEL:
+//					Log.e("", "ACTION_CANCEL");
+//					break;
+//				case TouchEvent.ACTION_DOWN:
+//					Log.e("", "ACTION_DOWN");
+//					break;
+//				case TouchEvent.ACTION_MOVE:
+//					Log.e("", "ACTION_MOVE");
+//					break;
+//				case TouchEvent.ACTION_OUTSIDE:
+//					Log.e("", "ACTION_OUTSIDE");
+//					break;
+//				case TouchEvent.ACTION_UP:
+//					Log.e("", "ACTION_UP");
+//					break;
+//				default:
+//					break;
+//				}
+				
 				if (touches.contains(pSceneTouchEvent.getAction())) {
 					calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
 					return true;
