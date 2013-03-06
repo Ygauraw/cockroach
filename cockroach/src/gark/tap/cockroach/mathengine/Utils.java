@@ -23,12 +23,14 @@ public class Utils {
 		return ((float) ((Math.abs(random.nextInt()) % n)) / 1000);
 	}
 
+	public static int generateRandomPositiveInt(int n) {
+		return (Math.abs(random.nextInt()) % n);
+	}
+
 	public static float generateRandomPositive(float from, float to) {
 		to *= 1000;
 		float result = ((float) ((Math.abs(random.nextInt()) % to)) / 1000);
-		if (result < from)
-			result += from;
-		return result;
+		return Math.abs(result);
 	}
 
 	public static int getHighScore(int highScore, BaseActivity activity) {

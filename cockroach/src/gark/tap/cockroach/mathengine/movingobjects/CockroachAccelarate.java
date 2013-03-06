@@ -22,7 +22,7 @@ public class CockroachAccelarate extends MovingObject {
 		if (posX() < (0 + getWidth() / 3 / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / 3 / Config.SCALE))
 			setmShiftX(-getShiftX());
 
-		if (posY() > Config.CAMERA_HEIGHT / 5 && !isAcceleration) {
+		if (posY() > Config.CAMERA_HEIGHT / 8 && !isAcceleration) {
 			isAcceleration = true;
 			setMoving(getMoving() * ACCELERATION);
 		}

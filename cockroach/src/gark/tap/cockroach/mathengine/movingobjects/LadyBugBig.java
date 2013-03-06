@@ -12,6 +12,12 @@ public class LadyBugBig extends MovingObject {
 
 	float xDistance = 0;
 	float oneStep = 0;
+	private boolean isDirect = false;
+
+	public LadyBugBig(PointF point, MathEngine mathEngine, Boolean isDirect) {
+		this(point, mathEngine);
+		this.isDirect = isDirect;
+	}
 
 	public LadyBugBig(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getLagyBug(), mathEngine);
@@ -28,25 +34,29 @@ public class LadyBugBig extends MovingObject {
 		super.tact(now, period);
 
 		float distance = (float) period / 1000 * getMoving();
+		if (!isDirect) {
+			oneStep += distance;
+			if (oneStep > Config.CAMERA_WIDTH / 10) {
+				float angle = Utils.generateRandom(90);
 
-		oneStep += distance;
-		if (oneStep > Config.CAMERA_WIDTH / 10) {
-			float angle = Utils.generateRandom(90);
+				xDistance = (float) (distance * Math.tan(Math.toRadians(-angle)));
+				mMainSprite.setRotation(angle);
 
-			xDistance = (float) (distance * Math.tan(Math.toRadians(-angle)));
-			mMainSprite.setRotation(angle);
+				oneStep = 0;
+			}
 
-			oneStep = 0;
+			setY(posY() + distance);
+			setX(posX() + xDistance);
+
+			if (posX() < 0)
+				setX(Math.abs(posX()));
+
+			if (posX() > Config.CAMERA_WIDTH)
+				setX(Config.CAMERA_WIDTH - (posX() - Config.CAMERA_WIDTH));
+		} else {
+			setY(posY() + distance);
+			setX(posX() - getShiftX());
 		}
-
-		setY(posY() + distance);
-		setX(posX() + xDistance);
-
-		if (posX() < 0)
-			setX(Math.abs(posX()));
-
-		if (posX() > Config.CAMERA_WIDTH)
-			setX(Config.CAMERA_WIDTH - (posX() - Config.CAMERA_WIDTH));
 
 		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}
