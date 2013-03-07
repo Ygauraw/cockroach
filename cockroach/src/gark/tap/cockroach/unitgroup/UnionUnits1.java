@@ -89,7 +89,7 @@ public class UnionUnits1 extends UnionUnits {
 			unitBot.setDelay(2000);
 			initList.add(unitBot);
 
-			initPosition = Utils.generateRandomPositive(2, 8) / 10f;
+			initPosition = (Utils.generateRandomPositive(2, 8) + 1) / 10f;
 			clazz = Class.forName(CockroachAccelarate.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });

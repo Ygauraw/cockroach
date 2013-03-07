@@ -37,10 +37,7 @@ public class ResourceManager {
 	private SpriteMenuItem quitMenuItem;
 
 	private TiledTextureRegion mCockroachTextureRegion;
-	private TiledTextureRegion mDragonFly;
 	private TiledTextureRegion mSpider;
-	private TiledTextureRegion mCaterpillar;
-	private TiledTextureRegion mAnt;
 	private TiledTextureRegion mHeartAnimated;
 	private TiledTextureRegion mPlane;
 	private TiledTextureRegion mBat;
@@ -287,20 +284,8 @@ public class ResourceManager {
 		return mRedCircleMedecine;
 	}
 
-	public TiledTextureRegion getDragonFly() {
-		return mDragonFly;
-	}
-
 	public TiledTextureRegion getSpider() {
 		return mSpider;
-	}
-
-	public TiledTextureRegion getCaterpillar() {
-		return mCaterpillar;
-	}
-
-	public TiledTextureRegion getAnt() {
-		return mAnt;
 	}
 
 	public TextureRegion getHeart() {

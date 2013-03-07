@@ -11,8 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Queue;
 
 public class LevelGenerator {
-	public static final int LEVEL_COUNT = 3;
-	public static final int LEVEL_COUNT_COMPOSITE = 3;
+	public static final int LEVEL_COUNT = 1;
+	public static final int LEVEL_COUNT_COMPOSITE = 4;
 	private static UnionUnits unionUnits;
 	private static int compositePreviousValue = 0;
 
@@ -40,7 +40,7 @@ public class LevelGenerator {
 
 			}
 
-			clazz = Class.forName(UnionUnits.class.getName() + "Composite" + randomLevel);
+			clazz = Class.forName(UnionUnits.class.getName() + "Composite" + level);
 			constructor = clazz.getConstructor(MathEngine.class);
 			unionUnits = (UnionUnits) constructor.newInstance(new Object[] { mathEngine });
 			queue.addAll(unionUnits.getUnionUnits());

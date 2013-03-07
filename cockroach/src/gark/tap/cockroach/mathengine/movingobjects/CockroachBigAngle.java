@@ -9,13 +9,15 @@ public class CockroachBigAngle extends MovingObject {
 	float relationPosition;
 	float oneStep = 0;
 	float xDistance = 0;
+
 	// private static final int initialAngle = 45;
-	public static final float coef = (float) (Math.log10(Config.CAMERA_HEIGHT) / Math.log10(Config.CAMERA_WIDTH));
+	// public static final float coef = (float)
+	// (Math.log10(Config.CAMERA_HEIGHT) / Math.log10(Config.CAMERA_WIDTH));
 
 	public CockroachBigAngle(PointF point, MathEngine mathEngine, Boolean direction) {
 		super(point, mathEngine.getResourceManager().getBigCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
-		mMainSprite.setScale(1.5f * Config.SCALE);
+		// mMainSprite.setScale(1.5f * Config.SCALE);
 		setmShiftX((direction) ? 10 : -10);
 	}
 

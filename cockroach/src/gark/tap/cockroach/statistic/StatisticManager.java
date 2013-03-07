@@ -63,22 +63,6 @@ public class StatisticManager {
 
 	public static void addMissedUnit(MovingObject movingObject) {
 		String key = movingObject.getClass().getName();
-
-		// if (CockroachAccelarate.class.getName().equals(key) ||
-		// CockroachAngle.class.getName().equals(key) ||
-		// CockroachBigAngle.class.getName().equals(key)
-		// || CockroachCircleEscort.class.getName().equals(key) ||
-		// CockroachDirect.class.getName().equals(key) ||
-		// CockroachHalfLefAngle.class.getName().equals(key)
-		// || CockroachLOL.class.getName().equals(key) ||
-		// CockroachMedic.class.getName().equals(key) ||
-		// CockroachRandomAngle.class.getName().equals(key)
-		// || CockroachSin.class.getName().equals(key) ||
-		// CockroachLarva.class.getName().equals(key) ||
-		// CockroachSquare.class.getName().equals(key)) {
-		// key = CockroachDirect.class.getName();
-		// }
-
 		Integer count = missedMap.get(key);
 		if (count != null) {
 			count++;
@@ -90,11 +74,14 @@ public class StatisticManager {
 
 	public static void addKilledUnit(MovingObject movingObject) {
 		String key = movingObject.getClass().getName();
+//		Log.e("", key);
 
 		if (CockroachAccelarate.class.getName().equals(key) || CockroachAngle.class.getName().equals(key) || CockroachBigAngle.class.getName().equals(key)
 				|| CockroachCircleEscort.class.getName().equals(key) || CockroachDirect.class.getName().equals(key) || CockroachHalfLefAngle.class.getName().equals(key)
-				|| CockroachLOL.class.getName().equals(key) || CockroachMedic.class.getName().equals(key) || CockroachRandomAngle.class.getName().equals(key)
-				|| CockroachSin.class.getName().equals(key) || CockroachLarva.class.getName().equals(key) || CockroachSquare.class.getName().equals(key)) {
+				|| CockroachHalfLefAngle.class.getName().equals(key) || CockroachLOL.class.getName().equals(key) || CockroachMedic.class.getName().equals(key)
+				|| CockroachRandomAngle.class.getName().equals(key) || CockroachSin.class.getName().equals(key) || CockroachLarva.class.getName().equals(key)
+//				|| CockroachSin.class.getName().equals(key)
+				|| CockroachSquare.class.getName().equals(key)) {
 			key = CockroachDirect.class.getName();
 		}
 

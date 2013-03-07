@@ -39,7 +39,6 @@ public class UnionUnitsComposite1 extends UnionUnits {
 		UnitBot unitBot = null;
 		try {
 
-
 			clazz = Class.forName(CockroachDirect.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.35f, -100), mathEngine });

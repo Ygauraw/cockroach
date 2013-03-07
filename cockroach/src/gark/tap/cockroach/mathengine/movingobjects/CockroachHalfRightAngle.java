@@ -8,7 +8,7 @@ public class CockroachHalfRightAngle extends MovingObject {
 	float relationPosition;
 	public static final float coef = (float) (Math.log10(Config.CAMERA_HEIGHT) / Math.log10(Config.CAMERA_WIDTH));
 
-	public CockroachHalfRightAngle(PointF point, MathEngine mathEngine, boolean direction) {
+	public CockroachHalfRightAngle(PointF point, MathEngine mathEngine, Boolean direction) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 

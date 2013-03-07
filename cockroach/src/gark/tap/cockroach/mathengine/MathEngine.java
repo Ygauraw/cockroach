@@ -9,12 +9,18 @@ import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
+import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -24,8 +30,9 @@ import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 import android.util.Log;
+import android.view.MotionEvent;
 
-public class MathEngine implements Runnable, IOnMenuItemClickListener {
+public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
 	public static int health = Config.HEALTH_SCORE;
@@ -52,6 +59,14 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 	private GameOverManager gameOverManager;
 	private HeartManager heartManager;
 	private LevelManager levelManager;
+
+	// ///////////////////////////////////////////////////////////////
+	// private Sprite[] mSprite = new Sprite[20];
+	private int mIndex = 0;
+	private Line[] mLineArray = new Line[10];
+	private ArrayList<Points> mTouchPoints = new ArrayList<Points>();
+	private RectangleParticleEmitter particleEmitter;
+	// /////////////////////////////////////////////////////////////
 
 	int i = 0;
 	boolean isDrawing = false;
@@ -99,30 +114,17 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 		mScenePlayArea.setChildScene(mSceneControls);
 
 		// TODO
+		particleEmitter = new RectangleParticleEmitter(Config.CAMERA_WIDTH * 0.5f, Config.CAMERA_HEIGHT * 0.5f, 5f, 5f);
+		mScenePlayArea.setOnSceneTouchListener(this);
 
-//		mScenePlayArea.setOnSceneTouchListener(new IOnSceneTouchListener() {
-//			@Override
-//			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-//				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-//					isDrawing = true;
-//					i = 0;
-//				}
-//				if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
-//					isDrawing = false;
-//				}
-//
-//				if (isDrawing = true) {
-//					rec[i] = new Rectangle(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(), 1, 1, getResourceManager().getVertexBufferObjectManager());
-//					if (i != 0) {
-//						Line l = new Line(rec[i - 1].getX(), rec[i - 1].getY(), rec[i].getX(), rec[i].getY(), getResourceManager().getVertexBufferObjectManager());
-//						l.setColor(0.5f, 1f, 0.3f);
-//						mScenePlayArea.attachChild(l);
-//					}
-//					i++;
-//				}
-//				return true;
-//			}
-//		});
+		for (int i = 0; i < mLineArray.length; i++) {
+
+			mLineArray[i] = new Line(0, 0, 0, 0, 10, getResourceManager().getVertexBufferObjectManager());
+			mLineArray[i].setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			// mLineArray[i].setScale(25);
+			mLineArray[i].setVisible(false);
+			mScenePlayArea.attachChild(mLineArray[i]);
+		}
 
 		// pause button
 		Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE, Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
@@ -346,6 +348,74 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener {
 
 	public CorpseManager getCorpseManager() {
 		return corpseManager;
+	}
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		if (pSceneTouchEvent.getAction() != TouchEvent.ACTION_DOWN && pSceneTouchEvent.getAction() == TouchEvent.ACTION_MOVE) {
+
+			mTouchPoints.add(new Points(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()));
+
+			printSamples(pSceneTouchEvent.getMotionEvent(), particleEmitter);
+
+		} else if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+
+			hideAllLine();
+			resetTouchList();
+		}
+		return true;
+	}
+
+	private int lineIndex = 0;
+
+	private void hideAllLine() {
+		for (int i = 0; i < mLineArray.length; i++) {
+			mLineArray[i].reset();
+			mLineArray[i].setVisible(false);
+			// mLineArray[i].setPosition(-CAMERA_WIDTH,
+			// -CAMERA_WIDTH,-CAMERA_WIDTH ,-CAMERA_WIDTH);
+		}
+	}
+
+	private synchronized void resetTouchList() {
+		mTouchPoints.clear();
+		mIndex = 0;
+		hideAllLine();
+	}
+
+	synchronized void printSamples(MotionEvent ev, RectangleParticleEmitter ps) {
+
+		// System.out.println("Touch List Size " + mTouchPoints.size());
+		// Log.e("", "" + "Touch List Size " + mTouchPoints.size() + " " +
+		// "index " + mIndex);
+		if (mTouchPoints.size() <= 1) {
+			return;
+		}
+		float X1 = mTouchPoints.get(mIndex).x;
+		float Y1 = mTouchPoints.get(mIndex).y;
+
+		mIndex += 1;
+
+		float X2 = mTouchPoints.get(mIndex).x;
+		float Y2 = mTouchPoints.get(mIndex).y;
+
+		mLineArray[lineIndex].setPosition(X1, Y1, X2, Y2);
+		mLineArray[lineIndex].setVisible(true);
+		lineIndex += 1;
+		if (lineIndex >= mLineArray.length - 1) {
+			lineIndex = 0;
+		}
+
+	}
+
+	class Points {
+		public float x = 0;
+		public float y = 0;
+
+		Points(float pX, float pY) {
+			this.x = pX;
+			this.y = pY;
+		}
 	}
 
 }

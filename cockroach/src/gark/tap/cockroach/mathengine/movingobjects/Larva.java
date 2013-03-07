@@ -52,9 +52,6 @@ public class Larva extends MovingObject {
 		this.mathEngine = mathEngine;
 		scoreValue = 0;
 		corpse = mathEngine.getResourceManager().getDeadLarva();
-		
-		
-
 		mMainSprite.setScale(Config.SCALE * 0.5f);
 		setHealth(5);
 		timer.schedule(timerTask, 5 * 1000);
