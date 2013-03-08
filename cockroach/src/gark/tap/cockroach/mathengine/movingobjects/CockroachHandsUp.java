@@ -29,10 +29,10 @@ public class CockroachHandsUp extends MovingObject {
 		this.resourceManager = mathEngine.getResourceManager();
 		setHealth(1);
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
-		// setMoving(100f);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.animate(durationMinimazed, framesMinimazed, true);
 		// mMainSprite.setScale(2 * Config.SCALE);
+		mSpeed = 1.5f * getMoving();
 
 	}
 

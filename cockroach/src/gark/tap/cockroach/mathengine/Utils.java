@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.andengine.ui.activity.BaseActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ public class Utils {
 	private static final Random random = new Random();
 	private static final String PREFS_HIDH_SCORE = "PREFS_HIDH_SCORE";
 	private static Typeface typeface;
+	private static final String SOUND = "sound";
 
 	public static float generateRandom(int n) {
 		n *= 1000;
@@ -52,6 +54,18 @@ public class Utils {
 
 	public static Typeface getTypeface() {
 		return typeface;
+	}
+
+	public static boolean isSound(Activity activity) {
+		SharedPreferences sharedPreferences = activity.getSharedPreferences(SOUND, Activity.MODE_PRIVATE);
+		return sharedPreferences.getBoolean(SOUND, true);
+	}
+
+	public static void setSound(Activity activity, boolean value) {
+		SharedPreferences sharedPreferences = activity.getSharedPreferences(SOUND, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(SOUND, value);
+		editor.commit();
 	}
 
 }

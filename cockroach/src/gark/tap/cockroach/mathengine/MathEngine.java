@@ -3,6 +3,7 @@ package gark.tap.cockroach.mathengine;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
+import gark.tap.cockroach.SoundManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
@@ -59,6 +60,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private GameOverManager gameOverManager;
 	private HeartManager heartManager;
 	private LevelManager levelManager;
+	private SoundManager soundManager;
 
 	// ///////////////////////////////////////////////////////////////
 	// private Sprite[] mSprite = new Sprite[20];
@@ -113,7 +115,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		// mSceneControls.attachChild(mResourceManager.getScoreText());
 		mScenePlayArea.setChildScene(mSceneControls);
 
-		// TODO
+		// TODO swipe
 		particleEmitter = new RectangleParticleEmitter(Config.CAMERA_WIDTH * 0.5f, Config.CAMERA_HEIGHT * 0.5f, 5f, 5f);
 		mScenePlayArea.setOnSceneTouchListener(this);
 
@@ -147,6 +149,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls, pause);
 
 		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this);
+		soundManager = new SoundManager(this);
 	}
 
 	public void pause() {
@@ -255,7 +258,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
 		switch (pMenuItem.getID()) {
-		case ResourceManager.MENU_RESET:
+		case ResourceManager.MENU_RESUME:
 			/* Restart the animation. */
 			mLastUpdateScene = System.currentTimeMillis();
 			this.start();
@@ -292,32 +295,6 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		}
 	};
 
-	// final IOnSceneTouchListener iOnSceneTouchListener = new
-	// IOnSceneTouchListener() {
-	//
-	// @Override
-	// public boolean onSceneTouchEvent(Scene pScene, TouchEvent
-	// pSceneTouchEvent) {
-	// if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
-	// levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(),
-	// mScenePlayArea, mSceneDeadArea, pSceneTouchEvent, MathEngine.this);
-	// return true;
-	// }
-	// return false;
-	// }
-	// };
-
-	// @Override
-	// public boolean onSceneTouchEvent(Scene pScene, TouchEvent
-	// pSceneTouchEvent) {
-	// if (pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()) {
-	// levelManager.removeUnit(pSceneTouchEvent.getX(), pSceneTouchEvent.getY(),
-	// mScenePlayArea, mSceneDeadArea, pSceneTouchEvent, this);
-	// return true;
-	// }
-	// return false;
-	// }
-
 	public GameActivity getGameActivity() {
 		return gameActivity;
 	}
@@ -348,6 +325,10 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	public CorpseManager getCorpseManager() {
 		return corpseManager;
+	}
+
+	public SoundManager getSoundManager() {
+		return soundManager;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.BatSin;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
 import gark.tap.cockroach.units.UnitBot;
 
 import java.lang.reflect.Constructor;
@@ -37,7 +38,28 @@ public class UnionUnitsComposite5 extends UnionUnits {
 		Constructor<?> constructor = null;
 		UnitBot unitBot = null;
 		try {
+			
+			
+			clazz = Class.forName(CockroachHandsUp.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
+			unitBot.setDelay(2000);
+			cockroachs.add(unitBot);
 
+			
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mathEngine });
+			unitBot.setDelay(1);
+			cockroachs.add(unitBot);
+			
+			
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine });
+			unitBot.setDelay(1);
+			cockroachs.add(unitBot);
+			
 			clazz = Class.forName(CockroachDirect.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
@@ -61,6 +83,8 @@ public class UnionUnitsComposite5 extends UnionUnits {
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine, 0.5f });
 			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
+
+
 
 			// clazz = Class.forName(CockroachHalfRightAngle.class.getName());
 			// constructor = clazz.getConstructor(PointF.class,

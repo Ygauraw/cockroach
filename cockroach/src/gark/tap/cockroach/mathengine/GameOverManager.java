@@ -4,6 +4,7 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.R;
 import gark.tap.cockroach.levels.LevelManager;
+import gark.tap.cockroach.mathengine.movingobjects.BatSin;
 import gark.tap.cockroach.mathengine.movingobjects.Bug;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachFly;
@@ -152,6 +153,8 @@ public class GameOverManager implements OnClickListener {
 				image = R.drawable.single_hands_up;
 			} else if (LadyBugSmall.class.getName().equals(name)) {
 				image = R.drawable.single_small_lady;
+			} else if (BatSin.class.getName().equals(name)) {
+				image = R.drawable.single_bat;
 			}
 			holder.textView.setText(" = " + objects.get(position).getCount());
 			holder.imageView.setImageResource(image);

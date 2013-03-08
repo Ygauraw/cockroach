@@ -20,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.andengine.entity.scene.Scene;
 
-import android.util.Log;
-
 public class LevelManager {
 
 	private static int CURENT_LEVEL = 1;
@@ -53,7 +51,11 @@ public class LevelManager {
 		public void run() {
 			if (!queueOfAllLevelUnit.isEmpty() && !pause) {
 				allowNewLevel = false;
-				executor.schedule(runnable, (int) queueOfAllLevelUnit.peek().getDelay(), TimeUnit.MILLISECONDS);
+				int delay = queueOfAllLevelUnit.peek().getDelay();
+				delay *= Config.INIT_SPEED / Config.SPEED;
+				if (delay < 1)
+					delay = 1;
+				executor.schedule(runnable, delay, TimeUnit.MILLISECONDS);
 				addCockroach(queueOfAllLevelUnit.poll());
 			} else if (queueOfAllLevelUnit.isEmpty()) {
 				allowNewLevel = true;
@@ -168,7 +170,7 @@ public class LevelManager {
 
 	public void checkForStartNewLevel() {
 		if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
-			Log.e("level ", "level started");
+			// Log.e("level ", "level started");
 			++CURENT_LEVEL;
 			startNewLevel(CURENT_LEVEL);
 		}

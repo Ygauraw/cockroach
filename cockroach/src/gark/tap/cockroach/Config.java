@@ -6,6 +6,7 @@ public class Config {
 
 	public static float SCALE = 1;
 	public static float SPEED = 100;
+	public static final int INIT_SPEED = 100;
 
 	public static int CAMERA_WIDTH = 800;
 	public static int CAMERA_HEIGHT = 1280;

@@ -27,8 +27,8 @@ import android.opengl.GLES20;
 
 public class ResourceManager {
 
-	public static final int MENU_RESET = 0;
-	public static final int MENU_QUIT = MENU_RESET + 1;
+	public static final int MENU_RESUME = 0;
+	public static final int MENU_QUIT = MENU_RESUME + 1;
 
 	// menu
 	private TextureRegion mMenuResetTextureRegion;
@@ -53,7 +53,7 @@ public class ResourceManager {
 	private TiledTextureRegion mCockroachLavra;
 	private TiledTextureRegion mBatHiding;
 
-	private TextureRegion mResume;
+//	private TextureRegion mResume;
 	private TextureRegion mPause;
 
 	private Text mBonusValue;
@@ -92,6 +92,7 @@ public class ResourceManager {
 
 		try {
 			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
+//			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "tap_default.ogg");
 			mSoundOnTap.setLooping(false);
 
 			// mMusic =
@@ -109,8 +110,8 @@ public class ResourceManager {
 		BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas planeAtlas = new BitmapTextureAtlas(textureManager, 113, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 50, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 59, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 59, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mFontBigTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1665, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -139,10 +140,10 @@ public class ResourceManager {
 		BitmapTextureAtlas batHideAtlas = new BitmapTextureAtlas(textureManager, 1000, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		// menu
-		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "menu_reset.png", 0, 0);
-		mMenuQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuQuitTextureAtlas, baseGameActivity, "menu_quit.png", 0, 0);
+		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "btn_resume.png", 0, 0);
+		mMenuQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuQuitTextureAtlas, baseGameActivity, "btn_quit.png", 0, 0);
 
-		resetMenuItem = new SpriteMenuItem(MENU_RESET, mMenuResetTextureRegion, mVertexBufferObjectManager);
+		resetMenuItem = new SpriteMenuItem(MENU_RESUME, mMenuResetTextureRegion, mVertexBufferObjectManager);
 		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
 		quitMenuItem = new SpriteMenuItem(MENU_QUIT, mMenuQuitTextureRegion, mVertexBufferObjectManager);
@@ -256,9 +257,9 @@ public class ResourceManager {
 		return mVertexBufferObjectManager;
 	}
 
-	public TextureRegion getResume() {
-		return mResume;
-	}
+//	public TextureRegion getResume() {
+//		return mResume;
+//	}
 
 	public TextureRegion getPause() {
 		return mPause;
