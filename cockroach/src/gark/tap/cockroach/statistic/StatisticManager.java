@@ -80,7 +80,6 @@ public class StatisticManager {
 				|| CockroachCircleEscort.class.getName().equals(key) || CockroachDirect.class.getName().equals(key) || CockroachHalfLefAngle.class.getName().equals(key)
 				|| CockroachHalfLefAngle.class.getName().equals(key) || CockroachLOL.class.getName().equals(key) || CockroachMedic.class.getName().equals(key)
 				|| CockroachRandomAngle.class.getName().equals(key) || CockroachSin.class.getName().equals(key) || CockroachLarva.class.getName().equals(key)
-//				|| CockroachSin.class.getName().equals(key)
 				|| CockroachSquare.class.getName().equals(key)) {
 			key = CockroachDirect.class.getName();
 		}

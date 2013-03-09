@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@drawable/btn_bg"
+            android:padding="10dp"
             android:text="@string/start"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -26,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@drawable/btn_bg"
+            android:padding="10dp"
             android:text="@string/instrucion"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -36,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@drawable/btn_bg"
+            android:padding="10dp"
             android:text="@string/more_games"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -46,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@drawable/btn_bg"
+            android:padding="10dp"
             android:text="@string/remove_ads"
             android:textSize="28sp"
             android:textStyle="bold" />

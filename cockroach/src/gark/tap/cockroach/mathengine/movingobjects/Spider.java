@@ -3,6 +3,11 @@ package gark.tap.cockroach.mathengine.movingobjects;
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
+
+import java.util.Arrays;
+
+import org.andengine.input.touch.TouchEvent;
+
 import android.graphics.PointF;
 
 public class Spider extends MovingObject {
@@ -14,7 +19,7 @@ public class Spider extends MovingObject {
 		super(point, mathEngine.getResourceManager().getSpider(), mathEngine);
 		setHealth(2);
 		corpse = mathEngine.getResourceManager().getDeadSpider();
-//		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
+		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.setScale(1.5f * Config.SCALE);
 

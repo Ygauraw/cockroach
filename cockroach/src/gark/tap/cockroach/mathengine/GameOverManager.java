@@ -16,6 +16,8 @@ import gark.tap.cockroach.statistic.StatisticManager;
 import gark.tap.cockroach.statistic.StatisticUnit;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 
 public class GameOverManager implements OnClickListener {
 
+	private final Timer timer = new Timer();
 	private MathEngine mathEngine;
 	private BaseGameActivity gameActivity;
 	private Scene mScenePlayArea;
@@ -51,45 +54,53 @@ public class GameOverManager implements OnClickListener {
 		this.mScenePlayArea = mScenePlayArea;
 		this.mSceneControls = mSceneControls;
 		this.pause = pause;
+		StatisticManager.prepareStatistic();
 	}
 
 	public void finish() {
+		MathEngine.health = Config.HEALTH_SCORE;
+		mathEngine.stop(true);
+		mScenePlayArea.setOnAreaTouchListener(null);
+		mSceneControls.unregisterTouchArea(pause);
 
-		gameActivity.runOnUiThread(new Runnable() {
+		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				// Game Over
-				MathEngine.health = Config.HEALTH_SCORE;
-				mathEngine.stop(true);
-				mScenePlayArea.setOnAreaTouchListener(null);
-				mSceneControls.unregisterTouchArea(pause);
+				gameActivity.runOnUiThread(new Runnable() {
 
-				LevelManager.setCURENT_LEVEL(1);
+					@Override
+					public void run() {
+						// Game Over
 
-				View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
-				listView = (ListView) view.findViewById(R.id.list_statistic);
-				listView.setAdapter(new StaticArrayAdapter(gameActivity, android.R.layout.simple_list_item_1, StatisticManager.getResultList()));
+						LevelManager.setCURENT_LEVEL(1);
 
-				TextView statistic_title = (TextView) view.findViewById(R.id.statistic_title);
-				TextView highScore = (TextView) view.findViewById(R.id.highScore);
-				TextView gameOver = (TextView) view.findViewById(R.id.game_over);
-				Button play_again = (Button) view.findViewById(R.id.try_again);
-				play_again.setOnClickListener(GameOverManager.this);
-				highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
+						View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
+						listView = (ListView) view.findViewById(R.id.list_statistic);
+						listView.setAdapter(new StaticArrayAdapter(gameActivity, android.R.layout.simple_list_item_1, StatisticManager.getResultList()));
 
-				statistic_title.setTypeface(Utils.getTypeface());
-				gameOver.setTypeface(Utils.getTypeface());
-				highScore.setTypeface(Utils.getTypeface());
-				play_again.setTypeface(Utils.getTypeface());
+						TextView statistic_title = (TextView) view.findViewById(R.id.statistic_title);
+						TextView highScore = (TextView) view.findViewById(R.id.highScore);
+						TextView gameOver = (TextView) view.findViewById(R.id.game_over);
+						Button play_again = (Button) view.findViewById(R.id.try_again);
+						play_again.setOnClickListener(GameOverManager.this);
+						highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
 
-				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				gameActivity.addContentView(view, lp);
+						statistic_title.setTypeface(Utils.getTypeface());
+						gameOver.setTypeface(Utils.getTypeface());
+						highScore.setTypeface(Utils.getTypeface());
+						play_again.setTypeface(Utils.getTypeface());
 
-				StatisticManager.prepareStatistic();
+						RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+						gameActivity.addContentView(view, lp);
 
+//						StatisticManager.prepareStatistic();
+
+					}
+				});
 			}
-		});
+		}, 2 * 1000);
+
 	}
 
 	@Override

@@ -133,6 +133,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 				gameActivity.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				mScenePlayArea.setOnSceneTouchListener(null);
 				pause();
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
@@ -260,6 +261,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		switch (pMenuItem.getID()) {
 		case ResourceManager.MENU_RESUME:
 			/* Restart the animation. */
+			mScenePlayArea.setOnSceneTouchListener(this);
 			mLastUpdateScene = System.currentTimeMillis();
 			this.start();
 			levelManager.resumeLauncher();

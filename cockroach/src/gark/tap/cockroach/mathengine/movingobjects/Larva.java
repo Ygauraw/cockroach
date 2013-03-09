@@ -5,8 +5,11 @@ import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.units.UnitBot;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
 
@@ -52,6 +55,7 @@ public class Larva extends MovingObject {
 		this.mathEngine = mathEngine;
 		scoreValue = 0;
 		corpse = mathEngine.getResourceManager().getDeadLarva();
+		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.setScale(Config.SCALE * 0.5f);
 		setHealth(5);
 		timer.schedule(timerTask, 5 * 1000);

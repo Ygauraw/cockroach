@@ -53,7 +53,7 @@ public class UnionUnits2 extends UnionUnits {
 				clazz = Class.forName(CockroachDirect.class.getName());
 				constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 				unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-				unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+				unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 				initList.add(unitBot);
 			}
 
@@ -74,20 +74,20 @@ public class UnionUnits2 extends UnionUnits {
 			}
 
 			for (int i = 0; i <= 2; i++) {
-				initPosition = Utils.generateRandomPositive(4, 6) / 10f;
+				initPosition = Utils.generateRandomPositive(4, 6) + 1 / 10f;
 				clazz = Class.forName(CockroachSin.class.getName());
 				constructor = clazz.getConstructor(PointF.class, MathEngine.class, Float.class);
 				unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine, 0.5f });
-				unitBot.setDelay((int) Utils.generateRandomPositive(200, 2000));
+				unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 				initList.add(unitBot);
 			}
 
 			for (int i = 0; i <= 1; i++) {
-				initPosition = Utils.generateRandomPositive(2, 9) / 10f;
+				initPosition = (Utils.generateRandomPositive(2, 8) + 1) / 10f;
 				clazz = Class.forName(CockroachAccelarate.class.getName());
 				constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 				unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-				unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+				unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 				initList.add(unitBot);
 			}
 
@@ -95,14 +95,14 @@ public class UnionUnits2 extends UnionUnits {
 			clazz = Class.forName(CockroachLarva.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-			unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+			unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 
 			initPosition = Utils.generateRandomPositive(2, 9) / 10f;
 			for (int i = 0; i <= 3; i++) {
 				clazz = Class.forName(CockroachGreySmall.class.getName());
 				constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 				unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-				unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+				unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 			}
 
 			int position = 0;

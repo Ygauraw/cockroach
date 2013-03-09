@@ -38,7 +38,6 @@
             android:fastScrollEnabled="false"
             android:focusableInTouchMode="false"
             android:listSelector="@drawable/list_selector"
-            android:scrollbars="none"
             android:scrollingCache="false"
             android:smoothScrollbar="false" />
 

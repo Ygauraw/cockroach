@@ -52,7 +52,7 @@ public class UnionUnits3 extends UnionUnits {
 				clazz = Class.forName(CockroachLarva.class.getName());
 				constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 				unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-				unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+				unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 				initList.add(unitBot);
 			}
 
@@ -75,14 +75,14 @@ public class UnionUnits3 extends UnionUnits {
 			clazz = Class.forName(CockroachCircleEscort.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
-			unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+			unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 			initList.add(unitBot);
 
 			initPosition = (Utils.generateRandomPositive(2, 8) + 1) / 10f;
 			clazz = Class.forName(Spider.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-			unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+			unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 			initList.add(unitBot);
 
 			for (int i = 0; i <= 3; i++) {
@@ -90,10 +90,10 @@ public class UnionUnits3 extends UnionUnits {
 				clazz = Class.forName(CockroachGreySmall.class.getName());
 				constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 				unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
-				unitBot.setDelay((int) Utils.generateRandomPositive(2, 2000));
+				unitBot.setDelay((int) Utils.generateRandomPositive(1000, 2000));
 				initList.add(unitBot);
 			}
-			
+
 			int position = 0;
 			while (!initList.isEmpty()) {
 				position = Utils.generateRandomPositiveInt(initList.size());
