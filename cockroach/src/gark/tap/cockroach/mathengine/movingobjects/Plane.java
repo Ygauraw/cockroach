@@ -23,13 +23,15 @@ public class Plane extends MovingObject {
 		this.resourceManager = mathEngine.getResourceManager();
 		setMoving(moving * 2);
 
+		onTapSound = mathEngine.getResourceManager().getSoundHellYeah();
+
 		Bonus bonus0 = new Bonus(10, resourceManager.get10Bonus());
 		Bonus bonus1 = new Bonus(25, resourceManager.get25Bonus());
 
 		bonusArray = new Bonus[] { bonus0, bonus1 };
 		// position = (int) (System.currentTimeMillis() % bonusArray.length);
 		position = ((int) Utils.generateRandomPositive(100)) % bonusArray.length;
-//		Log.e("c", "" + position);
+		// Log.e("c", "" + position);
 
 		float initCrossX = mMainSprite.getWidth() / 2 - resourceManager.getRedCross().getWidth();
 		float initCrossY = mMainSprite.getHeight() / 2 - resourceManager.getRedCross().getHeight();
@@ -61,16 +63,14 @@ public class Plane extends MovingObject {
 
 	@Override
 	public void calculateRemove(MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-//		mathEngine.getLevelManager().getUnitList().remove(this);
-		//TODO
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 		MathEngine.SCORE += bonusArray[position].getValue();
+		mathEngine.getSoundManager().playSound(onTapSound);
 		eraseData(mathEngine);
 	}
 
 	@Override
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
-//		iterator.remove();
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
 		eraseData(mathEngine);
 

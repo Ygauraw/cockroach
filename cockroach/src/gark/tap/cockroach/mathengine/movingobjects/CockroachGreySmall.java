@@ -16,6 +16,7 @@ public class CockroachGreySmall extends MovingObject {
 		corpse = mathEngine.getResourceManager().getDeadGrey();
 //		setMoving(200f);
 		mSpeed = 2 * getMoving();
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 
 	}
 

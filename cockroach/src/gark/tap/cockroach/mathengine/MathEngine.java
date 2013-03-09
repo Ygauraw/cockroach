@@ -23,9 +23,6 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.menu.MenuScene;
-import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
-import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 
@@ -33,7 +30,7 @@ import android.graphics.PointF;
 import android.util.Log;
 import android.view.MotionEvent;
 
-public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneTouchListener {
+public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 	public static final int UPDATE_PERIOD = 40;
 	public static int health = Config.HEALTH_SCORE;
@@ -46,7 +43,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private Scene mScenePlayArea;
 	private Scene mSceneDeadArea;
 
-	private MenuScene mMenuScene;
+	// private MenuScene mMenuScene;
 
 	private Thread mGameLoop;
 	private boolean mAlive;
@@ -61,6 +58,7 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 	private HeartManager heartManager;
 	private LevelManager levelManager;
 	private SoundManager soundManager;
+	private PauseManager pauseManager;
 
 	// ///////////////////////////////////////////////////////////////
 	// private Sprite[] mSprite = new Sprite[20];
@@ -86,15 +84,16 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
 
-		// menu
-		mMenuScene = new MenuScene(mCamera);
-		mMenuScene.addMenuItem(mResourceManager.getResetMenuItem());
-		mMenuScene.addMenuItem(mResourceManager.getQuitMenuItem());
-		mMenuScene.buildAnimations();
-		mMenuScene.setBackgroundEnabled(false);
-		mMenuScene.setOnMenuItemClickListener(this);
+		// // menu
+		// mMenuScene = new MenuScene(mCamera);
+		// mMenuScene.addMenuItem(mResourceManager.getResetMenuItem());
+		// mMenuScene.addMenuItem(mResourceManager.getQuitMenuItem());
+		// mMenuScene.buildAnimations();
+		// mMenuScene.setBackgroundEnabled(false);
+		// mMenuScene.setOnMenuItemClickListener(this);
 
 		// add background
+		// TODO
 		mSceneBackground.attachChild(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity
 				.getVertexBufferObjectManager()).getSprite());
 
@@ -133,8 +132,10 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 				gameActivity.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				mScenePlayArea.setOnSceneTouchListener(null);
-				pause();
+				if (pSceneTouchEvent.isActionDown()) {
+					mScenePlayArea.setOnSceneTouchListener(null);
+					pause();
+				}
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
@@ -149,13 +150,15 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls, pause);
 
-		levelManager = new LevelManager(mResourceManager, gameActivity, levelListener, mScenePlayArea, this);
+		levelManager = new LevelManager(this);
 		soundManager = new SoundManager(this);
+		pauseManager = new PauseManager(this);
 	}
 
 	public void pause() {
 		mAlive = false;
-		mSceneControls.setChildScene(mMenuScene, false, true, true);
+		pauseManager.showPause();
+		// mSceneControls.setChildScene(mMenuScene, false, true, true);
 		levelManager.pauseLauncher();
 	}
 
@@ -256,25 +259,26 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 
 	}
 
-	@Override
-	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
-		switch (pMenuItem.getID()) {
-		case ResourceManager.MENU_RESUME:
-			/* Restart the animation. */
-			mScenePlayArea.setOnSceneTouchListener(this);
-			mLastUpdateScene = System.currentTimeMillis();
-			this.start();
-			levelManager.resumeLauncher();
-			mSceneControls.reset();
-			return true;
-		case ResourceManager.MENU_QUIT:
-			levelManager.destroyLauncher();
-			gameActivity.finish();
-			return true;
-		default:
-			return false;
-		}
-	}
+	// @Override
+	// public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem
+	// pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
+	// switch (pMenuItem.getID()) {
+	// case ResourceManager.MENU_RESUME:
+	// /* Restart the animation. */
+	// mScenePlayArea.setOnSceneTouchListener(this);
+	// mLastUpdateScene = System.currentTimeMillis();
+	// this.start();
+	// levelManager.resumeLauncher();
+	// mSceneControls.reset();
+	// return true;
+	// case ResourceManager.MENU_QUIT:
+	// // levelManager.destroyLauncher();
+	// // gameActivity.finish();
+	// return true;
+	// default:
+	// return false;
+	// }
+	// }
 
 	final OnUpdateLevelListener levelListener = new OnUpdateLevelListener() {
 		@Override
@@ -292,10 +296,22 @@ public class MathEngine implements Runnable, IOnMenuItemClickListener, IOnSceneT
 			}, 3000);
 
 			// erase all dead corpse
-			corpseManager.clearAreaSmooth(mSceneDeadArea);
+			corpseManager.clearArea(mSceneDeadArea);
 
 		}
 	};
+
+	// public long getLastUpdateScene() {
+	// return mLastUpdateScene;
+	// }
+
+	public void setLastUpdateScene(long mLastUpdateScene) {
+		this.mLastUpdateScene = mLastUpdateScene;
+	}
+
+	public OnUpdateLevelListener getLevelListener() {
+		return levelListener;
+	}
 
 	public GameActivity getGameActivity() {
 		return gameActivity;

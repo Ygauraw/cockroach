@@ -13,6 +13,7 @@ public class CockroachAccelarate extends MovingObject {
 	public CockroachAccelarate(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
+		onTapSound = mathEngine.getResourceManager().getSoundOnTap();
 	}
 
 	@Override

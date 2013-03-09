@@ -11,7 +11,7 @@ public class CockroachHalfLefAngle extends MovingObject {
 	public CockroachHalfLefAngle(PointF point, MathEngine mathEngine, Boolean direction) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
-
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 		setmShiftX((direction) ? 10 : -10);
 	}
 

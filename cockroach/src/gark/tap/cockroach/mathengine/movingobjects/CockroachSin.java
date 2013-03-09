@@ -11,7 +11,7 @@ public class CockroachSin extends MovingObject {
 	public CockroachSin(PointF point, MathEngine mathEngine, Float relationPosition) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
-
+		onTapSound = mathEngine.getResourceManager().getSoundOnTap();
 		this.relationPosition = relationPosition;
 	}
 

@@ -15,6 +15,7 @@ public class CockroachFly extends MovingObject {
 		mMainSprite.animate(animationSpeed);
 		moving = 250;
 		corpse = mathEngine.getResourceManager().getDeadFly();
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 
 	}
 

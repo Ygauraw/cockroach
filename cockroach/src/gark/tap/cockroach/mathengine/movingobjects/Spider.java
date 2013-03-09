@@ -21,6 +21,7 @@ public class Spider extends MovingObject {
 		corpse = mathEngine.getResourceManager().getDeadSpider();
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.animate(animationSpeed);
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 		mMainSprite.setScale(1.5f * Config.SCALE);
 
 	}

@@ -1,7 +1,6 @@
 package gark.tap.cockroach.mathengine;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.R;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.movingobjects.BatSin;
@@ -12,6 +11,8 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachGreySmall;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
 import gark.tap.cockroach.mathengine.movingobjects.LadyBugBig;
 import gark.tap.cockroach.mathengine.movingobjects.LadyBugSmall;
+import gark.tap.cockroach.mathengine.movingobjects.Larva;
+import gark.tap.cockroach.mathengine.movingobjects.Spider;
 import gark.tap.cockroach.statistic.StatisticManager;
 import gark.tap.cockroach.statistic.StatisticUnit;
 
@@ -25,7 +26,6 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +47,7 @@ public class GameOverManager implements OnClickListener {
 	private Scene mSceneControls;
 	private Sprite pause;
 	private ListView listView;
+	private View viewGameOver;
 
 	public GameOverManager(final MathEngine mathEngine, final BaseGameActivity gameActivity, final Scene mScenePlayArea, final Scene mSceneControls, final Sprite pause) {
 		this.gameActivity = gameActivity;
@@ -75,14 +76,14 @@ public class GameOverManager implements OnClickListener {
 
 						LevelManager.setCURENT_LEVEL(1);
 
-						View view = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
-						listView = (ListView) view.findViewById(R.id.list_statistic);
+						viewGameOver = LayoutInflater.from(gameActivity).inflate(R.layout.game_over, null);
+						listView = (ListView) viewGameOver.findViewById(R.id.list_statistic);
 						listView.setAdapter(new StaticArrayAdapter(gameActivity, android.R.layout.simple_list_item_1, StatisticManager.getResultList()));
 
-						TextView statistic_title = (TextView) view.findViewById(R.id.statistic_title);
-						TextView highScore = (TextView) view.findViewById(R.id.highScore);
-						TextView gameOver = (TextView) view.findViewById(R.id.game_over);
-						Button play_again = (Button) view.findViewById(R.id.try_again);
+						TextView statistic_title = (TextView) viewGameOver.findViewById(R.id.statistic_title);
+						TextView highScore = (TextView) viewGameOver.findViewById(R.id.highScore);
+						TextView gameOver = (TextView) viewGameOver.findViewById(R.id.game_over);
+						Button play_again = (Button) viewGameOver.findViewById(R.id.try_again);
 						play_again.setOnClickListener(GameOverManager.this);
 						highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
 
@@ -92,14 +93,14 @@ public class GameOverManager implements OnClickListener {
 						play_again.setTypeface(Utils.getTypeface());
 
 						RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-						gameActivity.addContentView(view, lp);
+						gameActivity.addContentView(viewGameOver, lp);
 
-//						StatisticManager.prepareStatistic();
+						// StatisticManager.prepareStatistic();
 
 					}
 				});
 			}
-		}, 2 * 1000);
+		}, 1 * 1000);
 
 	}
 
@@ -107,9 +108,19 @@ public class GameOverManager implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.try_again:
-			gameActivity.finish();
-			Intent intent = new Intent(gameActivity, GameActivity.class);
-			gameActivity.startActivity(intent);
+
+			ViewGroup rootView = (ViewGroup) gameActivity.findViewById(android.R.id.content);
+			rootView.removeView(viewGameOver);
+
+			MathEngine.SCORE = 0;
+			Config.SPEED = Config.INIT_SPEED;
+
+			StatisticManager.prepareStatistic();
+			mathEngine.getCorpseManager().clearArea(mathEngine.getSceneDeadArea());
+			mathEngine.getHeartManager().setHeartValue(Config.HEALTH_SCORE);
+			mathEngine.getLevelManager().resetLauncher();
+			mathEngine.start();
+
 			break;
 
 		default:
@@ -166,6 +177,10 @@ public class GameOverManager implements OnClickListener {
 				image = R.drawable.single_small_lady;
 			} else if (BatSin.class.getName().equals(name)) {
 				image = R.drawable.single_bat;
+			} else if (Larva.class.getName().equals(name)) {
+				image = R.drawable.single_larva;
+			} else if (Spider.class.getName().equals(name)) {
+				image = R.drawable.single_spider;
 			}
 			holder.textView.setText(" = " + objects.get(position).getCount());
 			holder.imageView.setImageResource(image);

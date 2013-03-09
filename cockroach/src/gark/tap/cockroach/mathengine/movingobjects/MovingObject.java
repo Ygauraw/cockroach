@@ -10,6 +10,7 @@ import gark.tap.cockroach.units.BaseObject;
 import java.util.Arrays;
 import java.util.List;
 
+import org.andengine.audio.sound.Sound;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
@@ -42,12 +43,15 @@ public abstract class MovingObject extends BaseObject {
 	protected boolean needToDelete = false;
 	protected boolean needCorpse = true;
 	protected TextureRegion corpse;
+	protected Sound onTapSound;
 
 	public MovingObject(PointF point, TiledTextureRegion mainTextureRegion, final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
 		corpse = mathEngine.getResourceManager().getDeadCockroach();
 		mPoint = point;
 		mNextPoint = point;
+
+		onTapSound = mathEngine.getResourceManager().getSoundOnTap2();
 
 		mPointOffset = new PointF(mainTextureRegion.getWidth() / 2, mainTextureRegion.getHeight() / 2);
 		moving = 100;
@@ -56,28 +60,6 @@ public abstract class MovingObject extends BaseObject {
 
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-
-				// Log.e("", "" + pSceneTouchEvent.getMotionEvent(). + " " );
-				// switch (pSceneTouchEvent.getAction()) {
-				// case TouchEvent.ACTION_CANCEL:
-				// Log.e("", "ACTION_CANCEL");
-				// break;
-				// case TouchEvent.ACTION_DOWN:
-				// Log.e("", "ACTION_DOWN");
-				// break;
-				// case TouchEvent.ACTION_MOVE:
-				// Log.e("", "ACTION_MOVE");
-				// break;
-				// case TouchEvent.ACTION_OUTSIDE:
-				// Log.e("", "ACTION_OUTSIDE");
-				// break;
-				// case TouchEvent.ACTION_UP:
-				// Log.e("", "ACTION_UP");
-				// break;
-				// default:
-				// break;
-				// }
-
 				if (touches.contains(pSceneTouchEvent.getAction())) {
 					calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
 					return true;
@@ -173,7 +155,7 @@ public abstract class MovingObject extends BaseObject {
 			MathEngine.SCORE += scoreValue;
 			eraseData(mathEngine);
 			mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
-			mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoudOnTap());
+			// mathEngine.getSoundManager().playSound(onTapSound);
 			// create dead cockroach
 			attachCorpse(mathEngine);
 			// killed statistic
@@ -187,7 +169,7 @@ public abstract class MovingObject extends BaseObject {
 				MathEngine.SCORE += scoreValue;
 			eraseData(mathEngine);
 			mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
-			mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoudOnTap());
+			mathEngine.getSoundManager().playSound(onTapSound);
 			attachCorpse(mathEngine);
 			// killed statistic
 			StatisticManager.addKilledUnit(this);

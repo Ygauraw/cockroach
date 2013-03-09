@@ -12,6 +12,7 @@ public class CockroachAngle extends MovingObject {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
 		setmShiftX((direction) ? 10 : -10);
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 	}
 
 	@Override

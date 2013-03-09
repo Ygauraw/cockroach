@@ -23,6 +23,7 @@ public class Bug extends MovingObject {
 		corpse = mathEngine.getResourceManager().getDeadBug();
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		moving = 200;
+		onTapSound = mathEngine.getResourceManager().getSoundMonsterKill();
 
 	}
 

@@ -12,6 +12,7 @@ public class CockroachLOL extends MovingObject {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		this.relationPosition = relationPosition;
 		mMainSprite.animate(animationSpeed);
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 	}
 
 	@Override

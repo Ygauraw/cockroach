@@ -13,47 +13,23 @@
 
         <Button
             android:id="@+id/btn_start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/btn_bg"
-            android:padding="10dp"
-            android:text="@string/start"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            style="@style/button_style"
+            android:text="@string/start" />
 
         <Button
             android:id="@+id/btn_instruction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/btn_bg"
-            android:padding="10dp"
-            android:text="@string/instrucion"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            style="@style/button_style"
+            android:text="@string/instrucion" />
 
         <Button
             android:id="@+id/btn_open_more"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/btn_bg"
-            android:padding="10dp"
-            android:text="@string/more_games"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            style="@style/button_style"
+            android:text="@string/more_games" />
 
         <Button
             android:id="@+id/btn_remove_ads"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="@drawable/btn_bg"
-            android:padding="10dp"
-            android:text="@string/remove_ads"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            style="@style/button_style"
+            android:text="@string/remove_ads" />
     </LinearLayout>
 
     <ToggleButton

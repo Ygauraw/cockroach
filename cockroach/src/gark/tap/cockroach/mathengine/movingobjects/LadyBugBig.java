@@ -26,6 +26,7 @@ public class LadyBugBig extends MovingObject {
 		mMainSprite.setScale(0.75f * Config.SCALE);
 		moving = 200;
 		scoreValue = 0;
+		onTapSound = mathEngine.getResourceManager().getMimimi();
 
 	}
 

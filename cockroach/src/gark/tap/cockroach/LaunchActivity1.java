@@ -33,6 +33,7 @@ public class LaunchActivity1 extends Activity implements OnClickListener {
 		remove_ads = (Button) findViewById(R.id.btn_remove_ads);
 
 		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/america1.ttf");
+//		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/Liquidism.ttf");
 		Utils.setTypeface(typeface);
 
 		start.setTypeface(typeface);

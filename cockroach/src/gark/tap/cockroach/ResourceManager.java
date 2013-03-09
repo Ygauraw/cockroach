@@ -2,11 +2,8 @@ package gark.tap.cockroach;
 
 import java.io.IOException;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
-import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
@@ -27,15 +24,6 @@ import android.opengl.GLES20;
 
 public class ResourceManager {
 
-	public static final int MENU_RESUME = 0;
-	public static final int MENU_QUIT = MENU_RESUME + 1;
-
-	// menu
-	private TextureRegion mMenuResetTextureRegion;
-	private TextureRegion mMenuQuitTextureRegion;
-	private SpriteMenuItem resetMenuItem;
-	private SpriteMenuItem quitMenuItem;
-
 	private TiledTextureRegion mCockroachTextureRegion;
 	private TiledTextureRegion mSpider;
 	private TiledTextureRegion mHeartAnimated;
@@ -53,7 +41,6 @@ public class ResourceManager {
 	private TiledTextureRegion mCockroachLavra;
 	private TiledTextureRegion mBatHiding;
 
-//	private TextureRegion mResume;
 	private TextureRegion mPause;
 
 	private Text mBonusValue;
@@ -75,14 +62,25 @@ public class ResourceManager {
 	private TextureRegion m25;
 
 	private Sound mSoundOnTap;
-	// private Music mMusic;
+	private Sound mSoundOnTap2;
+	private Sound mMimimi;
+	private Sound mSoundMonsterKill;
+	private Sound mSoundNooo;
+	private Sound mSoundHellYeah;
+	private Sound mSoundChpok;
+
+	private TextureManager textureManager;
+	private BaseGameActivity baseGameActivity;
+	private FontManager fontManager;
+	private AssetManager assetManager;
 
 	private VertexBufferObjectManager mVertexBufferObjectManager;
 
 	public ResourceManager(BaseGameActivity baseGameActivity) {
-		TextureManager textureManager = baseGameActivity.getTextureManager();
-		FontManager fontManager = baseGameActivity.getFontManager();
-		AssetManager assetManager = baseGameActivity.getAssets();
+		this.baseGameActivity = baseGameActivity;
+		textureManager = baseGameActivity.getTextureManager();
+		fontManager = baseGameActivity.getFontManager();
+		assetManager = baseGameActivity.getAssets();
 		mVertexBufferObjectManager = baseGameActivity.getVertexBufferObjectManager();
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
@@ -91,165 +89,54 @@ public class ResourceManager {
 		// MusicFactory.setAssetBasePath("mfx/");
 
 		try {
+			mMimimi = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "mimimi.ogg");
 			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "ontap.ogg");
-//			mSoundOnTap = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "tap_default.ogg");
-			mSoundOnTap.setLooping(false);
+			mSoundOnTap2 = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "tap_4.ogg");
+			mSoundMonsterKill = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "monster_kill.ogg");
+			mSoundNooo = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "nooo.ogg");
+			mSoundHellYeah = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "hell_yeah.ogg");
+			mSoundChpok = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "chpok.ogg");
 
-			// mMusic =
-			// MusicFactory.createMusicFromAsset(baseGameActivity.getEngine().getMusicManager(),
-			// baseGameActivity, "acdc.ogg");
+			mSoundOnTap.setLooping(false);
+			mSoundOnTap2.setLooping(false);
+			mMimimi.setLooping(false);
+			mSoundMonsterKill.setLooping(false);
+			mSoundNooo.setLooping(false);
+			mSoundHellYeah.setLooping(false);
+			mSoundChpok.setLooping(false);
+
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
-
-		// atlases
-		BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 640, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas cockroachDeadTextureAtlas = new BitmapTextureAtlas(textureManager, 100, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas resumePauseTextureAtlas = new BitmapTextureAtlas(textureManager, 32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas planeAtlas = new BitmapTextureAtlas(textureManager, 113, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas subMenuResetTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 59, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas subMenuQuitTextureAtlas = new BitmapTextureAtlas(textureManager, 200, 59, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas mFontBigTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1665, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 30, 30, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 1600, 184, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas greyCockroachAtlas = new BitmapTextureAtlas(textureManager, 361, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas bigCockroachAtlas = new BitmapTextureAtlas(textureManager, 768, 80, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas ladyBug = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas ladyBugSmall = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas cockroachFly = new BitmapTextureAtlas(textureManager, 1650, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas cockroachHandsUP_1 = new BitmapTextureAtlas(textureManager, 880, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas bugAtlas = new BitmapTextureAtlas(textureManager, 900, 300, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas smokeAtlas = new BitmapTextureAtlas(textureManager, 1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas larvaAtlas = new BitmapTextureAtlas(textureManager, 50, 120, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas cockroachLavraAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadLarvaAtlas = new BitmapTextureAtlas(textureManager, 50, 120, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadFlyAtlas = new BitmapTextureAtlas(textureManager, 130, 140, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadLadyBugSmallAtlas = new BitmapTextureAtlas(textureManager, 62, 70, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadLadyBugBigAtlas = new BitmapTextureAtlas(textureManager, 90, 102, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadBugAtlas = new BitmapTextureAtlas(textureManager, 144, 156, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadGreyAtlas = new BitmapTextureAtlas(textureManager, 72, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas deadSpiderAtlas = new BitmapTextureAtlas(textureManager, 110, 148, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlas batHideAtlas = new BitmapTextureAtlas(textureManager, 1000, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		// menu
-		mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuResetTextureAtlas, baseGameActivity, "btn_resume.png", 0, 0);
-		mMenuQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(subMenuQuitTextureAtlas, baseGameActivity, "btn_quit.png", 0, 0);
-
-		resetMenuItem = new SpriteMenuItem(MENU_RESUME, mMenuResetTextureRegion, mVertexBufferObjectManager);
-		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-
-		quitMenuItem = new SpriteMenuItem(MENU_QUIT, mMenuQuitTextureRegion, mVertexBufferObjectManager);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-
-		// score text
-		float sizeLenth = Config.CAMERA_WIDTH;
-		float size = sizeLenth / 25 * Config.SCALE;
-		Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
-
-		// bonus font
-		mBonusValue = new Text(0, 0, mFont, "", "XX".length(), mVertexBufferObjectManager);
-		mBonusValue.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-
-		// background
-		mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
-		mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "wood_background.jpg", 0, 0);
-		mDeadDefault = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cockroachDeadTextureAtlas, baseGameActivity, "dead_defaulf.png", 0, 0);
-		mDeadFly = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadFlyAtlas, baseGameActivity, "dead_fly.png", 0, 0);
-		mDeadLarva = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLarvaAtlas, baseGameActivity, "dead_larva.png", 0, 0);
-		mDeadLadyBug = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLadyBugSmallAtlas, baseGameActivity, "lady_bug_small.png", 0, 0);
-		mDeadLadyBugBig = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLadyBugBigAtlas, baseGameActivity, "lady_bug_big.png", 0, 0);
-		mDeadBug = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadBugAtlas, baseGameActivity, "dead_bug.png", 0, 0);
-		mDeadGrey = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadGreyAtlas, baseGameActivity, "dead_grey.png", 0, 0);
-		mDeadSpider = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadSpiderAtlas, baseGameActivity, "dead_spider.png", 0, 0);
-
-		mHeart = BitmapTextureAtlasTextureRegionFactory.createFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0);
-		m10 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus10Atlas, baseGameActivity, "10.png", 0, 0);
-		m25 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus25Atlas, baseGameActivity, "25.png", 0, 0);
-		// wasper =
-		// BitmapTextureAtlasTextureRegionFactory.createFromAsset(waperAtlas,
-		// baseGameActivity, "wasper.png", 0, 0);
-
-		// cockroach sprite
-		mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
-		mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_new.png", 0, 0, 13, 1);
-		mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
-		mPlane = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(planeAtlas, baseGameActivity, "plane_small.png", 0, 0, 1, 1);
-		mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new.png", 0, 0, 8, 1);
-		mGreyCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(greyCockroachAtlas, baseGameActivity, "grey_cockroach.png", 0, 0, 5, 1);
-		mBigCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bigCockroachAtlas, baseGameActivity, "new_big_coackroach.png", 0, 0, 12, 1);
-		mLagyBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
-		mLagySmall = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBugSmall, baseGameActivity, "ladybug_yellow.png", 0, 0, 5, 1);
-		mCockroachFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachFly, baseGameActivity, "cockroachFly.png", 0, 0, 11, 1);
-		mCockroachHandsUP_1 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachHandsUP_1, baseGameActivity, "cockroach_hands_up_11.png", 0, 0, 6, 2);
-		mBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bugAtlas, baseGameActivity, "bug_1.png", 0, 0, 6, 2);
-		mSmoke = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(smokeAtlas, baseGameActivity, "smoke.png", 0, 0, 8, 8);
-		mLarva = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(larvaAtlas, baseGameActivity, "larva.png", 0, 0, 1, 1);
-		mCockroachLavra = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachLavraAtlas, baseGameActivity, "cockroach_lavra.png", 0, 0, 6, 1);
-		mBatHiding = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batHideAtlas, baseGameActivity, "iceBlaster_hit.png", 0, 0, 5, 2);
-
-		// radar medic
-		mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createFromAsset(medicRedCircleAtlas, baseGameActivity, "red_circle_small.png", 0, 0);
-
-		// pause
-		mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseAtlas, baseGameActivity, "pause.png", 0, 0);
-
-		// load resources
-		smokeAtlas.load();
-		textureManager.loadTexture(mFontTexture);
-		fontManager.loadFont(mFont);
-		subMenuResetTextureAtlas.load();
-		resumePauseTextureAtlas.load();
-		subMenuQuitTextureAtlas.load();
-		backgroundTextureAtlas.load();
-		cockroachDeadTextureAtlas.load();
-		cockroachTextureAtlas.load();
-		pauseAtlas.load();
-		medicRedCircleAtlas.load();
-		redCrossAtlas.load();
-		mSpiderAtlas.load();
-		mFontBigTexture.load();
-		heartAtlas.load();
-		planeAtlas.load();
-		bonus10Atlas.load();
-		bonus25Atlas.load();
-		bugAtlas.load();
-		greyCockroachAtlas.load();
-		bigCockroachAtlas.load();
-		batAtlas.load();
-		ladyBug.load();
-		cockroachFly.load();
-		cockroachHandsUP_1.load();
-		ladyBugSmall.load();
-		larvaAtlas.load();
-		cockroachLavraAtlas.load();
-		deadLarvaAtlas.load();
-		deadFlyAtlas.load();
-		deadLadyBugSmallAtlas.load();
-		deadBugAtlas.load();
-		deadGreyAtlas.load();
-		deadLadyBugBigAtlas.load();
-		deadSpiderAtlas.load();
-		batHideAtlas.load();
-
 	}
 
 	public TextureRegion getBackGround() {
+
+		if (mBackGround == null) {
+			BitmapTextureAtlas backgroundTextureAtlas = new BitmapTextureAtlas(textureManager, 640, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBackGround = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, baseGameActivity, "wood_background.jpg", 0, 0);
+			backgroundTextureAtlas.load();
+		}
+
 		return mBackGround;
 	}
 
 	public TextureRegion getDeadCockroach() {
+		if (mDeadDefault == null) {
+			BitmapTextureAtlas cockroachDeadTextureAtlas = new BitmapTextureAtlas(textureManager, 100, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadDefault = BitmapTextureAtlasTextureRegionFactory.createFromAsset(cockroachDeadTextureAtlas, baseGameActivity, "dead_defaulf.png", 0, 0);
+			cockroachDeadTextureAtlas.load();
+		}
 		return mDeadDefault;
 	}
 
 	public TiledTextureRegion getCockroach() {
+		if (mCockroachTextureRegion == null) {
+			BitmapTextureAtlas cockroachTextureAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mCockroachTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachTextureAtlas, baseGameActivity, "cockroach.png", 0, 0, 6, 1);
+			cockroachTextureAtlas.load();
+		}
+
 		return mCockroachTextureRegion;
 	}
 
@@ -257,135 +144,330 @@ public class ResourceManager {
 		return mVertexBufferObjectManager;
 	}
 
-//	public TextureRegion getResume() {
-//		return mResume;
-//	}
-
 	public TextureRegion getPause() {
+		if (mPause == null) {
+			BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseAtlas, baseGameActivity, "pause.png", 0, 0);
+			pauseAtlas.load();
+		}
 		return mPause;
 	}
 
-	public SpriteMenuItem getResetMenuItem() {
-		return resetMenuItem;
-	}
-
-	public SpriteMenuItem getQuitMenuItem() {
-		return quitMenuItem;
-	}
-
-	public Sound getSoudOnTap() {
+	public Sound getSoundOnTap() {
 		return mSoundOnTap;
 	}
 
+	public Sound getSoundOnTap2() {
+		return mSoundOnTap2;
+	}
+
+	public Sound getMimimi() {
+		return mMimimi;
+	}
+
+	public Sound getSoundMonsterKill() {
+		return mSoundMonsterKill;
+	}
+
+	public Sound getSoundNooo() {
+		return mSoundNooo;
+	}
+
+	public Sound getSoundHellYeah() {
+		return mSoundHellYeah;
+	}
+
+	public Sound getSoundChpok() {
+		return mSoundChpok;
+	}
+
 	public TextureRegion getRedCross() {
+		if (mRedCross == null) {
+			BitmapTextureAtlas redCrossAtlas = new BitmapTextureAtlas(textureManager, 20, 20, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mRedCross = BitmapTextureAtlasTextureRegionFactory.createFromAsset(redCrossAtlas, baseGameActivity, "red_cross.png", 0, 0);
+			redCrossAtlas.load();
+		}
 		return mRedCross;
 	}
 
 	public TextureRegion getCircleMedecine() {
+
+		if (mRedCircleMedecine == null) {
+			BitmapTextureAtlas medicRedCircleAtlas = new BitmapTextureAtlas(textureManager, 30, 30, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mRedCircleMedecine = BitmapTextureAtlasTextureRegionFactory.createFromAsset(medicRedCircleAtlas, baseGameActivity, "red_circle_small.png", 0, 0);
+			medicRedCircleAtlas.load();
+		}
+
 		return mRedCircleMedecine;
 	}
 
 	public TiledTextureRegion getSpider() {
+		if (mSpider == null) {
+			BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1665, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_new.png", 0, 0, 13, 1);
+			mSpiderAtlas.load();
+		}
+
 		return mSpider;
 	}
 
 	public TextureRegion getHeart() {
+
+		if (mHeart == null) {
+			BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mHeart = BitmapTextureAtlasTextureRegionFactory.createFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0);
+			heartAtlas.load();
+		}
+
 		return mHeart;
 	}
 
 	public TiledTextureRegion getHeartAnimated() {
+		if (mHeartAnimated == null) {
+			BitmapTextureAtlas heartAtlas = new BitmapTextureAtlas(textureManager, 45, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mHeartAnimated = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(heartAtlas, baseGameActivity, "red_health.png", 0, 0, 1, 1);
+			heartAtlas.load();
+		}
 		return mHeartAnimated;
 	}
 
 	public TiledTextureRegion getPlane() {
+
+		if (mPlane == null) {
+			BitmapTextureAtlas planeAtlas = new BitmapTextureAtlas(textureManager, 113, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mPlane = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(planeAtlas, baseGameActivity, "plane_small.png", 0, 0, 1, 1);
+			planeAtlas.load();
+
+		}
+
 		return mPlane;
 	}
 
 	public Text getBonusValue() {
+
+		if (mBonusValue == null) {
+
+			BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			float sizeLenth = Config.CAMERA_WIDTH;
+			float size = sizeLenth / 25 * Config.SCALE;
+			Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+
+			textureManager.loadTexture(mFontTexture);
+			fontManager.loadFont(mFont);
+
+			mBonusValue = new Text(0, 0, mFont, "", "XX".length(), mVertexBufferObjectManager);
+			mBonusValue.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		}
 		return mBonusValue;
 	}
 
 	public TextureRegion get10Bonus() {
+		if (m10 == null) {
+			BitmapTextureAtlas bonus10Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			m10 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus10Atlas, baseGameActivity, "10.png", 0, 0);
+			bonus10Atlas.load();
+		}
+
 		return m10;
 	}
 
 	public TextureRegion get25Bonus() {
+		if (m25 == null) {
+			BitmapTextureAtlas bonus25Atlas = new BitmapTextureAtlas(textureManager, 45, 45, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			m25 = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bonus25Atlas, baseGameActivity, "25.png", 0, 0);
+			bonus25Atlas.load();
+		}
+
 		return m25;
 	}
 
 	public TiledTextureRegion getBat() {
+		if (mBat == null) {
+			BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 1600, 184, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new.png", 0, 0, 8, 1);
+			batAtlas.load();
+		}
 		return mBat;
 	}
 
 	public TiledTextureRegion getGreyCockroach() {
+
+		if (mGreyCockroach == null) {
+			BitmapTextureAtlas greyCockroachAtlas = new BitmapTextureAtlas(textureManager, 361, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mGreyCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(greyCockroachAtlas, baseGameActivity, "grey_cockroach.png", 0, 0, 5, 1);
+			greyCockroachAtlas.load();
+		}
+
 		return mGreyCockroach;
 	}
 
 	public TiledTextureRegion getBigCockroach() {
+
+		if (mBigCockroach == null) {
+			BitmapTextureAtlas bigCockroachAtlas = new BitmapTextureAtlas(textureManager, 768, 80, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBigCockroach = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bigCockroachAtlas, baseGameActivity, "new_big_coackroach.png", 0, 0, 12, 1);
+			bigCockroachAtlas.load();
+		}
+
 		return mBigCockroach;
 	}
 
 	public TiledTextureRegion getLagyBug() {
+
+		if (mLagyBug == null) {
+			BitmapTextureAtlas ladyBug = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mLagyBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBug, baseGameActivity, "ladybug.png", 0, 0, 5, 1);
+			ladyBug.load();
+		}
+
 		return mLagyBug;
 	}
 
 	public TiledTextureRegion getmCockroachFly() {
+
+		if (mCockroachFly == null) {
+			BitmapTextureAtlas cockroachFly = new BitmapTextureAtlas(textureManager, 1650, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mCockroachFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachFly, baseGameActivity, "cockroachFly.png", 0, 0, 11, 1);
+			cockroachFly.load();
+		}
+
 		return mCockroachFly;
 	}
 
 	public TiledTextureRegion getCockroachHandsUP() {
+
+		if (mCockroachHandsUP_1 == null) {
+			BitmapTextureAtlas cockroachHandsUP_1 = new BitmapTextureAtlas(textureManager, 880, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mCockroachHandsUP_1 = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachHandsUP_1, baseGameActivity, "cockroach_hands_up_11.png", 0, 0, 6, 2);
+			cockroachHandsUP_1.load();
+		}
+
 		return mCockroachHandsUP_1;
 	}
 
 	public TiledTextureRegion getBug() {
+		if (mBug == null) {
+			BitmapTextureAtlas bugAtlas = new BitmapTextureAtlas(textureManager, 900, 300, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBug = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(bugAtlas, baseGameActivity, "bug_1.png", 0, 0, 6, 2);
+			bugAtlas.load();
+		}
 		return mBug;
 	}
 
 	public TiledTextureRegion getLagySmall() {
+
+		if (mLagySmall == null) {
+			BitmapTextureAtlas ladyBugSmall = new BitmapTextureAtlas(textureManager, 550, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mLagySmall = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(ladyBugSmall, baseGameActivity, "ladybug_yellow.png", 0, 0, 5, 1);
+			ladyBugSmall.load();
+		}
+
 		return mLagySmall;
 	}
 
 	public TiledTextureRegion getSmoke() {
+		if (mSmoke == null) {
+			BitmapTextureAtlas smokeAtlas = new BitmapTextureAtlas(textureManager, 1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mSmoke = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(smokeAtlas, baseGameActivity, "smoke.png", 0, 0, 8, 8);
+			smokeAtlas.load();
+		}
+
 		return mSmoke;
 	}
 
 	public TiledTextureRegion getLarva() {
+		if (mLarva == null) {
+			BitmapTextureAtlas larvaAtlas = new BitmapTextureAtlas(textureManager, 50, 120, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mLarva = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(larvaAtlas, baseGameActivity, "larva.png", 0, 0, 1, 1);
+			larvaAtlas.load();
+		}
 		return mLarva;
 	}
 
 	public TiledTextureRegion getCockroachLavra() {
+		if (mCockroachLavra == null) {
+			BitmapTextureAtlas cockroachLavraAtlas = new BitmapTextureAtlas(textureManager, 578, 131, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mCockroachLavra = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachLavraAtlas, baseGameActivity, "cockroach_lavra.png", 0, 0, 6, 1);
+			cockroachLavraAtlas.load();
+		}
+
 		return mCockroachLavra;
 	}
 
 	public TextureRegion getDeadLarva() {
+		if (mDeadLarva == null) {
+			BitmapTextureAtlas deadLarvaAtlas = new BitmapTextureAtlas(textureManager, 50, 120, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadLarva = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLarvaAtlas, baseGameActivity, "dead_larva.png", 0, 0);
+			deadLarvaAtlas.load();
+		}
 		return mDeadLarva;
 	}
 
 	public TextureRegion getDeadFly() {
+		if (mDeadFly == null) {
+			BitmapTextureAtlas deadFlyAtlas = new BitmapTextureAtlas(textureManager, 130, 140, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadFly = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadFlyAtlas, baseGameActivity, "dead_fly.png", 0, 0);
+			deadFlyAtlas.load();
+		}
 		return mDeadFly;
 	}
 
 	public TextureRegion getDeadLadyBug() {
+		if (mDeadLadyBug == null) {
+			BitmapTextureAtlas deadLadyBugSmallAtlas = new BitmapTextureAtlas(textureManager, 62, 70, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadLadyBug = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLadyBugSmallAtlas, baseGameActivity, "lady_bug_small.png", 0, 0);
+			deadLadyBugSmallAtlas.load();
+		}
 		return mDeadLadyBug;
 	}
 
 	public TextureRegion getDeadBug() {
+		if (mDeadBug == null) {
+			BitmapTextureAtlas deadBugAtlas = new BitmapTextureAtlas(textureManager, 144, 156, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadBug = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadBugAtlas, baseGameActivity, "dead_bug.png", 0, 0);
+			deadBugAtlas.load();
+		}
 		return mDeadBug;
 	}
 
 	public TextureRegion getDeadGrey() {
+		if (mDeadGrey == null) {
+			BitmapTextureAtlas deadGreyAtlas = new BitmapTextureAtlas(textureManager, 72, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadGrey = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadGreyAtlas, baseGameActivity, "dead_grey.png", 0, 0);
+			deadGreyAtlas.load();
+
+		}
 		return mDeadGrey;
 	}
 
 	public TextureRegion getDeadLadyBugBig() {
+		if (mDeadLadyBugBig == null) {
+			BitmapTextureAtlas deadLadyBugBigAtlas = new BitmapTextureAtlas(textureManager, 90, 102, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadLadyBugBig = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadLadyBugBigAtlas, baseGameActivity, "lady_bug_big.png", 0, 0);
+			deadLadyBugBigAtlas.load();
+		}
 		return mDeadLadyBugBig;
 	}
 
 	public TextureRegion getDeadSpider() {
+		if (mDeadSpider == null) {
+			BitmapTextureAtlas deadSpiderAtlas = new BitmapTextureAtlas(textureManager, 110, 148, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadSpider = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadSpiderAtlas, baseGameActivity, "dead_spider.png", 0, 0);
+			deadSpiderAtlas.load();
+
+		}
+
 		return mDeadSpider;
 	}
 
 	public TiledTextureRegion getBatHiding() {
+
+		if (mBatHiding == null) {
+			BitmapTextureAtlas batHideAtlas = new BitmapTextureAtlas(textureManager, 1000, 400, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBatHiding = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batHideAtlas, baseGameActivity, "iceBlaster_hit.png", 0, 0, 5, 2);
+			batHideAtlas.load();
+
+		}
 		return mBatHiding;
 	}
 

@@ -40,6 +40,7 @@ public class CockroachCircleEscort extends MovingObject {
 					@Override
 					public void run() {
 						mathEngine.getGameOverManager().finish();
+						mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());
 						mathEngine.getScenePlayArea().detachChild(bat);
 						mathEngine.getScenePlayArea().unregisterTouchArea(bat);
 					}
@@ -97,17 +98,24 @@ public class CockroachCircleEscort extends MovingObject {
 	protected void eraseData(final MathEngine mathEngine) {
 		super.eraseData(mathEngine);
 
-		
-//		float initCrossX = this.posX() /*+ mMainSprite.getWidth() / 2 - mathEngine.getResourceManager().getRedCross().getWidth() / 2 */+ bat.getX();
-//		float initCrossY = this.posY() /*+ mMainSprite.getHeight() / 2 - mathEngine.getResourceManager().getRedCross().getHeight() / 2 */+ bat.getY();
-//		final Sprite cross = new Sprite(initCrossX, initCrossY, mathEngine.getResourceManager().getRedCross(), mathEngine.getResourceManager().getVertexBufferObjectManager());
-		
-		
+		// float initCrossX = this.posX() /*+ mMainSprite.getWidth() / 2 -
+		// mathEngine.getResourceManager().getRedCross().getWidth() / 2 */+
+		// bat.getX();
+		// float initCrossY = this.posY() /*+ mMainSprite.getHeight() / 2 -
+		// mathEngine.getResourceManager().getRedCross().getHeight() / 2 */+
+		// bat.getY();
+		// final Sprite cross = new Sprite(initCrossX, initCrossY,
+		// mathEngine.getResourceManager().getRedCross(),
+		// mathEngine.getResourceManager().getVertexBufferObjectManager());
+
 		float initCrossX = this.posX() + bat.getX() - mathEngine.getResourceManager().getBat().getWidth() / 2;
 		float initCrossY = this.posY() + bat.getY() - mathEngine.getResourceManager().getBat().getHeight() / 2;
-		
-//		float x = mMainSprite.getX() + mathEngine.getResourceManager().getBat().getWidth() / 2 + bat.getX();
-//		float y = mMainSprite.getY() + mathEngine.getResourceManager().getBat().getHeight() / 2 + bat.getY();
+
+		// float x = mMainSprite.getX() +
+		// mathEngine.getResourceManager().getBat().getWidth() / 2 + bat.getX();
+		// float y = mMainSprite.getY() +
+		// mathEngine.getResourceManager().getBat().getHeight() / 2 +
+		// bat.getY();
 
 		blast = new AnimatedSprite(initCrossX, initCrossY, mathEngine.getResourceManager().getBatHiding(), mathEngine.getResourceManager().getVertexBufferObjectManager());
 		blast.animate(animationSpeed, false, new IAnimationListener() {
@@ -140,7 +148,7 @@ public class CockroachCircleEscort extends MovingObject {
 			@Override
 			public void run() {
 				mathEngine.getScenePlayArea().attachChild(blast);
-//				mathEngine.getScenePlayArea().attachChild(cross);
+				// mathEngine.getScenePlayArea().attachChild(cross);
 			}
 		});
 	}

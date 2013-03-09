@@ -21,10 +21,12 @@ public class CorpseManager {
 		return mListDeadObjects;
 	}
 
-	public void clearAreaSmooth(final Scene mSceneDeadArea) {
+	public void clearArea(final Scene mSceneDeadArea) {
 		for (StaticObject item : getListDeadObjects())
 			mSceneDeadArea.detachChild(item.getSprite());
 		getListDeadObjects().clear();
+		queueCorpseForRemove.clear();
+		queueCorpseForAdd.clear();
 	}
 
 	public Queue<StaticObject> getQueueCorpseForRemove() {

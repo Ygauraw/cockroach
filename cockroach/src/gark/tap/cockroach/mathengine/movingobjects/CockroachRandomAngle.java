@@ -13,7 +13,7 @@ public class CockroachRandomAngle extends MovingObject {
 	public CockroachRandomAngle(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getCockroach(), mathEngine);
 		mMainSprite.animate(animationSpeed);
-
+		onTapSound = mathEngine.getResourceManager().getSoundChpok();
 		moving = 200;
 
 	}

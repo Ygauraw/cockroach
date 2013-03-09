@@ -13,7 +13,7 @@ public class BatSin extends MovingObject {
 	public BatSin(PointF point, MathEngine mathEngine, Float relationPosition) {
 		super(point, mathEngine.getResourceManager().getBat(), mathEngine);
 		mMainSprite.animate(animationSpeed);
-
+		onTapSound = mathEngine.getResourceManager().getSoundNooo();
 		this.relationPosition = relationPosition;
 	}
 

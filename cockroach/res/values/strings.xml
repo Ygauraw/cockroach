@@ -13,5 +13,7 @@
     <string name="instrucion">Instructions</string>
     <string name="more_games">More Games</string>
     <string name="remove_ads">Remove Ads</string>
+    <string name="resume">Resume</string>
+    <string name="quit">Quit</string>
 
 </resources>

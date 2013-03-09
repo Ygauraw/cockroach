@@ -6,6 +6,7 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachBigAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfRightAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLarva;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
@@ -20,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
+import android.util.Log;
 
 public class StatisticManager {
 
@@ -55,6 +58,7 @@ public class StatisticManager {
 		for (Entry<String, Integer> entry : killedTreeMap.entrySet()) {
 			String name = entry.getKey();
 			statisticUnit = new StatisticUnit(entry.getValue(), name);
+			Log.e("", name + " " + entry.getValue());
 			list.add(statisticUnit);
 		}
 
@@ -74,13 +78,13 @@ public class StatisticManager {
 
 	public static void addKilledUnit(MovingObject movingObject) {
 		String key = movingObject.getClass().getName();
-//		Log.e("", key);
+		// Log.e("", key);
 
 		if (CockroachAccelarate.class.getName().equals(key) || CockroachAngle.class.getName().equals(key) || CockroachBigAngle.class.getName().equals(key)
-				|| CockroachCircleEscort.class.getName().equals(key) || CockroachDirect.class.getName().equals(key) || CockroachHalfLefAngle.class.getName().equals(key)
-				|| CockroachHalfLefAngle.class.getName().equals(key) || CockroachLOL.class.getName().equals(key) || CockroachMedic.class.getName().equals(key)
-				|| CockroachRandomAngle.class.getName().equals(key) || CockroachSin.class.getName().equals(key) || CockroachLarva.class.getName().equals(key)
-				|| CockroachSquare.class.getName().equals(key)) {
+				|| CockroachCircleEscort.class.getName().equals(key) || CockroachDirect.class.getName().equals(key) || CockroachLOL.class.getName().equals(key)
+				|| CockroachMedic.class.getName().equals(key) || CockroachRandomAngle.class.getName().equals(key) || CockroachSin.class.getName().equals(key)
+				|| CockroachLarva.class.getName().equals(key) || CockroachSquare.class.getName().equals(key) || CockroachHalfLefAngle.class.getName().equals(key)
+				|| CockroachHalfRightAngle.class.getName().equals(key)) {
 			key = CockroachDirect.class.getName();
 		}
 

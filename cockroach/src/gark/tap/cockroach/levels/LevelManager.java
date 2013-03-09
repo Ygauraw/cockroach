@@ -1,8 +1,6 @@
 package gark.tap.cockroach.levels;
 
 import gark.tap.cockroach.Config;
-import gark.tap.cockroach.GameActivity;
-import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.units.UnitBot;
@@ -32,16 +30,29 @@ public class LevelManager {
 	private Queue<MovingObject> queueForAddUnits = new LinkedList<MovingObject>();
 	private Queue<MovingObject> queueUnitsForRemove = new LinkedList<MovingObject>();
 
-	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private OnUpdateLevelListener levelListener;
 	private MathEngine mathEngine;
 	private boolean allowNewLevel = false;
 
-	public LevelManager(final ResourceManager mResourceManager, final GameActivity gameActivity, final OnUpdateLevelListener levelListener, final Scene mScenePlayArea,
-			final MathEngine mathEngine) {
-		this.mScenePlayArea = mScenePlayArea;
-		this.levelListener = levelListener;
+	public LevelManager(final MathEngine mathEngine) {
+		this.mScenePlayArea = mathEngine.getScenePlayArea();
+		this.levelListener = mathEngine.getLevelListener();
 		this.mathEngine = mathEngine;
+		startNewLevel(CURENT_LEVEL);
+	}
+
+	public void resetLauncher() {
+		executor.shutdown();
+		executor.shutdownNow();
+		executor = Executors.newSingleThreadScheduledExecutor();
+
+		queueOfAllLevelUnit.clear();
+		listOfVisibleUnits.clear();
+		queueForAddUnits.clear();
+		queueUnitsForRemove.clear();
+
+		CURENT_LEVEL = 1;
 		startNewLevel(CURENT_LEVEL);
 	}
 
@@ -64,7 +75,7 @@ public class LevelManager {
 		}
 	};
 
-	private synchronized void startNewLevel(int level) {
+	public void startNewLevel(int level) {
 		// allowNewLevel = false;
 		Config.SPEED += 10;
 		levelListener.getCurrentVawe(CURENT_LEVEL);
