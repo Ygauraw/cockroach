@@ -27,6 +27,7 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
@@ -98,12 +99,12 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		isGameState = false;
 		mSceneBackground.detachChildren();
 		mSceneBackground.clearChildScene();
-		mSceneBackground.setBackground(new Background(1f, 1f, 1f));
 
 		startManager = new StartManager(this);
 		startScene = new Scene();
+		startScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
 		// MyScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
-		startScene.setBackground(new Background(10f, 10f, 10f));
+		// startScene.setBackground(new Background(10f, 10f, 10f));
 		mSceneBackground.attachChild(startScene);
 		startManager.inflateStartScreen();
 
@@ -142,8 +143,13 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		LevelManager.setCURENT_LEVEL(1);
 		textManager = new TextManager(this);
 
-		mSceneBackground.attachChild(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity
-				.getVertexBufferObjectManager()).getSprite());
+		// mSceneBackground.attachChild(new BackgroundObject(new
+		// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
+		// mResourceManager.getBackGround(), gameActivity
+		// .getVertexBufferObjectManager()).getSprite());
+
+		mSceneBackground.setBackground(new SpriteBackground(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
+				gameActivity.getVertexBufferObjectManager()).getSprite()));
 
 		// scene dead object
 		mSceneDeadArea = new Scene();
