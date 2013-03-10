@@ -3,6 +3,7 @@ package gark.tap.cockroach.mathengine;
 import gark.tap.cockroach.R;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -14,7 +15,8 @@ public class TextManager {
 	private TextView attention;
 	private TextView scoreValue;
 	private View container;
-//	private AdView adView;
+
+	// private AdView adView;
 
 	public TextManager(final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
@@ -23,16 +25,13 @@ public class TextManager {
 
 			@Override
 			public void run() {
-				
 
 				container = LayoutInflater.from(mathEngine.getGameActivity()).inflate(R.layout.vawe, null);
 				vaweText = (TextView) container.findViewById(R.id.vawe_number);
 				attention = (TextView) container.findViewById(R.id.attention);
 				scoreValue = (TextView) container.findViewById(R.id.score_value);
 
-				
-				
-				//TODO
+				// TODO
 				// adView = (AdView) container.findViewById(R.id.adView);
 				// AdRequest adRequest = new AdRequest();
 				// adRequest.setTesting(true);
@@ -86,5 +85,12 @@ public class TextManager {
 			}
 		});
 
+	}
+
+	public void clearAllView() {
+		if (container != null) {
+			ViewGroup rootView = (ViewGroup) mathEngine.getGameActivity().findViewById(android.R.id.content);
+			rootView.removeView(container);
+		}
 	}
 }

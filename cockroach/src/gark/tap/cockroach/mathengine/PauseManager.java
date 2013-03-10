@@ -37,6 +37,8 @@ public class PauseManager implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		ViewGroup rootView = (ViewGroup) mathEngine.getGameActivity().findViewById(android.R.id.content);
+		rootView.removeView(pauseContent);
 		switch (v.getId()) {
 		case R.id.resume:
 
@@ -46,13 +48,15 @@ public class PauseManager implements OnClickListener {
 			mathEngine.start();
 			mathEngine.getLevelManager().resumeLauncher();
 
-			ViewGroup rootView = (ViewGroup) mathEngine.getGameActivity().findViewById(android.R.id.content);
 			rootView.removeView(pauseContent);
 			
 			break;
 		case R.id.quit:
-			mathEngine.getLevelManager().destroyLauncher();
-			mathEngine.getGameActivity().finish();
+			
+			mathEngine.stop(true);
+			mathEngine.getTextManager().clearAllView();
+			mathEngine.getGameOverManager().clearAllView();
+			mathEngine.initStartScreen();
 			break;
 		default:
 			break;

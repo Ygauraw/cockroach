@@ -13,8 +13,8 @@ import android.graphics.PointF;
 
 public class CockroachCircleEscort extends MovingObject {
 
-	private final int STEP = Config.CAMERA_WIDTH / 5;
-	private final int SMALL_STEP = Config.CAMERA_WIDTH / 100;
+	private final int STEP = (int) (Config.CAMERA_WIDTH / 5);
+	private final int SMALL_STEP = Config.CAMERA_WIDTH / 200;
 	private float initialPosition = -STEP;
 	private AnimatedSprite bat;
 	private int cycleDirection = 1;
@@ -48,9 +48,9 @@ public class CockroachCircleEscort extends MovingObject {
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
+		bat.setScale(0.5f * Config.SCALE);
 		mathEngine.getScenePlayArea().registerTouchArea(bat);
 		bat.animate(animationSpeed);
-		bat.setScale(0.5f * Config.SCALE);
 
 		mMainSprite.attachChild(bat);
 	}

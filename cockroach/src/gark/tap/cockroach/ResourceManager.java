@@ -41,7 +41,7 @@ public class ResourceManager {
 	private TiledTextureRegion mCockroachLavra;
 	private TiledTextureRegion mBatHiding;
 
-	private TextureRegion mPause;
+	// private TextureRegion mPause;
 
 	private Text mBonusValue;
 
@@ -49,6 +49,7 @@ public class ResourceManager {
 	private TextureRegion mRedCross;
 	private TextureRegion mHeart;
 	private TextureRegion mBackGround;
+	private TextureRegion mBackGroundMain;
 	private TextureRegion mDeadDefault;
 	private TextureRegion mDeadLarva;
 	private TextureRegion mDeadFly;
@@ -57,6 +58,7 @@ public class ResourceManager {
 	private TextureRegion mDeadBug;
 	private TextureRegion mDeadGrey;
 	private TextureRegion mDeadSpider;
+	private TextureRegion mDeadHeadUp;
 
 	private TextureRegion m10;
 	private TextureRegion m25;
@@ -121,6 +123,15 @@ public class ResourceManager {
 		return mBackGround;
 	}
 
+	public TextureRegion getBackGroundMain() {
+		if (mBackGroundMain == null) {
+			BitmapTextureAtlas backgroundMainTextureAtlas = new BitmapTextureAtlas(textureManager, 582, 800, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBackGroundMain = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundMainTextureAtlas, baseGameActivity, "main_bg.jpg", 0, 0);
+			backgroundMainTextureAtlas.load();
+		}
+		return mBackGroundMain;
+	}
+
 	public TextureRegion getDeadCockroach() {
 		if (mDeadDefault == null) {
 			BitmapTextureAtlas cockroachDeadTextureAtlas = new BitmapTextureAtlas(textureManager, 100, 130, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -144,14 +155,17 @@ public class ResourceManager {
 		return mVertexBufferObjectManager;
 	}
 
-	public TextureRegion getPause() {
-		if (mPause == null) {
-			BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseAtlas, baseGameActivity, "pause.png", 0, 0);
-			pauseAtlas.load();
-		}
-		return mPause;
-	}
+	// public TextureRegion getPause() {
+	// if (mPause == null) {
+	// BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager,
+	// 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+	// mPause =
+	// BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseAtlas,
+	// baseGameActivity, "pause.png", 0, 0);
+	// pauseAtlas.load();
+	// }
+	// return mPause;
+	// }
 
 	public Sound getSoundOnTap() {
 		return mSoundOnTap;
@@ -454,10 +468,17 @@ public class ResourceManager {
 			BitmapTextureAtlas deadSpiderAtlas = new BitmapTextureAtlas(textureManager, 110, 148, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			mDeadSpider = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadSpiderAtlas, baseGameActivity, "dead_spider.png", 0, 0);
 			deadSpiderAtlas.load();
-
 		}
-
 		return mDeadSpider;
+	}
+
+	public TextureRegion getDeadHeadUp() {
+		if (mDeadHeadUp == null) {
+			BitmapTextureAtlas deadHeadUpAtlas = new BitmapTextureAtlas(textureManager, 180, 160, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mDeadHeadUp = BitmapTextureAtlasTextureRegionFactory.createFromAsset(deadHeadUpAtlas, baseGameActivity, "dead_hends_up_1.png", 0, 0);
+			deadHeadUpAtlas.load();
+		}
+		return mDeadHeadUp;
 	}
 
 	public TiledTextureRegion getBatHiding() {

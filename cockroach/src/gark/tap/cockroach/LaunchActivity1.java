@@ -3,7 +3,6 @@ package gark.tap.cockroach;
 import gark.tap.cockroach.mathengine.Utils;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,14 +31,14 @@ public class LaunchActivity1 extends Activity implements OnClickListener {
 		more_games = (Button) findViewById(R.id.btn_open_more);
 		remove_ads = (Button) findViewById(R.id.btn_remove_ads);
 
-		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/america1.ttf");
-//		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/Liquidism.ttf");
-		Utils.setTypeface(typeface);
-
-		start.setTypeface(typeface);
-		instruction.setTypeface(typeface);
-		more_games.setTypeface(typeface);
-		remove_ads.setTypeface(typeface);
+//		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/america1.ttf");
+////		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/Liquidism.ttf");
+//		Utils.setTypeface(typeface);
+//
+//		start.setTypeface(typeface);
+//		instruction.setTypeface(typeface);
+//		more_games.setTypeface(typeface);
+//		remove_ads.setTypeface(typeface);
 
 		start.setOnClickListener(this);
 		instruction.setOnClickListener(this);

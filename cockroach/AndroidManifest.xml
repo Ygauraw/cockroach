@@ -19,15 +19,23 @@
         <activity
             android:name="gark.tap.cockroach.LaunchActivity1"
             android:screenOrientation="portrait" >
+
+            <!--
+                 <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name="gark.tap.cockroach.GameActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="gark.tap.cockroach.GameActivity"
-            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="gark.tap.cockroach.MainActivity"

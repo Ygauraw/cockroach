@@ -11,7 +11,6 @@ import android.util.DisplayMetrics;
 
 public class MainActivity extends BaseGameActivity {
 
-	// private MathEngine mMathEngine;
 	protected EngineOptions engineOptions;
 	protected Camera mCamera;
 	protected ResourceManager mResourceManager;
@@ -44,20 +43,6 @@ public class MainActivity extends BaseGameActivity {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
 		mScene = new Scene();
-		// BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		// BitmapTextureAtlas backgroundTextureAtlas = new
-		// BitmapTextureAtlas(this.getTextureManager(), 640, 1024,
-		// TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		// TextureRegion mBackGround =
-		// BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas,
-		// this, "wood_background.jpg", 0, 0);
-		// backgroundTextureAtlas.load();
-		//
-		// mScene.attachChild(new BackgroundObject(new
-		// PointF(mCamera.getCenterX(), mCamera.getCenterY()), mBackGround,
-		// this.getVertexBufferObjectManager()).getSprite());
-		// mResourceManager = new ResourceManager(MainActivity.this);
-
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 
 	}

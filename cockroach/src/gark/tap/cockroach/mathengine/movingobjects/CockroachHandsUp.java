@@ -1,11 +1,11 @@
 package gark.tap.cockroach.mathengine.movingobjects;
 
-import java.util.Arrays;
-
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
+
+import java.util.Arrays;
 
 import org.andengine.input.touch.TouchEvent;
 
@@ -25,13 +25,13 @@ public class CockroachHandsUp extends MovingObject {
 
 	public CockroachHandsUp(PointF point, MathEngine mathEngine) {
 		super(point, mathEngine.getResourceManager().getCockroachHandsUP(), mathEngine);
-
 		this.resourceManager = mathEngine.getResourceManager();
 		setHealth(1);
+		corpse = mathEngine.getResourceManager().getDeadHeadUp();
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.animate(animationSpeed);
 		mMainSprite.animate(durationMinimazed, framesMinimazed, true);
-		// mMainSprite.setScale(2 * Config.SCALE);
+		mMainSprite.setScale(0.75f * Config.SCALE);
 		mSpeed = 1.5f * getMoving();
 
 	}
@@ -40,13 +40,12 @@ public class CockroachHandsUp extends MovingObject {
 	public void tact(long now, long period) {
 		super.tact(now, period);
 
+		float distance = (float) period / 1000 * getMoving();
 		if (getHealth() > 0) {
-
 			if (posX() < (0 + getWidth() / Config.SCALE) || posX() > (Config.CAMERA_WIDTH - getWidth() / Config.SCALE)) {
 				xDistance = -xDistance;
 			}
 
-			float distance = (float) period / 1000 * getMoving();
 			oneStep += distance;
 			if (oneStep > Config.CAMERA_WIDTH / 10) {
 				float angle = Utils.generateRandom(90);
@@ -61,19 +60,22 @@ public class CockroachHandsUp extends MovingObject {
 			setY(posY() + distance);
 			setX(posX() + xDistance);
 
-			mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 		}
+		mMainSprite.setPosition(mPoint.x - mPointOffset.x, mPoint.y - mPointOffset.y);
 	}
 
 	@Override
 	public void setHealth(int mHealth) {
 		super.setHealth(mHealth);
 		if (getHealth() == 0) {
-			mMainSprite.setRotation(290f);
+			mMainSprite.setScale(0.6f * Config.SCALE);
+
+			float angle = (mMainSprite.getRotation() > 0) ? -90f : 90f;
+			mMainSprite.setRotation(angle);
+
 			mMainSprite.animate(durationMaximazed, framesMaximazed, true);
 		}
 
 	}
-
 
 }

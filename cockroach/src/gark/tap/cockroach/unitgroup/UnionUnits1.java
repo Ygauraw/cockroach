@@ -5,6 +5,7 @@ import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachAccelarate;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
 import gark.tap.cockroach.mathengine.movingobjects.Heart;
 import gark.tap.cockroach.mathengine.movingobjects.Plane;
@@ -93,6 +94,12 @@ public class UnionUnits1 extends UnionUnits {
 			clazz = Class.forName(CockroachAccelarate.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * initPosition, -100), mathEngine });
+			unitBot.setDelay(2000);
+			initList.add(unitBot);
+			
+			clazz = Class.forName(CockroachHandsUp.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
 			unitBot.setDelay(2000);
 			initList.add(unitBot);
 

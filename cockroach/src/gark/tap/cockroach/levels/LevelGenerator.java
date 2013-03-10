@@ -37,8 +37,8 @@ public class LevelGenerator {
 			// provide new value
 			while (randomLevel == compositePreviousValue) {
 				randomLevel = (int) Utils.generateRandomPositive(LEVEL_COUNT_COMPOSITE) + 1;
-
 			}
+			compositePreviousValue = randomLevel;
 
 			clazz = Class.forName(UnionUnits.class.getName() + "Composite" + randomLevel);
 			constructor = clazz.getConstructor(MathEngine.class);

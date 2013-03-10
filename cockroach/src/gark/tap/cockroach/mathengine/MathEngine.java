@@ -4,11 +4,13 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.SoundManager;
+import gark.tap.cockroach.StartManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
 import gark.tap.cockroach.mathengine.staticobject.BackgroundObject;
 import gark.tap.cockroach.mathengine.staticobject.StaticObject;
+import gark.tap.cockroach.units.MainRoach;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -18,12 +20,13 @@ import java.util.TimerTask;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.scene.background.Background;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
@@ -43,10 +46,11 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	private Scene mScenePlayArea;
 	private Scene mSceneDeadArea;
 
-	// private MenuScene mMenuScene;
+	private Scene startScene;
 
 	private Thread mGameLoop;
 	private boolean mAlive;
+	private boolean isGameState;
 	private long mLastUpdateScene;
 	private boolean mPaused = false;
 
@@ -58,8 +62,10 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	private HeartManager heartManager;
 	private LevelManager levelManager;
 	private SoundManager soundManager;
-	private PauseManager pauseManager;
+	// private PauseManager pauseManager;
+	private StartManager startManager;
 
+	private MainRoach mainRoach;
 	// ///////////////////////////////////////////////////////////////
 	// private Sprite[] mSprite = new Sprite[20];
 	private int mIndex = 0;
@@ -73,27 +79,69 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	Rectangle[] rec = new Rectangle[250];
 
 	public MathEngine(final GameActivity gameActivity) {
-
-		SCORE = 0;
-		health = Config.HEALTH_SCORE;
-
 		this.gameActivity = gameActivity;
 		mResourceManager = gameActivity.getResourceManager();
-		textManager = new TextManager(this);
 
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
+		// 165 42 42
+		// mSceneBackground.setBackground(new Background(0.29f, 0.31f, 0.37f));
+		// 238 221 130
 
-		// // menu
-		// mMenuScene = new MenuScene(mCamera);
-		// mMenuScene.addMenuItem(mResourceManager.getResetMenuItem());
-		// mMenuScene.addMenuItem(mResourceManager.getQuitMenuItem());
-		// mMenuScene.buildAnimations();
-		// mMenuScene.setBackgroundEnabled(false);
-		// mMenuScene.setOnMenuItemClickListener(this);
+		initStartScreen();
 
-		// add background
-		// TODO
+		// initGame();
+
+	}
+
+	public void initStartScreen() {
+		isGameState = false;
+		mSceneBackground.detachChildren();
+		mSceneBackground.clearChildScene();
+		mSceneBackground.setBackground(new Background(1f, 1f, 1f));
+
+		startManager = new StartManager(this);
+		startScene = new Scene();
+		// MyScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
+		startScene.setBackground(new Background(10f, 10f, 10f));
+		mSceneBackground.attachChild(startScene);
+		startManager.inflateStartScreen();
+
+		// mSceneBackground.attachChild(new BackgroundObject(new
+		// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
+		// mResourceManager.getBackGroundMain(), gameActivity
+		// .getVertexBufferObjectManager()).getSprite());
+
+		final int centerX = (int) mResourceManager.getCockroach().getWidth();
+		final int centerY = (int) mResourceManager.getCockroach().getHeight();
+		mainRoach = new MainRoach(centerX, centerY, mResourceManager.getCockroach(), mResourceManager.getVertexBufferObjectManager());
+		mainRoach.animate(100);
+
+		final PhysicsHandler physicsHandler = new PhysicsHandler(mainRoach);
+		mainRoach.registerUpdateHandler(physicsHandler);
+
+		mSceneBackground.attachChild(mainRoach);
+
+	}
+
+	public void initGame() {
+
+		if (mainRoach != null) {
+			mainRoach.clearEntityModifiers();
+			mainRoach.clearUpdateHandlers();
+			mainRoach.detachSelf();
+		}
+
+		isGameState = true;
+		mSceneBackground.clearChildScene();
+		mSceneBackground.detachChildren();
+
+		Config.SPEED = Config.INIT_SPEED;
+		SCORE = 0;
+		health = Config.HEALTH_SCORE;
+		LevelManager.setCURENT_LEVEL(1);
+		textManager = new TextManager(this);
+
 		mSceneBackground.attachChild(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(), gameActivity
 				.getVertexBufferObjectManager()).getSprite());
 
@@ -111,7 +159,6 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		mSceneControls = new Scene();
 		mSceneControls.setBackgroundEnabled(false);
 
-		// mSceneControls.attachChild(mResourceManager.getScoreText());
 		mScenePlayArea.setChildScene(mSceneControls);
 
 		// TODO swipe
@@ -119,48 +166,50 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		mScenePlayArea.setOnSceneTouchListener(this);
 
 		for (int i = 0; i < mLineArray.length; i++) {
-
 			mLineArray[i] = new Line(0, 0, 0, 0, 10, getResourceManager().getVertexBufferObjectManager());
 			mLineArray[i].setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			// mLineArray[i].setScale(25);
 			mLineArray[i].setVisible(false);
 			mScenePlayArea.attachChild(mLineArray[i]);
 		}
 
 		// pause button
-		Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE, Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
-				gameActivity.getVertexBufferObjectManager()) {
-			@Override
-			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				if (pSceneTouchEvent.isActionDown()) {
-					mScenePlayArea.setOnSceneTouchListener(null);
-					pause();
-				}
-				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
-			}
-		};
-
-		mSceneControls.registerTouchArea(pause);
-		mSceneControls.attachChild(pause);
-
+		// Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE,
+		// Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
+		// gameActivity.getVertexBufferObjectManager()) {
+		// @Override
+		// public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float
+		// pTouchAreaLocalX, float pTouchAreaLocalY) {
+		// if (pSceneTouchEvent.isActionDown()) {
+		// mScenePlayArea.setOnSceneTouchListener(null);
+		// pause();
+		// }
+		// return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+		// pTouchAreaLocalY);
+		// }
+		// };
+		//
+		// mSceneControls.registerTouchArea(pause);
+		// mSceneControls.attachChild(pause);
 		corpseManager = new CorpseManager();
-
 		heartManager = new HeartManager(mResourceManager, mSceneControls, gameActivity);
 		heartManager.setHeartValue(health);
-
-		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls, pause);
+		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls);
 
 		levelManager = new LevelManager(this);
+		LevelManager.setCURENT_LEVEL(1);
 		soundManager = new SoundManager(this);
-		pauseManager = new PauseManager(this);
+		// pauseManager = new PauseManager(this);
+
+		this.start();
 	}
 
-	public void pause() {
-		mAlive = false;
-		pauseManager.showPause();
-		// mSceneControls.setChildScene(mMenuScene, false, true, true);
-		levelManager.pauseLauncher();
-	}
+	// public void pause() {
+	// mAlive = false;
+	// // if (pauseManager != null)
+	// // pauseManager.showPause();
+	// if (levelManager != null)
+	// levelManager.pauseLauncher();
+	// }
 
 	public void start() {
 		mAlive = true;
@@ -309,6 +358,10 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		this.mLastUpdateScene = mLastUpdateScene;
 	}
 
+	public boolean isGameState() {
+		return isGameState;
+	}
+
 	public OnUpdateLevelListener getLevelListener() {
 		return levelListener;
 	}
@@ -347,6 +400,10 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 	public SoundManager getSoundManager() {
 		return soundManager;
+	}
+
+	public TextManager getTextManager() {
+		return textManager;
 	}
 
 	@Override

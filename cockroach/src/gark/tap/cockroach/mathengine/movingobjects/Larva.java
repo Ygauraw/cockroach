@@ -57,7 +57,7 @@ public class Larva extends MovingObject {
 		corpse = mathEngine.getResourceManager().getDeadLarva();
 		touches = Arrays.asList(TouchEvent.ACTION_DOWN);
 		mMainSprite.setScale(Config.SCALE * 0.5f);
-		setHealth(5);
+		setHealth(3);
 		timer.schedule(timerTask, 5 * 1000);
 	}
 

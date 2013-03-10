@@ -30,29 +30,16 @@ public class LevelManager {
 	private Queue<MovingObject> queueForAddUnits = new LinkedList<MovingObject>();
 	private Queue<MovingObject> queueUnitsForRemove = new LinkedList<MovingObject>();
 
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	private ScheduledExecutorService executor;
 	private OnUpdateLevelListener levelListener;
 	private MathEngine mathEngine;
 	private boolean allowNewLevel = false;
 
 	public LevelManager(final MathEngine mathEngine) {
+		executor = Executors.newSingleThreadScheduledExecutor();
 		this.mScenePlayArea = mathEngine.getScenePlayArea();
 		this.levelListener = mathEngine.getLevelListener();
 		this.mathEngine = mathEngine;
-		startNewLevel(CURENT_LEVEL);
-	}
-
-	public void resetLauncher() {
-		executor.shutdown();
-		executor.shutdownNow();
-		executor = Executors.newSingleThreadScheduledExecutor();
-
-		queueOfAllLevelUnit.clear();
-		listOfVisibleUnits.clear();
-		queueForAddUnits.clear();
-		queueUnitsForRemove.clear();
-
-		CURENT_LEVEL = 1;
 		startNewLevel(CURENT_LEVEL);
 	}
 
@@ -68,6 +55,7 @@ public class LevelManager {
 					delay = 1;
 				executor.schedule(runnable, delay, TimeUnit.MILLISECONDS);
 				addCockroach(queueOfAllLevelUnit.poll());
+//				Log.e("ddddd", "ccccc " + queueOfAllLevelUnit.size());
 			} else if (queueOfAllLevelUnit.isEmpty()) {
 				allowNewLevel = true;
 				checkForStartNewLevel();
@@ -151,12 +139,18 @@ public class LevelManager {
 
 	public synchronized void destroyLauncher() {
 		executor.shutdown();
+		executor.shutdownNow();
 
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 			mScenePlayArea.detachChild(item.getMainSprite());
 			movingIterator.remove();
 		}
+
+		queueOfAllLevelUnit.clear();
+		listOfVisibleUnits.clear();
+		queueForAddUnits.clear();
+		queueUnitsForRemove.clear();
 	}
 
 	public synchronized List<MovingObject> getUnitList() {
