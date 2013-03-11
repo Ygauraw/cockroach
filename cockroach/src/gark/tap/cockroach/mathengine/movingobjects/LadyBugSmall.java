@@ -67,7 +67,7 @@ public class LadyBugSmall extends MovingObject {
 	@Override
 	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
-		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {
 				if (--MathEngine.health <= 0) {

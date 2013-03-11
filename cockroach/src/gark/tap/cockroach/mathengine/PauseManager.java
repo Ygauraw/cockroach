@@ -1,66 +1,56 @@
 package gark.tap.cockroach.mathengine;
 
-import gark.tap.cockroach.R;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
+import gark.tap.cockroach.Config;
+import gark.tap.cockroach.ResourceManager;
 
-public class PauseManager implements OnClickListener {
+import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.util.modifier.ease.EaseLinear;
+
+public class PauseManager {
 	private MathEngine mathEngine;
-	private View pauseContent;
+	private ResourceManager mResourceManager;
+	private Sprite mPause;
 
 	public PauseManager(MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
+		this.mResourceManager = mathEngine.getResourceManager();
 	}
+
+	final Runnable runnable = new Runnable() {
+
+		@Override
+		public void run() {
+			mathEngine.getSceneControls().detachChild(mPause);
+			mathEngine.getSceneControls().unregisterTouchArea(mPause);
+		}
+	};
 
 	public void showPause() {
-		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-
+		mPause = new Sprite(0, 0, mResourceManager.getPause(), mathEngine.getGameActivity().getVertexBufferObjectManager()) {
 			@Override
-			public void run() {
-				pauseContent = LayoutInflater.from(mathEngine.getGameActivity()).inflate(R.layout.pause_layout, null);
-				Button resume = (Button) pauseContent.findViewById(R.id.resume);
-				Button quit = (Button) pauseContent.findViewById(R.id.quit);
-				resume.setOnClickListener(PauseManager.this);
-				quit.setOnClickListener(PauseManager.this);
-
-				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				mathEngine.getGameActivity().addContentView(pauseContent, lp);
-
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				if (pSceneTouchEvent.isActionDown()) {
+					mathEngine.setPaused(false);
+					mathEngine.getLevelManager().resumeLauncher();
+					mathEngine.getScenePlayArea().setOnSceneTouchListener(mathEngine);
+					mathEngine.getGameActivity().runOnUpdateThread(runnable);
+				}
+				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
-		});
-	}
+		};
 
-	@Override
-	public void onClick(View v) {
-		ViewGroup rootView = (ViewGroup) mathEngine.getGameActivity().findViewById(android.R.id.content);
-		rootView.removeView(pauseContent);
-		switch (v.getId()) {
-		case R.id.resume:
+		mPause.setPosition((Config.CAMERA_WIDTH - mPause.getWidth()) / 2, (Config.CAMERA_HEIGHT - mPause.getHeight()) / 2);
+		mathEngine.getSceneControls().attachChild(mPause);
+		mathEngine.getSceneControls().registerTouchArea(mPause);
 
+		mPause.clearEntityModifiers();
+		final float y = mPause.getY();
+		mPause.setPosition(0, y);
 
-			mathEngine.getScenePlayArea().setOnSceneTouchListener(mathEngine);
-			mathEngine.setLastUpdateScene(System.currentTimeMillis());
-			mathEngine.start();
-			mathEngine.getLevelManager().resumeLauncher();
+		mPause.registerEntityModifier(new MoveModifier(0.3f, 0, (Config.CAMERA_WIDTH - mPause.getWidth()) / 2, y, y, EaseLinear.getInstance()));
 
-			rootView.removeView(pauseContent);
-			
-			break;
-		case R.id.quit:
-			
-			mathEngine.stop(true);
-			mathEngine.getTextManager().clearAllView();
-			mathEngine.getGameOverManager().clearAllView();
-			mathEngine.initStartScreen();
-			break;
-		default:
-			break;
-		}
 	}
 
 }

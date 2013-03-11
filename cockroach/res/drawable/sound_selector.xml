@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- <item android:drawable="@drawable/sound_on"/> -->
-    <!-- default -->
+<!--     <item android:drawable="@drawable/sound_on"/>
+    default
     <item android:drawable="@drawable/sound_on" android:state_checked="true"/>
-    <!-- pressed -->
+    pressed
     <item android:drawable="@drawable/sound_off" android:state_checked="false"/>
-    <!-- unchecked -->
+    unchecked -->
 
 </selector>

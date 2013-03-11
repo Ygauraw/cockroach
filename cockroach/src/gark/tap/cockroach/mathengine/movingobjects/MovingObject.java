@@ -194,11 +194,18 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	protected void eraseData(final MathEngine mathEngine) {
-		mathEngine.getScenePlayArea().detachChild(mMainSprite);
-		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
-		mMainSprite.detachChildren();
-		mMainSprite.clearEntityModifiers();
-		mMainSprite.clearUpdateHandlers();
+
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+				mathEngine.getScenePlayArea().detachChild(mMainSprite);
+				mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
+				mMainSprite.detachChildren();
+				mMainSprite.clearEntityModifiers();
+				mMainSprite.clearUpdateHandlers();
+			}
+		});
 	}
 
 	public void attachCorpse(final MathEngine mathEngine) {

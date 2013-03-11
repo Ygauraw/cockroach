@@ -81,7 +81,8 @@ public class GameOverManager implements OnClickListener {
 							TextView gameOver = (TextView) viewGameOver.findViewById(R.id.game_over);
 							Button play_again = (Button) viewGameOver.findViewById(R.id.try_again);
 							play_again.setOnClickListener(GameOverManager.this);
-							highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
+//							highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
+							Utils.getHighScore(MathEngine.SCORE, gameActivity, highScore);
 
 							statistic_title.setTypeface(Utils.getTypeface());
 							gameOver.setTypeface(Utils.getTypeface());
@@ -113,7 +114,7 @@ public class GameOverManager implements OnClickListener {
 			Config.SPEED = Config.INIT_SPEED;
 
 			StatisticManager.prepareStatistic();
-			mathEngine.getCorpseManager().clearArea(mathEngine.getSceneDeadArea());
+			mathEngine.getCorpseManager().clearArea(mathEngine);
 			// mathEngine.getHeartManager().setHeartValue(Config.HEALTH_SCORE);
 			// mathEngine.getLevelManager().resetLauncher();
 			mathEngine.getTextManager().clearAllView();

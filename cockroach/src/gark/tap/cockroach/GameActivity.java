@@ -1,14 +1,11 @@
 package gark.tap.cockroach;
 
-import android.graphics.Typeface;
-import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
+import android.graphics.Typeface;
 
 public class GameActivity extends MainActivity {
-
 	private MathEngine mMathEngine;
-//	private boolean onBackPressed;
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
@@ -20,13 +17,10 @@ public class GameActivity extends MainActivity {
 		// "font/Liquidism.ttf");
 		Utils.setTypeface(typeface);
 		mMathEngine = new MathEngine(this);
-//		onBackPressed = false;
 	}
 
 	@Override
 	public void onBackPressed() {
-//		onBackPressed = true;
-
 		if (mMathEngine.isGameState()) {
 			try {
 				mMathEngine.stop(true);
@@ -50,11 +44,9 @@ public class GameActivity extends MainActivity {
 	@Override
 	protected void onPause() {
 		try {
-			LevelManager.setCURENT_LEVEL(1);
-			mMathEngine.stop(true);
-			mMathEngine.getTextManager().clearAllView();
-			mMathEngine.getGameOverManager().clearAllView();
-			mMathEngine.initStartScreen();
+			if (mMathEngine.isGameState()) {
+				mMathEngine.pause();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

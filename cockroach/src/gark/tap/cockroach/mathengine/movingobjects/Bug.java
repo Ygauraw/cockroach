@@ -67,7 +67,7 @@ public class Bug extends MovingObject {
 
 			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-				mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
 						mathEngine.getScenePlayArea().detachChild(smoke);
@@ -75,7 +75,7 @@ public class Bug extends MovingObject {
 				});
 			}
 		});
-		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {
 				mathEngine.getScenePlayArea().attachChild(smoke);

@@ -1,5 +1,7 @@
 package gark.tap.cockroach.mathengine;
 
+import gark.tap.cockroach.R;
+
 import java.util.Random;
 
 import org.andengine.ui.activity.BaseActivity;
@@ -7,7 +9,9 @@ import org.andengine.ui.activity.BaseActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.widget.TextView;
 
 public class Utils {
 	private static final Random random = new Random();
@@ -35,7 +39,11 @@ public class Utils {
 		return Math.abs(result);
 	}
 
-	public static int getHighScore(int highScore, BaseActivity activity) {
+	public static void getHighScore(int highScore, BaseActivity activity, TextView textView) {
+
+		// highScore.setText(gameActivity.getString(R.string.high_score,
+		// Utils.getHighScore(MathEngine.SCORE, gameActivity)));
+
 		SharedPreferences settings = activity.getSharedPreferences(PREFS_HIDH_SCORE, Context.MODE_PRIVATE);
 		int previousHighScore = settings.getInt(PREFS_HIDH_SCORE, 0);
 
@@ -43,9 +51,14 @@ public class Utils {
 			SharedPreferences.Editor editor = settings.edit();
 			editor.putInt(PREFS_HIDH_SCORE, highScore);
 			editor.commit();
+			textView.setText(activity.getString(R.string.new_high_score, "" + highScore));
+			textView.setTextColor(Color.RED);
+			// highScore.setText(activity.getString(R.string.high_score, "" +
+			// highScore));
+		} else {
+			textView.setText(activity.getString(R.string.high_score, "" + previousHighScore));
 		}
 
-		return settings.getInt(PREFS_HIDH_SCORE, 0);
 	}
 
 	public static void setTypeface(Typeface typeface) {

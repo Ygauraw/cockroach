@@ -21,7 +21,7 @@ public class Heart extends MovingObject {
 
 		int coef = (int) (Config.CAMERA_WIDTH * 0.5f);
 		float distance = (float) period / 1000 * getMoving();
-		
+
 		setY(posY() + distance);
 		setX((float) (Config.CAMERA_WIDTH * 0.15 * (float) 2 * Math.sin(2 * Math.sin(2 * Math.sin(2 * Math.sin(posY() / (Config.CAMERA_WIDTH * 0.1))))) + coef));
 
@@ -29,16 +29,23 @@ public class Heart extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
-		mathEngine.getScenePlayArea().detachChild(mMainSprite);
-		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
-		mMainSprite.detachChildren();
-		mMainSprite.clearEntityModifiers();
-		mMainSprite.clearUpdateHandlers();
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				mathEngine.getScenePlayArea().detachChild(mMainSprite);
+				mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
+				mMainSprite.detachChildren();
+				mMainSprite.clearEntityModifiers();
+				mMainSprite.clearUpdateHandlers();
+			}
+		});
 
 		mathEngine.getSoundManager().playSound(onTapSound);
-		
+
 		if (mathEngine.getHeartManager().getLiveCount() < Config.HEALTH_SCORE) {
 			mathEngine.getHeartManager().setHeartValue(++MathEngine.health);
 		}

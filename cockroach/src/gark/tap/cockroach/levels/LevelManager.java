@@ -21,7 +21,6 @@ import org.andengine.entity.scene.Scene;
 public class LevelManager {
 
 	private static int CURENT_LEVEL = 1;
-	private static boolean pause;
 
 	private Scene mScenePlayArea;
 	private Queue<UnitBot> queueOfAllLevelUnit = new MyLinkedList<UnitBot>();
@@ -40,14 +39,13 @@ public class LevelManager {
 		this.mScenePlayArea = mathEngine.getScenePlayArea();
 		this.levelListener = mathEngine.getLevelListener();
 		this.mathEngine = mathEngine;
-		startNewLevel(CURENT_LEVEL);
 	}
 
 	final Runnable runnable = new Runnable() {
 
 		@Override
 		public void run() {
-			if (!queueOfAllLevelUnit.isEmpty() && !pause) {
+			if (!queueOfAllLevelUnit.isEmpty() && !mathEngine.isPaused()) {
 				allowNewLevel = false;
 				int delay = queueOfAllLevelUnit.peek().getDelay();
 				delay *= Config.INIT_SPEED / Config.SPEED;
@@ -55,7 +53,7 @@ public class LevelManager {
 					delay = 1;
 				executor.schedule(runnable, delay, TimeUnit.MILLISECONDS);
 				addCockroach(queueOfAllLevelUnit.poll());
-//				Log.e("ddddd", "ccccc " + queueOfAllLevelUnit.size());
+				// Log.e("ddddd", "ccccc " + queueOfAllLevelUnit.size());
 			} else if (queueOfAllLevelUnit.isEmpty()) {
 				allowNewLevel = true;
 				checkForStartNewLevel();
@@ -63,7 +61,7 @@ public class LevelManager {
 		}
 	};
 
-	public void startNewLevel(int level) {
+	public void startNewLevel() {
 		// allowNewLevel = false;
 		Config.SPEED += 10;
 		levelListener.getCurrentVawe(CURENT_LEVEL);
@@ -84,9 +82,6 @@ public class LevelManager {
 			final MovingObject item = (MovingObject) unitBot.getConstructor().newInstance(unitBot.getObjects());
 			item.setRecovered(unitBot.isRecovered());
 			queueForAddUnits.add(item);
-			// TODO
-			// mathEngine.getScenePlayArea().attachChild(item.getMainSprite());
-			// mathEngine.getScenePlayArea().registerTouchArea(item.getMainSprite());
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -119,8 +114,8 @@ public class LevelManager {
 		return (allowNewLevel && count1 == 0 && count2 == 0);
 	}
 
-	public synchronized void pauseLauncher() {
-		pause = true;
+	public void pauseLauncher() {
+		// pause = true;
 		for (MovingObject cockroach : listOfVisibleUnits) {
 			cockroach.stopAnimate();
 			mathEngine.getScenePlayArea().unregisterTouchArea(cockroach.getMainSprite());
@@ -129,7 +124,7 @@ public class LevelManager {
 
 	public synchronized void resumeLauncher() {
 		// put unit to scene with delay
-		pause = false;
+		// pause = false;
 		for (MovingObject cockroach : listOfVisibleUnits) {
 			cockroach.resumeAnimate();
 			mathEngine.getScenePlayArea().registerTouchArea(cockroach.getMainSprite());
@@ -143,7 +138,16 @@ public class LevelManager {
 
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
-			mScenePlayArea.detachChild(item.getMainSprite());
+
+			mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+
+				@Override
+				public void run() {
+					mScenePlayArea.detachChild(item.getMainSprite());
+					mScenePlayArea.unregisterTouchArea(item.getMainSprite());
+				}
+			});
+
 			movingIterator.remove();
 		}
 
@@ -177,7 +181,7 @@ public class LevelManager {
 		if (isLevelFinished(getUnitList().size(), getQueueOfAllLevelUnit().size())) {
 			// Log.e("level ", "level started");
 			++CURENT_LEVEL;
-			startNewLevel(CURENT_LEVEL);
+			startNewLevel();
 		}
 	}
 

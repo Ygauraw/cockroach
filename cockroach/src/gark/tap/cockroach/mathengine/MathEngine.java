@@ -28,6 +28,7 @@ import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.background.SpriteBackground;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 
 import android.graphics.PointF;
@@ -56,6 +57,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	private boolean mPaused = false;
 
 	private GameActivity gameActivity;
+
 	private TextManager textManager;
 	private ResourceManager mResourceManager;
 	private CorpseManager corpseManager;
@@ -63,7 +65,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	private HeartManager heartManager;
 	private LevelManager levelManager;
 	private SoundManager soundManager;
-	// private PauseManager pauseManager;
+	private PauseManager pauseManager;
 	private StartManager startManager;
 
 	private MainRoach mainRoach;
@@ -97,125 +99,140 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 	public void initStartScreen() {
 		isGameState = false;
-		mSceneBackground.detachChildren();
-		mSceneBackground.clearChildScene();
 
-		startManager = new StartManager(this);
-		startScene = new Scene();
-		startScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
-		// MyScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
-		// startScene.setBackground(new Background(10f, 10f, 10f));
-		mSceneBackground.attachChild(startScene);
-		startManager.inflateStartScreen();
+		getGameActivity().runOnUpdateThread(new Runnable() {
 
-		// mSceneBackground.attachChild(new BackgroundObject(new
-		// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
-		// mResourceManager.getBackGroundMain(), gameActivity
-		// .getVertexBufferObjectManager()).getSprite());
+			@Override
+			public void run() {
 
-		final int centerX = (int) mResourceManager.getCockroach().getWidth();
-		final int centerY = (int) mResourceManager.getCockroach().getHeight();
-		mainRoach = new MainRoach(centerX, centerY, mResourceManager.getCockroach(), mResourceManager.getVertexBufferObjectManager());
-		mainRoach.animate(100);
+				mSceneBackground.detachChildren();
+				mSceneBackground.clearChildScene();
 
-		final PhysicsHandler physicsHandler = new PhysicsHandler(mainRoach);
-		mainRoach.registerUpdateHandler(physicsHandler);
+				startManager = new StartManager(MathEngine.this);
+				startScene = new Scene();
+				startScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
+				mSceneBackground.attachChild(startScene);
 
-		mSceneBackground.attachChild(mainRoach);
+				// mSceneBackground.attachChild(new BackgroundObject(new
+				// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
+				// mResourceManager.getBackGroundMain(), gameActivity
+				// .getVertexBufferObjectManager()).getSprite());
+
+				final int centerX = (int) mResourceManager.getCockroach().getWidth();
+				final int centerY = (int) mResourceManager.getCockroach().getHeight();
+				mainRoach = new MainRoach(centerX, centerY, mResourceManager.getCockroach(), mResourceManager.getVertexBufferObjectManager());
+				mainRoach.animate(100);
+
+				final PhysicsHandler physicsHandler = new PhysicsHandler(mainRoach);
+				mainRoach.registerUpdateHandler(physicsHandler);
+				mSceneBackground.attachChild(mainRoach);
+				startManager.inflateStartScreen();
+
+			}
+		});
 
 	}
 
 	public void initGame() {
-
-		if (mainRoach != null) {
-			mainRoach.clearEntityModifiers();
-			mainRoach.clearUpdateHandlers();
-			mainRoach.detachSelf();
-		}
-
 		isGameState = true;
-		mSceneBackground.clearChildScene();
-		mSceneBackground.detachChildren();
+		setPaused(false);
 
-		Config.SPEED = Config.INIT_SPEED;
-		SCORE = 0;
-		health = Config.HEALTH_SCORE;
-		LevelManager.setCURENT_LEVEL(1);
-		textManager = new TextManager(this);
+		getGameActivity().runOnUpdateThread(new Runnable() {
 
-		// mSceneBackground.attachChild(new BackgroundObject(new
-		// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
-		// mResourceManager.getBackGround(), gameActivity
-		// .getVertexBufferObjectManager()).getSprite());
+			@Override
+			public void run() {
 
-		mSceneBackground.setBackground(new SpriteBackground(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
-				gameActivity.getVertexBufferObjectManager()).getSprite()));
+				if (mainRoach != null) {
+					mainRoach.clearEntityModifiers();
+					mainRoach.clearUpdateHandlers();
+					mainRoach.detachSelf();
+				}
 
-		// scene dead object
-		mSceneDeadArea = new Scene();
-		mSceneDeadArea.setBackgroundEnabled(false);
-		mSceneBackground.setChildScene(mSceneDeadArea);
+				mSceneBackground.clearChildScene();
+				mSceneBackground.detachChildren();
 
-		// scene for cockroach
-		mScenePlayArea = new Scene();
-		mScenePlayArea.setBackgroundEnabled(false);
-		mSceneDeadArea.setChildScene(mScenePlayArea);
+				Config.SPEED = Config.INIT_SPEED;
+				SCORE = 0;
+				health = Config.HEALTH_SCORE;
+				LevelManager.setCURENT_LEVEL(1);
+				textManager = new TextManager(MathEngine.this);
 
-		// scene for pause button
-		mSceneControls = new Scene();
-		mSceneControls.setBackgroundEnabled(false);
+				// mSceneBackground.attachChild(new BackgroundObject(new
+				// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
+				// mResourceManager.getBackGround(), gameActivity
+				// .getVertexBufferObjectManager()).getSprite());
 
-		mScenePlayArea.setChildScene(mSceneControls);
+				mSceneBackground.setBackground(new SpriteBackground(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
+						gameActivity.getVertexBufferObjectManager()).getSprite()));
 
-		// TODO swipe
-		particleEmitter = new RectangleParticleEmitter(Config.CAMERA_WIDTH * 0.5f, Config.CAMERA_HEIGHT * 0.5f, 5f, 5f);
-		mScenePlayArea.setOnSceneTouchListener(this);
+				// scene dead object
+				mSceneDeadArea = new Scene();
+				mSceneDeadArea.setBackgroundEnabled(false);
+				mSceneBackground.setChildScene(mSceneDeadArea);
 
-		for (int i = 0; i < mLineArray.length; i++) {
-			mLineArray[i] = new Line(0, 0, 0, 0, 10, getResourceManager().getVertexBufferObjectManager());
-			mLineArray[i].setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			mLineArray[i].setVisible(false);
-			mScenePlayArea.attachChild(mLineArray[i]);
-		}
+				// scene for cockroach
+				mScenePlayArea = new Scene();
+				mScenePlayArea.setBackgroundEnabled(false);
+				mSceneDeadArea.setChildScene(mScenePlayArea);
 
-		// pause button
-		// Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE,
-		// Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
-		// gameActivity.getVertexBufferObjectManager()) {
-		// @Override
-		// public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float
-		// pTouchAreaLocalX, float pTouchAreaLocalY) {
-		// if (pSceneTouchEvent.isActionDown()) {
-		// mScenePlayArea.setOnSceneTouchListener(null);
-		// pause();
-		// }
-		// return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
-		// pTouchAreaLocalY);
-		// }
-		// };
-		//
-		// mSceneControls.registerTouchArea(pause);
-		// mSceneControls.attachChild(pause);
-		corpseManager = new CorpseManager();
-		heartManager = new HeartManager(mResourceManager, mSceneControls, gameActivity);
-		heartManager.setHeartValue(health);
-		gameOverManager = new GameOverManager(this, gameActivity, mScenePlayArea, mSceneControls);
+				// scene for pause button
+				mSceneControls = new Scene();
+				mSceneControls.setBackgroundEnabled(false);
 
-		levelManager = new LevelManager(this);
-		LevelManager.setCURENT_LEVEL(1);
-		soundManager = new SoundManager(this);
-		// pauseManager = new PauseManager(this);
+				mScenePlayArea.setChildScene(mSceneControls);
 
-		this.start();
+				particleEmitter = new RectangleParticleEmitter(Config.CAMERA_WIDTH * 0.5f, Config.CAMERA_HEIGHT * 0.5f, 5f, 5f);
+				mScenePlayArea.setOnSceneTouchListener(MathEngine.this);
+
+				for (int i = 0; i < mLineArray.length; i++) {
+					mLineArray[i] = new Line(0, 0, 0, 0, 10, getResourceManager().getVertexBufferObjectManager());
+					mLineArray[i].setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+					mLineArray[i].setVisible(false);
+					mScenePlayArea.attachChild(mLineArray[i]);
+				}
+
+				// pause button
+				Sprite pause = new Sprite(Config.CONTROL_MARGIN * Config.SCALE, Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(), gameActivity
+						.getVertexBufferObjectManager()) {
+					@Override
+					public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						if (pSceneTouchEvent.isActionDown()) {
+							if (!isPaused()) {
+								mScenePlayArea.setOnSceneTouchListener(null);
+								pause();
+
+							}
+						}
+						return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+					}
+				};
+				pause.setScale(Config.SCALE);
+				mSceneControls.registerTouchArea(pause);
+				mSceneControls.attachChild(pause);
+
+				corpseManager = new CorpseManager();
+				heartManager = new HeartManager(mResourceManager, mSceneControls, gameActivity);
+				heartManager.setHeartValue(health);
+				gameOverManager = new GameOverManager(MathEngine.this, gameActivity, mScenePlayArea, mSceneControls);
+
+				levelManager = new LevelManager(MathEngine.this);
+				LevelManager.setCURENT_LEVEL(1);
+				soundManager = new SoundManager(MathEngine.this);
+				pauseManager = new PauseManager(MathEngine.this);
+
+				MathEngine.this.start();
+				levelManager.startNewLevel();
+
+			}
+		});
 	}
 
-	// public void pause() {
-	// mAlive = false;
-	// // if (pauseManager != null)
-	// // pauseManager.showPause();
-	// if (levelManager != null)
-	// levelManager.pauseLauncher();
-	// }
+	public void pause() {
+		setPaused(true);
+		if (levelManager != null && isGameState())
+			levelManager.pauseLauncher();
+		pauseManager.showPause();
+	}
 
 	public void start() {
 		mAlive = true;
@@ -351,7 +368,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 			}, 3000);
 
 			// erase all dead corpse
-			corpseManager.clearArea(mSceneDeadArea);
+			corpseManager.clearArea(MathEngine.this);
 
 		}
 	};
@@ -362,6 +379,26 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 	public void setLastUpdateScene(long mLastUpdateScene) {
 		this.mLastUpdateScene = mLastUpdateScene;
+	}
+
+	public Scene getSceneBackground() {
+		return mSceneBackground;
+	}
+
+	public Scene getStartScene() {
+		return startScene;
+	}
+
+	public Scene getSceneControls() {
+		return mSceneControls;
+	}
+
+	public boolean isPaused() {
+		return mPaused;
+	}
+
+	public void setPaused(boolean mPaused) {
+		this.mPaused = mPaused;
 	}
 
 	public boolean isGameState() {
@@ -480,4 +517,54 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		}
 	}
 
+	// public void showPauseImage() {
+	//
+	// final Sprite mSplash = new Sprite(Config.CONTROL_MARGIN * Config.SCALE,
+	// Config.CONTROL_MARGIN * Config.SCALE, mResourceManager.getPause(),
+	// gameActivity.getVertexBufferObjectManager()) {
+	// @Override
+	// public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float
+	// pTouchAreaLocalX, float pTouchAreaLocalY) {
+	// if (pSceneTouchEvent.isActionDown()) {
+	// MathEngine.this.setPaused(false);
+	// MathEngine.this.getLevelManager().resumeLauncher();
+	//
+	// mSceneControls.detachChild(this);
+	// mSceneControls.unregisterTouchArea(this);
+	//
+	// }
+	// return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX,
+	// pTouchAreaLocalY);
+	// }
+	// };
+	//
+	// mSplash.setPosition((Config.CAMERA_WIDTH - mSplash.getWidth()) / 2,
+	// (Config.CAMERA_HEIGHT - mSplash.getHeight()) / 2);
+	// mSplash.setAlpha(0);
+	//
+	// SequenceEntityModifier splash = new
+	// SequenceEntityModifier(iEntityModifierListener, new AlphaModifier(1.0f,
+	// 0.0f, 1.0f), new DelayModifier(5.0f), new AlphaModifier(1.0f,
+	// 1.0f, 1.0f));
+	//
+	// mSplash.registerEntityModifier(splash);
+	// mSceneControls.attachChild(mSplash);
+	// mSceneControls.registerTouchArea(mSplash);
+	// }
+	//
+	// final IEntityModifierListener iEntityModifierListener = new
+	// IEntityModifierListener() {
+	//
+	// @Override
+	// public void onModifierStarted(IModifier<IEntity> pModifier, IEntity
+	// pItem) {
+	//
+	// }
+	//
+	// @Override
+	// public void onModifierFinished(IModifier<IEntity> pModifier, IEntity
+	// pItem) {
+	//
+	// }
+	// };
 }

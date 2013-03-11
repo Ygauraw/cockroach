@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
-import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.font.FontManager;
@@ -20,7 +19,6 @@ import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
 
 import android.content.res.AssetManager;
-import android.opengl.GLES20;
 
 public class ResourceManager {
 
@@ -41,9 +39,7 @@ public class ResourceManager {
 	private TiledTextureRegion mCockroachLavra;
 	private TiledTextureRegion mBatHiding;
 
-	// private TextureRegion mPause;
-
-	private Text mBonusValue;
+	private TextureRegion mPause;
 
 	private TextureRegion mRedCircleMedecine;
 	private TextureRegion mRedCross;
@@ -59,6 +55,7 @@ public class ResourceManager {
 	private TextureRegion mDeadGrey;
 	private TextureRegion mDeadSpider;
 	private TextureRegion mDeadHeadUp;
+	private TextureRegion mSoundOn;
 
 	private TextureRegion m10;
 	private TextureRegion m25;
@@ -70,6 +67,8 @@ public class ResourceManager {
 	private Sound mSoundNooo;
 	private Sound mSoundHellYeah;
 	private Sound mSoundChpok;
+
+	private Font mFont;
 
 	private TextureManager textureManager;
 	private BaseGameActivity baseGameActivity;
@@ -110,6 +109,7 @@ public class ResourceManager {
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
+
 	}
 
 	public TextureRegion getBackGround() {
@@ -155,17 +155,14 @@ public class ResourceManager {
 		return mVertexBufferObjectManager;
 	}
 
-	// public TextureRegion getPause() {
-	// if (mPause == null) {
-	// BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager,
-	// 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-	// mPause =
-	// BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseAtlas,
-	// baseGameActivity, "pause.png", 0, 0);
-	// pauseAtlas.load();
-	// }
-	// return mPause;
-	// }
+	public TextureRegion getPause() {
+		if (mPause == null) {
+			BitmapTextureAtlas pauseAtlas = new BitmapTextureAtlas(textureManager, 42, 42, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mPause = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pauseAtlas, baseGameActivity, "pause.png", 0, 0);
+			pauseAtlas.load();
+		}
+		return mPause;
+	}
 
 	public Sound getSoundOnTap() {
 		return mSoundOnTap;
@@ -257,22 +254,27 @@ public class ResourceManager {
 		return mPlane;
 	}
 
-	public Text getBonusValue() {
+	// public Text getBonusValue() {
+	// if (mBonusValue == null) {
+	// mBonusValue = new Text(0, 0, mFont, "66", "XX".length(),
+	// mVertexBufferObjectManager);
+	// mBonusValue.setBlendFunction(GLES20.GL_SRC_ALPHA,
+	// GLES20.GL_ONE_MINUS_SRC_ALPHA);
+	// }
+	// return mBonusValue;
+	// }
 
-		if (mBonusValue == null) {
+	public Font getFont() {
 
+		if (mFont == null) {
 			BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			float sizeLenth = Config.CAMERA_WIDTH;
-			float size = sizeLenth / 25 * Config.SCALE;
-			Font mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+			float size = 50 * Config.SCALE;
+			mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
 
 			textureManager.loadTexture(mFontTexture);
 			fontManager.loadFont(mFont);
-
-			mBonusValue = new Text(0, 0, mFont, "", "XX".length(), mVertexBufferObjectManager);
-			mBonusValue.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		}
-		return mBonusValue;
+		return mFont;
 	}
 
 	public TextureRegion get10Bonus() {
@@ -480,6 +482,36 @@ public class ResourceManager {
 		}
 		return mDeadHeadUp;
 	}
+
+	BitmapTextureAtlas soundAtlas;
+
+	public BitmapTextureAtlas getSoundAtlas() {
+		if (soundAtlas == null) {
+			soundAtlas = new BitmapTextureAtlas(textureManager, 150, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		}
+		return soundAtlas;
+	}
+
+	public TextureRegion getSoundOn() {
+		if (mSoundOn == null) {
+			BitmapTextureAtlas soundAtlas = getSoundAtlas();
+			mSoundOn = BitmapTextureAtlasTextureRegionFactory.createFromAsset(soundAtlas, baseGameActivity, "sound_on.png", 0, 0);
+			soundAtlas.load();
+		}
+		return mSoundOn;
+	}
+
+	// public TextureRegion getSoundOff() {
+	// if (mSoundOff == null) {
+	// BitmapTextureAtlas soundOffAtlas = new BitmapTextureAtlas(textureManager,
+	// 150, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+	// mSoundOff =
+	// BitmapTextureAtlasTextureRegionFactory.createFromAsset(soundOffAtlas,
+	// baseGameActivity, "sound_off.png", 0, 0);
+	// soundOffAtlas.load();
+	// }
+	// return mSoundOff;
+	// }
 
 	public TiledTextureRegion getBatHiding() {
 

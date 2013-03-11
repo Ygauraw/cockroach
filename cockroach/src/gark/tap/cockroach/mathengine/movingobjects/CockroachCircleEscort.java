@@ -35,7 +35,7 @@ public class CockroachCircleEscort extends MovingObject {
 		bat = new AnimatedSprite(0, 0, resourceManager.getBat(), resourceManager.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 					@Override
 					public void run() {
@@ -136,7 +136,7 @@ public class CockroachCircleEscort extends MovingObject {
 
 			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-				mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
 						mathEngine.getScenePlayArea().detachChild(blast);
@@ -144,13 +144,7 @@ public class CockroachCircleEscort extends MovingObject {
 				});
 			}
 		});
-		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				mathEngine.getScenePlayArea().attachChild(blast);
-				// mathEngine.getScenePlayArea().attachChild(cross);
-			}
-		});
+		mathEngine.getScenePlayArea().attachChild(blast);
 	}
 
 }

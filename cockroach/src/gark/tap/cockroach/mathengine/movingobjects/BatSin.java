@@ -38,7 +38,7 @@ public class BatSin extends MovingObject {
 	@Override
 	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		super.calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
-		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {

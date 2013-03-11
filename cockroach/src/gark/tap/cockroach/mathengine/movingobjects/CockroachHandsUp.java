@@ -37,6 +37,15 @@ public class CockroachHandsUp extends MovingObject {
 	}
 
 	@Override
+	public void resumeAnimate() {
+		if (getHealth() == 0) {
+			mMainSprite.animate(durationMaximazed, framesMaximazed, true);
+		} else {
+			mMainSprite.animate(durationMinimazed, framesMinimazed, true);
+		}
+	}
+
+	@Override
 	public void tact(long now, long period) {
 		super.tact(now, period);
 

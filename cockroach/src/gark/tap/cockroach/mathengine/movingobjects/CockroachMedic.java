@@ -58,14 +58,19 @@ public class CockroachMedic extends MovingObject {
 
 		// recovery dead cockroach
 		for (Iterator<StaticObject> iterator = mathEngine.getCorpseManager().getListDeadObjects().iterator(); iterator.hasNext();) {
-			StaticObject staticObject = (StaticObject) iterator.next();
+			final StaticObject staticObject = (StaticObject) iterator.next();
 			if (((Sprite) getMainSprite().getChildByIndex(0)).contains(staticObject.posX(), staticObject.posY())) {
 				float x = staticObject.posX();
 				float y = staticObject.posY();
 
-				mSceneDeadArea.detachChild(staticObject.getSprite());
+				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+					@Override
+					public void run() {
+						mSceneDeadArea.detachChild(staticObject.getSprite());
+					}
+				});
+
 				mathEngine.getCorpseManager().getQueueCorpseForRemove().add(staticObject);
-				// iterator.remove();
 
 				Class<?> clazz = null;
 				Constructor<?> constructor = null;
