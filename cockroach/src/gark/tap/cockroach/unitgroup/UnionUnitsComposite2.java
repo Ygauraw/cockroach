@@ -57,13 +57,13 @@ public class UnionUnitsComposite2 extends UnionUnits {
 			clazz = Class.forName(CockroachDirect.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine });
-			unitBot.setDelay(1200);
+			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
 
 			clazz = Class.forName(Bug.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
-			unitBot.setDelay(1000);
+			unitBot.setDelay(1500);
 			cockroachs.add(unitBot);
 
 			clazz = Class.forName(CockroachGreySmall.class.getName());

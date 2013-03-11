@@ -46,6 +46,12 @@ public class UnionUnitsComposite4 extends UnionUnits {
 			unitBot.setDelay(1000);
 			cockroachs.add(unitBot);
 
+			clazz = Class.forName(LadyBugSmall.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine, Boolean.TRUE });
+			unitBot.setDelay(2000);
+			cockroachs.add(unitBot);
+
 			clazz = Class.forName(CockroachHalfRightAngle.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine, Boolean.TRUE });

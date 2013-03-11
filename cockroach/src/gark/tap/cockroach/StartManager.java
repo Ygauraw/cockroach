@@ -3,11 +3,14 @@ package gark.tap.cockroach;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
 
+import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseLinear;
 
 import android.opengl.GLES20;
@@ -15,40 +18,9 @@ import android.opengl.GLES20;
 public class StartManager {
 	private MathEngine mathEngine;
 
-	// private View startView;
-	//
-	// private ToggleButton soundToogle;
-	// private Button start;
-	// private Button instruction;
-	// private Button more_games;
-	// private Button remove_ads;
-
-	// private Sprite mSound;
-
 	public StartManager(final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
-		// mathEngine.getSceneBackground().setOnSceneTouchListener(iOnSceneTouchListener);
 	}
-
-	// final IOnSceneTouchListener iOnSceneTouchListener = new
-	// IOnSceneTouchListener() {
-	//
-	// @Override
-	// public boolean onSceneTouchEvent(Scene pScene, TouchEvent
-	// pSceneTouchEvent) {
-	// switch (pSceneTouchEvent.getAction()) {
-	// case TouchEvent.ACTION_DOWN:
-	// if (mSound.contains(pSceneTouchEvent.getX(), pSceneTouchEvent.getX())){
-	//
-	// }
-	// break;
-	//
-	// default:
-	// break;
-	// }
-	// return false;
-	// }
-	// };
 
 	private void toggle(final boolean isSound) {
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
@@ -70,15 +42,22 @@ public class StartManager {
 			mathEngine.getSceneBackground().detachChild(startText);
 			mathEngine.getSceneBackground().unregisterTouchArea(startText);
 
+			mathEngine.getSceneBackground().detachChild(instructionText);
+			mathEngine.getSceneBackground().unregisterTouchArea(instructionText);
+
 			mathEngine.getSceneBackground().detachChild(mSound);
 			mathEngine.getSceneBackground().unregisterTouchArea(mSound);
 		}
 	};
 
 	private Text startText;
+	private Text instructionText;
+	private Text removeAds;
+
 	private Sprite mSound;
 
-	public void inflateStartScreen() {
+	// ///FIRST LINE
+	private void initFirstLine() {
 		final String start = mathEngine.getGameActivity().getString(R.string.start);
 		startText = new Text(0, 0, mathEngine.getResourceManager().getFont(), start, start.length(), mathEngine.getResourceManager().getVertexBufferObjectManager()) {
 			@Override
@@ -102,7 +81,97 @@ public class StartManager {
 		startText.clearEntityModifiers();
 		final float y = startText.getY();
 		startText.setPosition(0, y);
-		startText.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - startText.getWidth()) / 2, y, y, EaseLinear.getInstance()));
+		startText.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - startText.getWidth()) / 2, y, y, entityModifierListenerFirstLine, EaseLinear
+				.getInstance()));
+	}
+
+	final IEntityModifierListener entityModifierListenerFirstLine = new IEntityModifierListener() {
+
+		@Override
+		public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
+
+		}
+
+		@Override
+		public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
+			initSecondLine();
+		}
+	};
+
+	// /////////////////////////////////////////////////////////
+
+	// /// SECOND LINE
+	private void initSecondLine() {
+		final String instruction = mathEngine.getGameActivity().getString(R.string.instrucion);
+		instructionText = new Text(0, 0, mathEngine.getResourceManager().getFont(), instruction, instruction.length(), mathEngine.getResourceManager()
+				.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+					break;
+				default:
+					break;
+				}
+				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+			}
+		};
+
+		instructionText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		instructionText.setPosition((Config.CAMERA_WIDTH - instructionText.getWidth()) / 2, (Config.CAMERA_HEIGHT - instructionText.getHeight()) / 2 - 50 * Config.SCALE);
+		mathEngine.getSceneBackground().attachChild(instructionText);
+		mathEngine.getSceneBackground().registerTouchArea(instructionText);
+		instructionText.clearEntityModifiers();
+		final float y = instructionText.getY();
+		instructionText.setPosition(0, y);
+		instructionText.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - instructionText.getWidth()) / 2, y, y, entityModifierListenerSecondLine, EaseLinear
+				.getInstance()));
+	}
+
+	final IEntityModifierListener entityModifierListenerSecondLine = new IEntityModifierListener() {
+
+		@Override
+		public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
+
+		}
+
+		@Override
+		public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
+			initThirdLine();
+		}
+	};
+
+	// /////////////////////////////////////////////////////////////////
+
+	// // Init Third line
+
+	private void initThirdLine() {
+		final String instruction = mathEngine.getGameActivity().getString(R.string.remove_ads);
+		removeAds = new Text(0, 0, mathEngine.getResourceManager().getFont(), instruction, instruction.length(), mathEngine.getResourceManager().getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				switch (pSceneTouchEvent.getAction()) {
+				case TouchEvent.ACTION_DOWN:
+					break;
+				default:
+					break;
+				}
+				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+			}
+		};
+
+		removeAds.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		removeAds.setPosition((Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, (Config.CAMERA_HEIGHT - removeAds.getHeight()) / 2 + 50 * Config.SCALE);
+		mathEngine.getSceneBackground().attachChild(removeAds);
+		mathEngine.getSceneBackground().registerTouchArea(removeAds);
+		removeAds.clearEntityModifiers();
+		final float y = removeAds.getY();
+		removeAds.setPosition(0, y);
+		removeAds.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, y, y, EaseLinear.getInstance()));
+	}
+
+	public void inflateStartScreen() {
+		initFirstLine();
 
 		// swither
 		mSound = new Sprite(0, 0, mathEngine.getResourceManager().getSoundOn(), mathEngine.getGameActivity().getVertexBufferObjectManager()) {
@@ -117,87 +186,10 @@ public class StartManager {
 			}
 		};
 		toggle(Utils.isSound(mathEngine.getGameActivity()));
-		mSound.setScale(0.5f * Config.SCALE);
 		mSound.setPosition(Config.CAMERA_WIDTH - mSound.getWidth(), Config.CAMERA_HEIGHT - mSound.getHeight());
 		mathEngine.getSceneBackground().attachChild(mSound);
 		mathEngine.getSceneBackground().registerTouchArea(mSound);
 
-		// mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		//
-		// ViewGroup rootView = (ViewGroup)
-		// mathEngine.getGameActivity().findViewById(android.R.id.content);
-		// View toRemove =
-		// mathEngine.getGameActivity().findViewById(R.id.start_layout);
-		// rootView.removeView(toRemove);
-		//
-		// if (startView == null) {
-		//
-		// startView =
-		// LayoutInflater.from(mathEngine.getGameActivity()).inflate(R.layout.activity_main,
-		// null);
-		//
-		// soundToogle = (ToggleButton)
-		// startView.findViewById(R.id.sound_swither);
-		// soundToogle.setChecked(Utils.isSound(mathEngine.getGameActivity()));
-		// soundToogle.setOnCheckedChangeListener(onCheckedChangeListener);
-		//
-		// start = (Button) startView.findViewById(R.id.btn_start);
-		// instruction = (Button) startView.findViewById(R.id.btn_instruction);
-		// more_games = (Button) startView.findViewById(R.id.btn_open_more);
-		// remove_ads = (Button) startView.findViewById(R.id.btn_remove_ads);
-		//
-		// start.setEnabled(true);
-		//
-		// start.setTypeface(Utils.getTypeface());
-		// instruction.setTypeface(Utils.getTypeface());
-		// more_games.setTypeface(Utils.getTypeface());
-		// remove_ads.setTypeface(Utils.getTypeface());
-		//
-		// start.setOnClickListener(StartManager.this);
-		// instruction.setOnClickListener(StartManager.this);
-		// more_games.setOnClickListener(StartManager.this);
-		// remove_ads.setOnClickListener(StartManager.this);
-		//
-		// RelativeLayout.LayoutParams lp = new
-		// RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-		// LayoutParams.MATCH_PARENT);
-		// mathEngine.getGameActivity().addContentView(startView, lp);
-		// }
-		// }
-		// });
 	}
-
-	// final OnCheckedChangeListener onCheckedChangeListener = new
-	// OnCheckedChangeListener() {
-	//
-	// @Override
-	// public void onCheckedChanged(CompoundButton buttonView, boolean
-	// isChecked) {
-	// soundToogle.setChecked(isChecked);
-	// Utils.setSound(mathEngine.getGameActivity(), isChecked);
-	// }
-	// };
-	//
-	// @Override
-	// public void onClick(View v) {
-	// switch (v.getId()) {
-	// case R.id.btn_start:
-	// v.setEnabled(false);
-	// startView.setVisibility(View.GONE);
-	// ViewGroup rootView = (ViewGroup)
-	// mathEngine.getGameActivity().findViewById(android.R.id.content);
-	// rootView.removeView(startView);
-	// startView = null;
-	// mathEngine.initGame();
-	// break;
-	//
-	// default:
-	// break;
-	// }
-	//
-	// }
 
 }

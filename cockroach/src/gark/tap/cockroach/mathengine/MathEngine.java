@@ -26,7 +26,6 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
@@ -70,7 +69,6 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 	private MainRoach mainRoach;
 	// ///////////////////////////////////////////////////////////////
-	// private Sprite[] mSprite = new Sprite[20];
 	private int mIndex = 0;
 	private Line[] mLineArray = new Line[10];
 	private ArrayList<Points> mTouchPoints = new ArrayList<Points>();
@@ -87,9 +85,6 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 		mCamera = gameActivity.getCamera();
 		mSceneBackground = gameActivity.getScene();
-		// 165 42 42
-		// mSceneBackground.setBackground(new Background(0.29f, 0.31f, 0.37f));
-		// 238 221 130
 
 		initStartScreen();
 
@@ -100,7 +95,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	public void initStartScreen() {
 		isGameState = false;
 
-		getGameActivity().runOnUpdateThread(new Runnable() {
+		getGameActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -108,20 +103,21 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 				mSceneBackground.detachChildren();
 				mSceneBackground.clearChildScene();
 
+				Sprite bgSprite = new Sprite(0, 0, Config.CAMERA_WIDTH, Config.CAMERA_HEIGHT, mResourceManager.getBackGroundMain(), mResourceManager.getVertexBufferObjectManager());
+				SpriteBackground background = new SpriteBackground(bgSprite);
+				mSceneBackground.setBackground(background);
+
 				startManager = new StartManager(MathEngine.this);
 				startScene = new Scene();
-				startScene.setBackground(new Background(0.29f, 0.31f, 0.37f));
+				startScene.setBackgroundEnabled(false);
 				mSceneBackground.attachChild(startScene);
 
-				// mSceneBackground.attachChild(new BackgroundObject(new
-				// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
-				// mResourceManager.getBackGroundMain(), gameActivity
-				// .getVertexBufferObjectManager()).getSprite());
 
-				final int centerX = (int) mResourceManager.getCockroach().getWidth();
-				final int centerY = (int) mResourceManager.getCockroach().getHeight();
+				final int centerX = (int) Utils.generateRandomPositive(Config.CAMERA_WIDTH / 10, Config.CAMERA_WIDTH * 4 / 5);
+				final int centerY = (int) Utils.generateRandomPositive(Config.CAMERA_HEIGHT / 10, Config.CAMERA_HEIGHT * 4 / 5);
+
 				mainRoach = new MainRoach(centerX, centerY, mResourceManager.getCockroach(), mResourceManager.getVertexBufferObjectManager());
-				mainRoach.animate(100);
+				mainRoach.animate(70);
 
 				final PhysicsHandler physicsHandler = new PhysicsHandler(mainRoach);
 				mainRoach.registerUpdateHandler(physicsHandler);
@@ -137,7 +133,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		isGameState = true;
 		setPaused(false);
 
-		getGameActivity().runOnUpdateThread(new Runnable() {
+		getGameActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -156,11 +152,6 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 				health = Config.HEALTH_SCORE;
 				LevelManager.setCURENT_LEVEL(1);
 				textManager = new TextManager(MathEngine.this);
-
-				// mSceneBackground.attachChild(new BackgroundObject(new
-				// PointF(mCamera.getCenterX(), mCamera.getCenterY()),
-				// mResourceManager.getBackGround(), gameActivity
-				// .getVertexBufferObjectManager()).getSprite());
 
 				mSceneBackground.setBackground(new SpriteBackground(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
 						gameActivity.getVertexBufferObjectManager()).getSprite()));

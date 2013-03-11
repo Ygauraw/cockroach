@@ -57,6 +57,8 @@ public class ResourceManager {
 	private TextureRegion mDeadHeadUp;
 	private TextureRegion mSoundOn;
 
+	private TextureRegion mContinue;
+
 	private TextureRegion m10;
 	private TextureRegion m25;
 
@@ -125,8 +127,8 @@ public class ResourceManager {
 
 	public TextureRegion getBackGroundMain() {
 		if (mBackGroundMain == null) {
-			BitmapTextureAtlas backgroundMainTextureAtlas = new BitmapTextureAtlas(textureManager, 582, 800, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			mBackGroundMain = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundMainTextureAtlas, baseGameActivity, "main_bg.jpg", 0, 0);
+			BitmapTextureAtlas backgroundMainTextureAtlas = new BitmapTextureAtlas(textureManager, 581, 800, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBackGroundMain = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundMainTextureAtlas, baseGameActivity, "wood_3.jpg", 0, 0);
 			backgroundMainTextureAtlas.load();
 		}
 		return mBackGroundMain;
@@ -487,7 +489,7 @@ public class ResourceManager {
 
 	public BitmapTextureAtlas getSoundAtlas() {
 		if (soundAtlas == null) {
-			soundAtlas = new BitmapTextureAtlas(textureManager, 150, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			soundAtlas = new BitmapTextureAtlas(textureManager, 75, 75, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		}
 		return soundAtlas;
 	}
@@ -501,17 +503,14 @@ public class ResourceManager {
 		return mSoundOn;
 	}
 
-	// public TextureRegion getSoundOff() {
-	// if (mSoundOff == null) {
-	// BitmapTextureAtlas soundOffAtlas = new BitmapTextureAtlas(textureManager,
-	// 150, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-	// mSoundOff =
-	// BitmapTextureAtlasTextureRegionFactory.createFromAsset(soundOffAtlas,
-	// baseGameActivity, "sound_off.png", 0, 0);
-	// soundOffAtlas.load();
-	// }
-	// return mSoundOff;
-	// }
+	public TextureRegion getContinue() {
+		if (mContinue == null) {
+			BitmapTextureAtlas continueAtlas = new BitmapTextureAtlas(textureManager, 100, 100, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mContinue = BitmapTextureAtlasTextureRegionFactory.createFromAsset(continueAtlas, baseGameActivity, "continue_icon.png", 0, 0);
+			continueAtlas.load();
+		}
+		return mContinue;
+	}
 
 	public TiledTextureRegion getBatHiding() {
 

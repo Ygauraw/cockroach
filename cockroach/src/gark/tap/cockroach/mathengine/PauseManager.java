@@ -28,7 +28,7 @@ public class PauseManager {
 	};
 
 	public void showPause() {
-		mPause = new Sprite(0, 0, mResourceManager.getPause(), mathEngine.getGameActivity().getVertexBufferObjectManager()) {
+		mPause = new Sprite(0, 0, mResourceManager.getContinue(), mathEngine.getGameActivity().getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if (pSceneTouchEvent.isActionDown()) {

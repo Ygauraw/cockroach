@@ -14,14 +14,18 @@ public class MainRoach extends AnimatedSprite {
 	private float angle;
 	public float VELOCITY_X = 200;
 	public float VELOCITY_Y = 200;
-	private int mark;
+	private int sign;
 
 	public MainRoach(final float pX, final float pY, final TiledTextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
 		this.mPhysicsHandler = new PhysicsHandler(this);
 		this.registerUpdateHandler(this.mPhysicsHandler);
-		mPhysicsHandler.setVelocity(VELOCITY_X, VELOCITY_Y);
-		angle = (float) Math.toDegrees(Math.atan(-VELOCITY_X / VELOCITY_Y));
+
+		float xVel = Utils.generateRandom(200);
+		float yVel = Utils.generateRandom(200);
+
+		mPhysicsHandler.setVelocity(xVel, yVel);
+		angle = (float) Math.toDegrees(Math.atan(-xVel / yVel));
 		this.setRotation(angle);
 	}
 
@@ -34,10 +38,10 @@ public class MainRoach extends AnimatedSprite {
 
 		if (oneStep > Config.CAMERA_WIDTH / 5) {
 			oneStep = 0;
-			mark = (mPhysicsHandler.getVelocityX() > 0) ? 1 : -1;
-			this.mPhysicsHandler.setVelocityX(mark * Utils.generateRandomPositive(VELOCITY_X - 10, VELOCITY_X + 10));
-			mark = (mPhysicsHandler.getVelocityY() > 0) ? 1 : -1;
-			this.mPhysicsHandler.setVelocityY(mark * Utils.generateRandomPositive(VELOCITY_Y - 10, VELOCITY_Y + 10));
+			sign = (mPhysicsHandler.getVelocityX() > 0) ? 1 : -1;
+			this.mPhysicsHandler.setVelocityX(sign * Utils.generateRandomPositive(VELOCITY_X - 10, VELOCITY_X + 10));
+			sign = (mPhysicsHandler.getVelocityY() > 0) ? 1 : -1;
+			this.mPhysicsHandler.setVelocityY(sign * Utils.generateRandomPositive(VELOCITY_Y - 10, VELOCITY_Y + 10));
 
 		}
 
