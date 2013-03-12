@@ -182,6 +182,7 @@ public abstract class MovingObject extends BaseObject {
 		if (--MathEngine.health <= 0) {
 			mathEngine.getGameOverManager().finish();
 		}
+		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundMissed());
 		mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 		eraseData(mathEngine);
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);

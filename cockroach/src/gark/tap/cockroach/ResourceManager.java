@@ -69,6 +69,7 @@ public class ResourceManager {
 	private Sound mSoundNooo;
 	private Sound mSoundHellYeah;
 	private Sound mSoundChpok;
+	private Sound mSoundMissed;
 
 	private Font mFont;
 
@@ -99,6 +100,7 @@ public class ResourceManager {
 			mSoundNooo = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "nooo.ogg");
 			mSoundHellYeah = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "hell_yeah.ogg");
 			mSoundChpok = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "chpok.ogg");
+			mSoundMissed = SoundFactory.createSoundFromAsset(baseGameActivity.getEngine().getSoundManager(), baseGameActivity, "missed.ogg");
 
 			mSoundOnTap.setLooping(false);
 			mSoundOnTap2.setLooping(false);
@@ -192,6 +194,10 @@ public class ResourceManager {
 
 	public Sound getSoundChpok() {
 		return mSoundChpok;
+	}
+
+	public Sound getSoundMissed() {
+		return mSoundMissed;
 	}
 
 	public TextureRegion getRedCross() {

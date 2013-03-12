@@ -12,18 +12,15 @@ import java.util.Queue;
 
 public class LevelGenerator {
 	public static final int LEVEL_COUNT = 3;
-	public static final int LEVEL_COUNT_COMPOSITE = 8;
+	public static final int LEVEL_COUNT_COMPOSITE = 10;
 	private static UnionUnits unionUnits;
 	private static int compositePreviousValue = 0;
 
 	public static Queue<UnitBot> fillContent(int level, MathEngine mathEngine, Queue<UnitBot> queue) {
 		queue.clear();
 
-		// int unionHealth = 0;
-		// while (unionHealth < 1000 * level) {
-		// int randomLevel = (int) Utils.generateRandomPositive(level) + 1;
 		if (level > LEVEL_COUNT)
-			level = LEVEL_COUNT;
+			level = (int) Utils.generateRandomPositive(LEVEL_COUNT) + 1;
 
 		try {
 			Class<?> clazz = Class.forName(UnionUnits.class.getName() + level);
@@ -40,7 +37,7 @@ public class LevelGenerator {
 			}
 			compositePreviousValue = randomLevel;
 
-			clazz = Class.forName(UnionUnits.class.getName() + "Composite" + 8/* randomLevel */);
+			clazz = Class.forName(UnionUnits.class.getName() + "Composite" + randomLevel);
 			constructor = clazz.getConstructor(MathEngine.class);
 			unionUnits = (UnionUnits) constructor.newInstance(new Object[] { mathEngine });
 			queue.addAll(unionUnits.getUnionUnits());
@@ -59,7 +56,6 @@ public class LevelGenerator {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		// }
 
 		return queue;
 	}

@@ -2,9 +2,9 @@ package gark.tap.cockroach.unitgroup;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.mathengine.MathEngine;
-import gark.tap.cockroach.mathengine.movingobjects.Bug;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachGreySmall;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachLarva;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
+import gark.tap.cockroach.mathengine.movingobjects.Spider;
 import gark.tap.cockroach.units.UnitBot;
 
 import java.lang.reflect.Constructor;
@@ -13,9 +13,9 @@ import java.util.Queue;
 
 import android.graphics.PointF;
 
-public class UnionUnitsComposite2 extends UnionUnits {
+public class UnionUnitsComposite9 extends UnionUnits {
 
-	public UnionUnitsComposite2(MathEngine mathEngine) {
+	public UnionUnitsComposite9(MathEngine mathEngine) {
 		super(mathEngine);
 		this.mathEngine = mathEngine;
 	}
@@ -39,33 +39,27 @@ public class UnionUnitsComposite2 extends UnionUnits {
 		UnitBot unitBot = null;
 		try {
 
-			clazz = Class.forName(CockroachDirect.class.getName());
+			clazz = Class.forName(Spider.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.2f, -100), mathEngine });
 			unitBot.setDelay(1);
 			cockroachs.add(unitBot);
 
-			clazz = Class.forName(CockroachDirect.class.getName());
+			clazz = Class.forName(Spider.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine });
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.8f, -100), mathEngine });
 			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
 
-			clazz = Class.forName(Bug.class.getName());
+			clazz = Class.forName(CockroachLarva.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
-			unitBot.setDelay(1500);
+			unitBot.setDelay(3000);
 			cockroachs.add(unitBot);
 
-			clazz = Class.forName(CockroachGreySmall.class.getName());
+			clazz = Class.forName(CockroachMedic.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
-			unitBot.setDelay(1);
-			cockroachs.add(unitBot);
-
-			clazz = Class.forName(CockroachGreySmall.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine });
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
 			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
 
