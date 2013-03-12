@@ -4,7 +4,7 @@ import gark.tap.cockroach.Config;
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachCircleEscort;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachLarva;
 import gark.tap.cockroach.units.UnitBot;
 
 import java.lang.reflect.Constructor;
@@ -13,9 +13,9 @@ import java.util.Queue;
 
 import android.graphics.PointF;
 
-public class UnionUnitsComposite3 extends UnionUnits {
+public class UnionUnitsComposite6 extends UnionUnits {
 
-	public UnionUnitsComposite3(MathEngine mathEngine) {
+	public UnionUnitsComposite6(MathEngine mathEngine) {
 		super(mathEngine);
 		this.mathEngine = mathEngine;
 	}
@@ -39,83 +39,55 @@ public class UnionUnitsComposite3 extends UnionUnits {
 		UnitBot unitBot = null;
 		try {
 
+			clazz = Class.forName(CockroachLarva.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
+			unitBot.setDelay(1);
+			cockroachs.add(unitBot);
+
+			clazz = Class.forName(CockroachLarva.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.8f, -100), mathEngine });
+			unitBot.setDelay(3000);
+			cockroachs.add(unitBot);
+
+			// ///////////////////////
+
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
+			unitBot.setDelay(2000);
+			cockroachs.add(unitBot);
+
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
+			unitBot.setDelay(1);
+			cockroachs.add(unitBot);
+
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine });
+			unitBot.setDelay(2000);
+			cockroachs.add(unitBot);
+
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mathEngine });
+			unitBot.setDelay(1);
+			cockroachs.add(unitBot);
+
+			clazz = Class.forName(CockroachDirect.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine });
+			unitBot.setDelay(1);
+			cockroachs.add(unitBot);
 
 			clazz = Class.forName(CockroachCircleEscort.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
 			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
-			
-
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mathEngine });
-			unitBot.setDelay(1);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine });
-			unitBot.setDelay(1000);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
-			unitBot.setDelay(1);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine });
-			unitBot.setDelay(1000);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
-			unitBot.setDelay(1000);
-			cockroachs.add(unitBot);
-			
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.3f, -100), mathEngine });
-			unitBot.setDelay(1);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine });
-			unitBot.setDelay(1000);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.1f, -100), mathEngine });
-			unitBot.setDelay(1);
-			cockroachs.add(unitBot);
-			
-			
-			clazz = Class.forName(CockroachDirect.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine });
-			unitBot.setDelay(1000);
-			cockroachs.add(unitBot);
-			
-			clazz = Class.forName(CockroachMedic.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
-			unitBot.setDelay(2000);
-			cockroachs.add(unitBot);
-
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

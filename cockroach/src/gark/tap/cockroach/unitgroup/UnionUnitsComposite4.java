@@ -55,8 +55,16 @@ public class UnionUnitsComposite4 extends UnionUnits {
 			clazz = Class.forName(CockroachHalfRightAngle.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine, Boolean.TRUE });
+			unitBot.setDelay(1000);
+			cockroachs.add(unitBot);
+
+			clazz = Class.forName(LadyBugSmall.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.7f, -100), mathEngine, Boolean.TRUE });
 			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
+
+			// ////
 
 			clazz = Class.forName(CockroachHalfLefAngle.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
@@ -64,15 +72,15 @@ public class UnionUnitsComposite4 extends UnionUnits {
 			unitBot.setDelay(1000);
 			cockroachs.add(unitBot);
 
+			clazz = Class.forName(LadyBugSmall.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine, Boolean.TRUE });
+			unitBot.setDelay(1000);
+			cockroachs.add(unitBot);
+
 			clazz = Class.forName(CockroachHalfRightAngle.class.getName());
 			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
 			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.9f, -100), mathEngine, Boolean.TRUE });
-			unitBot.setDelay(2000);
-			cockroachs.add(unitBot);
-
-			clazz = Class.forName(CockroachAngle.class.getName());
-			constructor = clazz.getConstructor(PointF.class, MathEngine.class, Boolean.class);
-			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine, Boolean.TRUE });
 			unitBot.setDelay(2000);
 			cockroachs.add(unitBot);
 

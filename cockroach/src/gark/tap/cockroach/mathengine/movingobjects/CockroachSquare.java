@@ -12,7 +12,7 @@ public class CockroachSquare extends MovingObject {
 
 	float xDistance;
 	float yDistance = 0f;
-	float oneStep = 0;
+	float oneStep = Config.CAMERA_WIDTH / 2;
 	private Queue<Integer> angles;
 
 	public CockroachSquare(PointF point, MathEngine mathEngine) {
@@ -20,6 +20,8 @@ public class CockroachSquare extends MovingObject {
 		mMainSprite.animate(animationSpeed);
 
 		moving = 400;
+		
+		mSpeed = 2 * getMoving();
 
 		angles = new LinkedList<Integer>();
 		angles.add(0);
@@ -35,7 +37,8 @@ public class CockroachSquare extends MovingObject {
 
 		float distance = (float) period / 1000 * getMoving();
 		oneStep += distance;
-		if (oneStep > Config.CAMERA_WIDTH / 7) {
+
+		if (oneStep > Config.CAMERA_WIDTH / 3) {
 
 			switch (angles.peek()) {
 			case 0:

@@ -15,6 +15,7 @@ public class BatSin extends MovingObject {
 		mMainSprite.animate(animationSpeed);
 		onTapSound = mathEngine.getResourceManager().getSoundNooo();
 		this.relationPosition = relationPosition;
+		mMainSprite.setScale(0.75f * Config.SCALE);
 	}
 
 	@Override
