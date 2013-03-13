@@ -5,6 +5,7 @@ import gark.tap.cockroach.GameActivity;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.SoundManager;
 import gark.tap.cockroach.StartManager;
+import gark.tap.cockroach.TipsManager;
 import gark.tap.cockroach.levels.LevelManager;
 import gark.tap.cockroach.levels.OnUpdateLevelListener;
 import gark.tap.cockroach.mathengine.movingobjects.MovingObject;
@@ -66,6 +67,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 	private SoundManager soundManager;
 	private PauseManager pauseManager;
 	private StartManager startManager;
+	private TipsManager tipsManager;
 
 	private MainRoach mainRoach;
 	// ///////////////////////////////////////////////////////////////
@@ -112,7 +114,6 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 				startScene.setBackgroundEnabled(false);
 				mSceneBackground.attachChild(startScene);
 
-
 				final int centerX = (int) Utils.generateRandomPositive(Config.CAMERA_WIDTH / 10, Config.CAMERA_WIDTH * 4 / 5);
 				final int centerY = (int) Utils.generateRandomPositive(Config.CAMERA_HEIGHT / 10, Config.CAMERA_HEIGHT * 4 / 5);
 
@@ -123,6 +124,8 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 				mainRoach.registerUpdateHandler(physicsHandler);
 				mSceneBackground.attachChild(mainRoach);
 				startManager.inflateStartScreen();
+
+				tipsManager = new TipsManager(MathEngine.this);
 
 			}
 		});
@@ -322,27 +325,6 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 	}
 
-	// @Override
-	// public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem
-	// pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY) {
-	// switch (pMenuItem.getID()) {
-	// case ResourceManager.MENU_RESUME:
-	// /* Restart the animation. */
-	// mScenePlayArea.setOnSceneTouchListener(this);
-	// mLastUpdateScene = System.currentTimeMillis();
-	// this.start();
-	// levelManager.resumeLauncher();
-	// mSceneControls.reset();
-	// return true;
-	// case ResourceManager.MENU_QUIT:
-	// // levelManager.destroyLauncher();
-	// // gameActivity.finish();
-	// return true;
-	// default:
-	// return false;
-	// }
-	// }
-
 	final OnUpdateLevelListener levelListener = new OnUpdateLevelListener() {
 		@Override
 		public void getCurrentVawe(final int level) {
@@ -364,12 +346,16 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		}
 	};
 
-	// public long getLastUpdateScene() {
-	// return mLastUpdateScene;
-	// }
+	public StartManager getStartManager() {
+		return startManager;
+	}
 
 	public void setLastUpdateScene(long mLastUpdateScene) {
 		this.mLastUpdateScene = mLastUpdateScene;
+	}
+
+	public TipsManager getTipsManager() {
+		return tipsManager;
 	}
 
 	public Scene getSceneBackground() {

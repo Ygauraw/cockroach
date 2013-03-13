@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Queue;
 
 public class LevelGenerator {
-	public static final int LEVEL_COUNT = 3;
+	public static final int LEVEL_COUNT = 7;
 	public static final int LEVEL_COUNT_COMPOSITE = 10;
 	private static UnionUnits unionUnits;
 	private static int compositePreviousValue = 0;

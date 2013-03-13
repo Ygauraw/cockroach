@@ -50,6 +50,28 @@ public class StartManager {
 		}
 	};
 
+	public void unregisterTouch() {
+		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mathEngine.getSceneBackground().unregisterTouchArea(startText);
+				mathEngine.getSceneBackground().unregisterTouchArea(instructionText);
+				mathEngine.getSceneBackground().unregisterTouchArea(mSound);
+			}
+		});
+	}
+
+	public void registerTouch() {
+		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mathEngine.getSceneBackground().registerTouchArea(startText);
+				mathEngine.getSceneBackground().registerTouchArea(instructionText);
+				mathEngine.getSceneBackground().registerTouchArea(mSound);
+			}
+		});
+	}
+
 	private Text startText;
 	private Text instructionText;
 	private Text removeAds;
@@ -109,6 +131,7 @@ public class StartManager {
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				switch (pSceneTouchEvent.getAction()) {
 				case TouchEvent.ACTION_DOWN:
+					mathEngine.getTipsManager().inflate();
 					break;
 				default:
 					break;
