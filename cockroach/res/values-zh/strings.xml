@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">~ 蟑螂拉什 ~</string>
+    <string name="menu_settings">Settings</string>
+    <string name="game_over">游戏结束</string>
+    <string name="attention">注意</string>
+    <string name="high_score">最高成绩： %s</string>
+    <string name="new_high_score">新的高分数: %s</string>
+    <string name="play_again">请再试一次</string>
+    <string name="close">关闭</string>
+    <string name="statisctic">统计</string>
+    <string name="start">开始</string>
+    <string name="instrucion">提示</string>
+    <string name="more_games">更多游戏</string>
+    <string name="remove_ads">删除广告</string>
+    <string name="resume">恢复</string>
+    <string name="quit">退出</string>
+    <string name="simple_cockroach">简单的蟑螂。通过触摸或滑动粉碎。</string>
+    <string name="larva_cockroach">蟑螂幼虫。生成新的快速小蟑螂。粉碎通过触摸屏的4倍。</string>
+    <string name="single_spider">蜘蛛。粉碎通过触摸屏的2倍。</string>
+    <string name="simple_dont_touch">唐\'吨触摸的家伙。他们降低保健价值或完成游戏。</string>
+    <string name="single_bug">有用的错误。杀死周围所有可见的单位。</string>
+    <string name="single_bonus_heart">额外的奖金和健康。</string>
+    <string name="single_medic">军医。恢复死人蟑螂。</string>
+
+</resources>

@@ -62,7 +62,7 @@ public class LevelManager {
 
 	public void startNewLevel() {
 		// allowNewLevel = false;
-		Config.SPEED += 7;
+		Config.SPEED += 10;
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		LevelGenerator.fillContent(CURENT_LEVEL, mathEngine, queueOfAllLevelUnit);
 

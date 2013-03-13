@@ -9,6 +9,7 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachFly;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachGreySmall;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
+import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.LadyBugBig;
 import gark.tap.cockroach.mathengine.movingobjects.LadyBugSmall;
 import gark.tap.cockroach.mathengine.movingobjects.Larva;
@@ -81,7 +82,9 @@ public class GameOverManager implements OnClickListener {
 							TextView gameOver = (TextView) viewGameOver.findViewById(R.id.game_over);
 							Button play_again = (Button) viewGameOver.findViewById(R.id.try_again);
 							play_again.setOnClickListener(GameOverManager.this);
-//							highScore.setText(gameActivity.getString(R.string.high_score, Utils.getHighScore(MathEngine.SCORE, gameActivity)));
+							// highScore.setText(gameActivity.getString(R.string.high_score,
+							// Utils.getHighScore(MathEngine.SCORE,
+							// gameActivity)));
 							Utils.getHighScore(MathEngine.SCORE, gameActivity, highScore);
 
 							statistic_title.setTypeface(Utils.getTypeface());
@@ -188,6 +191,8 @@ public class GameOverManager implements OnClickListener {
 				image = R.drawable.single_larva;
 			} else if (Spider.class.getName().equals(name)) {
 				image = R.drawable.single_spider;
+			} else if (CockroachMedic.class.getName().equals(name)) {
+				image = R.drawable.single_cockroach_medic;
 			}
 			holder.textView.setText(" = " + objects.get(position).getCount());
 			holder.imageView.setImageResource(image);

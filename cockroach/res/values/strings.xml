@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">- Cockroach -</string>
+    <string name="app_name">~Cockroach Rush~</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="game_over">Game Over</string>
@@ -17,5 +17,12 @@
     <string name="remove_ads">Remove Ads</string>
     <string name="resume">Resume</string>
     <string name="quit">Quit</string>
+    <string name="simple_cockroach">Simple cockroaches. Crush by touch or swipe.</string>
+    <string name="larva_cockroach">Cockroach larva. Generate 2 new fast small cockroaches. Crush by touch 4 times.</string>
+    <string name="single_spider">Spider. Crush by touch 2 times.</string>
+    <string name="simple_dont_touch">Don\'t touch that guys. They reduce health value or finish game.</string>
+    <string name="single_bug">Useful bug. Kill all visible units around.</string>
+    <string name="single_bonus_heart">Extra bonus and health.</string>
+    <string name="single_medic">Medic. Recover dead cockroaches.</string>
 
 </resources>

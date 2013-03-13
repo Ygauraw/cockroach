@@ -2,29 +2,13 @@ package gark.tap.cockroach;
 
 import gark.tap.cockroach.mathengine.MathEngine;
 import gark.tap.cockroach.mathengine.Utils;
-import gark.tap.cockroach.mathengine.movingobjects.BatSin;
-import gark.tap.cockroach.mathengine.movingobjects.Bug;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachDirect;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachFly;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachGreySmall;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
-import gark.tap.cockroach.mathengine.movingobjects.LadyBugBig;
-import gark.tap.cockroach.mathengine.movingobjects.LadyBugSmall;
-import gark.tap.cockroach.mathengine.movingobjects.Larva;
-import gark.tap.cockroach.mathengine.movingobjects.Spider;
-import gark.tap.cockroach.statistic.StatisticUnit;
-
-import java.util.List;
 
 import org.andengine.ui.activity.BaseGameActivity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,10 +17,8 @@ import android.widget.TextView;
 
 public class TipsManager implements OnClickListener {
 
-	// private final Timer timer = new Timer();
 	private MathEngine mathEngine;
 	private BaseGameActivity gameActivity;
-	// private ListView listView;
 	private View viewTips;
 
 	public TipsManager(final MathEngine mathEngine) {
@@ -52,6 +34,14 @@ public class TipsManager implements OnClickListener {
 				mathEngine.getStartManager().unregisterTouch();
 				if (viewTips == null) {
 					viewTips = LayoutInflater.from(gameActivity).inflate(R.layout.tips, null);
+					((TextView) viewTips.findViewById(R.id.text_1)).setTypeface(Utils.getTypeface());
+					((TextView) viewTips.findViewById(R.id.text_2)).setTypeface(Utils.getTypeface());
+					((TextView) viewTips.findViewById(R.id.text_3)).setTypeface(Utils.getTypeface());
+					((TextView) viewTips.findViewById(R.id.text_4)).setTypeface(Utils.getTypeface());
+					((TextView) viewTips.findViewById(R.id.text_5)).setTypeface(Utils.getTypeface());
+					((TextView) viewTips.findViewById(R.id.text_6)).setTypeface(Utils.getTypeface());
+					((TextView) viewTips.findViewById(R.id.text_7)).setTypeface(Utils.getTypeface());
+
 				}
 				Button play_again = (Button) viewTips.findViewById(R.id.close);
 				play_again.setOnClickListener(TipsManager.this);
@@ -87,61 +77,62 @@ public class TipsManager implements OnClickListener {
 		public ImageView imageView;
 	}
 
-	class StaticArrayAdapter extends ArrayAdapter<StatisticUnit> {
-		private Context context;
-		private List<StatisticUnit> objects;
-
-		public StaticArrayAdapter(Context context, int textViewResourceId, List<StatisticUnit> objects) {
-			super(context, textViewResourceId, objects);
-			this.context = context;
-			this.objects = objects;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder;
-			View rowView = convertView;
-			if (rowView == null) {
-				LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-				rowView = inflater.inflate(R.layout.game_over_list_item, null, true);
-				holder = new ViewHolder();
-				holder.textView = (TextView) rowView.findViewById(R.id.dead_count);
-				holder.textView.setTypeface(Utils.getTypeface());
-				holder.imageView = (ImageView) rowView.findViewById(R.id.dead_image);
-				rowView.setTag(holder);
-			} else {
-				holder = (ViewHolder) rowView.getTag();
-			}
-
-			int image = R.drawable.single_cockroach;
-			String name = objects.get(position).getName();
-			if (LadyBugBig.class.getName().equals(name)) {
-				image = R.drawable.single_big_lady;
-			} else if (Bug.class.getName().equals(name)) {
-				image = R.drawable.single_bug;
-			} else if (CockroachDirect.class.getName().equals(name)) {
-				image = R.drawable.single_cockroach;
-			} else if (CockroachGreySmall.class.getName().equals(name)) {
-				image = R.drawable.single_grey;
-			} else if (CockroachFly.class.getName().equals(name)) {
-				image = R.drawable.single_fly;
-			} else if (CockroachHandsUp.class.getName().equals(name)) {
-				image = R.drawable.single_hands_up;
-			} else if (LadyBugSmall.class.getName().equals(name)) {
-				image = R.drawable.single_small_lady;
-			} else if (BatSin.class.getName().equals(name)) {
-				image = R.drawable.single_bat;
-			} else if (Larva.class.getName().equals(name)) {
-				image = R.drawable.single_larva;
-			} else if (Spider.class.getName().equals(name)) {
-				image = R.drawable.single_spider;
-			}
-			holder.textView.setText(" = " + objects.get(position).getCount());
-			holder.imageView.setImageResource(image);
-
-			return rowView;
-		}
-
-	}
+	// class StaticArrayAdapter extends ArrayAdapter<StatisticUnit> {
+	// private Context context;
+	// private List<StatisticUnit> objects;
+	//
+	// public StaticArrayAdapter(Context context, int textViewResourceId,
+	// List<StatisticUnit> objects) {
+	// super(context, textViewResourceId, objects);
+	// this.context = context;
+	// this.objects = objects;
+	// }
+	//
+	// @Override
+	// public View getView(int position, View convertView, ViewGroup parent) {
+	// ViewHolder holder;
+	// View rowView = convertView;
+	// if (rowView == null) {
+	// LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+	// rowView = inflater.inflate(R.layout.game_over_list_item, null, true);
+	// holder = new ViewHolder();
+	// holder.textView = (TextView) rowView.findViewById(R.id.dead_count);
+	// holder.textView.setTypeface(Utils.getTypeface());
+	// holder.imageView = (ImageView) rowView.findViewById(R.id.dead_image);
+	// rowView.setTag(holder);
+	// } else {
+	// holder = (ViewHolder) rowView.getTag();
+	// }
+	//
+	// int image = R.drawable.single_cockroach;
+	// String name = objects.get(position).getName();
+	// if (LadyBugBig.class.getName().equals(name)) {
+	// image = R.drawable.single_big_lady;
+	// } else if (Bug.class.getName().equals(name)) {
+	// image = R.drawable.single_bug;
+	// } else if (CockroachDirect.class.getName().equals(name)) {
+	// image = R.drawable.single_cockroach;
+	// } else if (CockroachGreySmall.class.getName().equals(name)) {
+	// image = R.drawable.single_grey;
+	// } else if (CockroachFly.class.getName().equals(name)) {
+	// image = R.drawable.single_fly;
+	// } else if (CockroachHandsUp.class.getName().equals(name)) {
+	// image = R.drawable.single_hands_up;
+	// } else if (LadyBugSmall.class.getName().equals(name)) {
+	// image = R.drawable.single_small_lady;
+	// } else if (BatSin.class.getName().equals(name)) {
+	// image = R.drawable.single_bat;
+	// } else if (Larva.class.getName().equals(name)) {
+	// image = R.drawable.single_larva;
+	// } else if (Spider.class.getName().equals(name)) {
+	// image = R.drawable.single_spider;
+	// }
+	// holder.textView.setText(" = " + objects.get(position).getCount());
+	// holder.imageView.setImageResource(image);
+	//
+	// return rowView;
+	// }
+	//
+	// }
 
 }

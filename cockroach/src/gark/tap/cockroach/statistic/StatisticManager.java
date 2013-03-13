@@ -9,7 +9,6 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfLefAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHalfRightAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLOL;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachLarva;
-import gark.tap.cockroach.mathengine.movingobjects.CockroachMedic;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachRandomAngle;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachSquare;
@@ -82,7 +81,8 @@ public class StatisticManager {
 
 		if (CockroachAccelarate.class.getName().equals(key) || CockroachAngle.class.getName().equals(key) || CockroachBigAngle.class.getName().equals(key)
 				|| CockroachCircleEscort.class.getName().equals(key) || CockroachDirect.class.getName().equals(key) || CockroachLOL.class.getName().equals(key)
-				|| CockroachMedic.class.getName().equals(key) || CockroachRandomAngle.class.getName().equals(key) || CockroachSin.class.getName().equals(key)
+//				|| CockroachMedic.class.getName().equals(key) 
+				|| CockroachRandomAngle.class.getName().equals(key) || CockroachSin.class.getName().equals(key)
 				|| CockroachLarva.class.getName().equals(key) || CockroachSquare.class.getName().equals(key) || CockroachHalfLefAngle.class.getName().equals(key)
 				|| CockroachHalfRightAngle.class.getName().equals(key)) {
 			key = CockroachDirect.class.getName();
