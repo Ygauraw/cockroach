@@ -43,6 +43,8 @@ public class ResourceManager {
 
 	private TextureRegion mRedCircleMedecine;
 	private TextureRegion mRedCross;
+	private TextureRegion mBatAttack;
+	private TextureRegion mNimbus;
 	private TextureRegion mHeart;
 	private TextureRegion mBackGround;
 	private TextureRegion mBackGroundMain;
@@ -198,6 +200,24 @@ public class ResourceManager {
 
 	public Sound getSoundMissed() {
 		return mSoundMissed;
+	}
+
+	public TextureRegion getNimbus() {
+		if (mNimbus == null) {
+			BitmapTextureAtlas nimbusAtlas = new BitmapTextureAtlas(textureManager, 102, 34, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mNimbus = BitmapTextureAtlasTextureRegionFactory.createFromAsset(nimbusAtlas, baseGameActivity, "nimbus.png", 0, 0);
+			nimbusAtlas.load();
+		}
+		return mNimbus;
+	}
+
+	public TextureRegion getBatAttack() {
+		if (mBatAttack == null) {
+			BitmapTextureAtlas batAttackAtlas = new BitmapTextureAtlas(textureManager, 298, 180, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBatAttack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(batAttackAtlas, baseGameActivity, "bat_clipart.png", 0, 0);
+			batAttackAtlas.load();
+		}
+		return mBatAttack;
 	}
 
 	public TextureRegion getRedCross() {

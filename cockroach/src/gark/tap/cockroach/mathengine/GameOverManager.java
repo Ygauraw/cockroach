@@ -22,9 +22,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.app.Activity;
@@ -50,7 +53,8 @@ public class GameOverManager implements OnClickListener {
 	private Scene mScenePlayArea;
 	private ListView listView;
 	private View viewGameOver;
-	public static final int DELAY = 3 * 1000;
+	public static final int DELAY = (int) (2.5 * 1000);
+	private AnimatedSprite sprite;
 
 	public GameOverManager(final MathEngine mathEngine, final BaseGameActivity gameActivity, final Scene mScenePlayArea, final Scene mSceneControls) {
 		this.gameActivity = gameActivity;
@@ -67,28 +71,62 @@ public class GameOverManager implements OnClickListener {
 		noMoreHealthText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		noMoreHealthText.setPosition((Config.CAMERA_WIDTH - noMoreHealthText.getWidth()) / 2, (Config.CAMERA_HEIGHT - noMoreHealthText.getHeight()) / 2);
 		mathEngine.getSceneDeadArea().attachChild(noMoreHealthText);
+		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());
 		finish();
 	}
 
 	public void finishBat(final float x, final float y) {
 		mathEngine.getCorpseManager().clearArea(mathEngine);
-		TextureRegion corpse = mathEngine.getResourceManager().getDeadCockroach();
-		Sprite sprite = new Sprite(x, y, corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
+		TiledTextureRegion bat = mathEngine.getResourceManager().getBat();
+		sprite = new AnimatedSprite(x, y, bat, mathEngine.getGameActivity().getVertexBufferObjectManager());
+		sprite.animate(100, false, iAnimationListener);
 		mathEngine.getSceneDeadArea().attachChild(sprite);
+		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());
 		finish();
 	}
+
+	final IAnimationListener iAnimationListener = new IAnimationListener() {
+
+		@Override
+		public void onAnimationStarted(AnimatedSprite pAnimatedSprite, int pInitialLoopCount) {
+
+		}
+
+		@Override
+		public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite, int pRemainingLoopCount, int pInitialLoopCount) {
+
+		}
+
+		@Override
+		public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex, int pNewFrameIndex) {
+			pAnimatedSprite.setRotation((pNewFrameIndex + 1) * 360 / 8);
+			pAnimatedSprite.setScale((1 + (pNewFrameIndex + 1) / 8));
+		}
+
+		@Override
+		public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+			pAnimatedSprite.detachSelf();
+			Sprite batAttack = new Sprite(pAnimatedSprite.getX() - (50 * Config.SCALE), pAnimatedSprite.getY() - (50 * Config.SCALE), mathEngine.getResourceManager()
+					.getBatAttack(), mathEngine.getGameActivity().getVertexBufferObjectManager());
+			mathEngine.getSceneDeadArea().attachChild(batAttack);
+
+		}
+	};
 
 	public void finishLadyBug(final float x, final float y) {
 		mathEngine.getCorpseManager().clearArea(mathEngine);
 		TextureRegion corpse = mathEngine.getResourceManager().getDeadLadyBugBig();
 		Sprite sprite = new Sprite(x, y, corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
+		Sprite nimbus = new Sprite(x, y - (40 * Config.SCALE), mathEngine.getResourceManager().getNimbus(), mathEngine.getGameActivity().getVertexBufferObjectManager());
 		sprite.setScale(1.25f * Config.SCALE);
+		nimbus.setScale(Config.SCALE);
 		mathEngine.getSceneDeadArea().attachChild(sprite);
+		mathEngine.getSceneDeadArea().attachChild(nimbus);
+		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getMimimi());
 		finish();
 	}
 
 	private void finish() {
-		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());
 		MathEngine.health = Config.HEALTH_SCORE;
 		mathEngine.stop(true);
 		mScenePlayArea.setOnAreaTouchListener(null);

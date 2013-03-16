@@ -123,12 +123,16 @@ public class LevelManager {
 
 	public synchronized void resumeLauncher() {
 		// put unit to scene with delay
-		// pause = false;
-		for (MovingObject cockroach : listOfVisibleUnits) {
-			cockroach.resumeAnimate();
-			mathEngine.getScenePlayArea().registerTouchArea(cockroach.getMainSprite());
+
+		try {
+			for (MovingObject cockroach : listOfVisibleUnits) {
+				cockroach.resumeAnimate();
+				mathEngine.getScenePlayArea().registerTouchArea(cockroach.getMainSprite());
+			}
+			executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		executor.schedule(runnable, 1000, TimeUnit.MILLISECONDS);
 	}
 
 	public synchronized void destroyLauncher() {

@@ -14,8 +14,8 @@ import android.graphics.PointF;
 public class CockroachCircleEscort extends MovingObject {
 
 	// private final int STEP = (int) (Config.CAMERA_WIDTH / 5);
-	private final int STEP = (int) (70 * Config.SCALE);
-	private final int SMALL_STEP = Config.CAMERA_WIDTH / 200;
+	private final int STEP = (int) (80 * Config.SCALE);
+	private final int SMALL_STEP = (int) (2.5 * Config.SCALE);
 	private float initialPosition = -STEP;
 	private AnimatedSprite bat;
 	private int cycleDirection = 1;
@@ -36,15 +36,16 @@ public class CockroachCircleEscort extends MovingObject {
 		bat = new AnimatedSprite(0, 0, resourceManager.getBat(), resourceManager.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
-
-					@Override
-					public void run() {
-						mathEngine.getGameOverManager().finishBat(mMainSprite.getX(), mMainSprite.getY());
-						mathEngine.getScenePlayArea().detachChild(bat);
-						mathEngine.getScenePlayArea().unregisterTouchArea(bat);
-					}
-				});
+				if (pSceneTouchEvent.isActionDown()) {
+					mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
+						@Override
+						public void run() {
+							mathEngine.getGameOverManager().finishBat(CockroachCircleEscort.this.posX() + bat.getX(), CockroachCircleEscort.this.posY() + bat.getY());
+							mathEngine.getScenePlayArea().detachChild(bat);
+							mathEngine.getScenePlayArea().unregisterTouchArea(bat);
+						}
+					});
+				}
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
@@ -98,24 +99,8 @@ public class CockroachCircleEscort extends MovingObject {
 	protected void eraseData(final MathEngine mathEngine) {
 		super.eraseData(mathEngine);
 
-		// float initCrossX = this.posX() /*+ mMainSprite.getWidth() / 2 -
-		// mathEngine.getResourceManager().getRedCross().getWidth() / 2 */+
-		// bat.getX();
-		// float initCrossY = this.posY() /*+ mMainSprite.getHeight() / 2 -
-		// mathEngine.getResourceManager().getRedCross().getHeight() / 2 */+
-		// bat.getY();
-		// final Sprite cross = new Sprite(initCrossX, initCrossY,
-		// mathEngine.getResourceManager().getRedCross(),
-		// mathEngine.getResourceManager().getVertexBufferObjectManager());
-
 		float initCrossX = this.posX() + bat.getX() - mathEngine.getResourceManager().getBat().getWidth() / 2;
 		float initCrossY = this.posY() + bat.getY() - mathEngine.getResourceManager().getBat().getHeight() / 2;
-
-		// float x = mMainSprite.getX() +
-		// mathEngine.getResourceManager().getBat().getWidth() / 2 + bat.getX();
-		// float y = mMainSprite.getY() +
-		// mathEngine.getResourceManager().getBat().getHeight() / 2 +
-		// bat.getY();
 
 		blast = new AnimatedSprite(initCrossX, initCrossY, mathEngine.getResourceManager().getBatHiding(), mathEngine.getResourceManager().getVertexBufferObjectManager());
 		blast.animate(animationSpeed, false, new IAnimationListener() {
@@ -135,18 +120,11 @@ public class CockroachCircleEscort extends MovingObject {
 			}
 
 			@Override
-			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+			public void onAnimationFinished(final AnimatedSprite pAnimatedSprite) {
 				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
-						try {
-							boolean isDetached = blast.detachSelf();
-							if (!isDetached) {
-								mathEngine.getScenePlayArea().detachChild(blast);
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						pAnimatedSprite.detachSelf();
 					}
 				});
 			}
