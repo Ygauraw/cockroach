@@ -9,6 +9,7 @@ import gark.tap.cockroach.mathengine.movingobjects.CockroachFly;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachHandsUp;
 import gark.tap.cockroach.mathengine.movingobjects.CockroachSin;
 import gark.tap.cockroach.mathengine.movingobjects.Heart;
+import gark.tap.cockroach.mathengine.movingobjects.LadyBugBig;
 import gark.tap.cockroach.mathengine.movingobjects.Plane;
 import gark.tap.cockroach.units.UnitBot;
 
@@ -46,6 +47,15 @@ public class UnionUnits1 extends UnionUnits {
 		try {
 
 			List<UnitBot> initList = new LinkedList<UnitBot>();
+			
+			
+			///////////////////////////////////////////////////////////////////
+			clazz = Class.forName(LadyBugBig.class.getName());
+			constructor = clazz.getConstructor(PointF.class, MathEngine.class);
+			unitBot = new UnitBot(constructor, new Object[] { new PointF(Config.CAMERA_WIDTH * 0.5f, -100), mathEngine });
+			unitBot.setDelay(2000);
+			cockroachs.add(unitBot);
+			///////////////////////////////////////////////////////////////////
 
 			float initPosition = (Utils.generateRandomPositive(2, 8) + 1) / 10f;
 			clazz = Class.forName(CockroachDirect.class.getName());

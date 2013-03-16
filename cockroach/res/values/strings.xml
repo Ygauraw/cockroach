@@ -24,5 +24,7 @@
     <string name="single_bug">Useful bug. Kill all visible units around.</string>
     <string name="single_bonus_heart">Extra bonus and health.</string>
     <string name="single_medic">Medic. Recover dead cockroaches.</string>
+    <string name="no_more_health">No more health</string>
+    
 
 </resources>

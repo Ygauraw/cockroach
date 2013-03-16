@@ -26,7 +26,8 @@ public class LadyBugBig extends MovingObject {
 		mMainSprite.setScale(0.75f * Config.SCALE);
 		moving = 200;
 		scoreValue = 0;
-		onTapSound = mathEngine.getResourceManager().getMimimi();
+//		onTapSound = mathEngine.getResourceManager().getMimimi();
+		onTapSound = mathEngine.getResourceManager().getSoundNooo();
 
 	}
 
@@ -63,16 +64,16 @@ public class LadyBugBig extends MovingObject {
 	}
 
 	@Override
-	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+	public void calculateRemove(final MathEngine mathEngine, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {
-				mathEngine.getGameOverManager().finish();
+				mathEngine.getGameOverManager().finishLadyBug(mMainSprite.getX(), mMainSprite.getY());
 			}
 		});
 
-		super.calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
+		//super.calculateRemove(mathEngine, pTouchAreaLocalX, pTouchAreaLocalY);
 	}
 
 	@Override

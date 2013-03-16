@@ -22,10 +22,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.opengl.GLES20;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +50,7 @@ public class GameOverManager implements OnClickListener {
 	private Scene mScenePlayArea;
 	private ListView listView;
 	private View viewGameOver;
+	public static final int DELAY = 3 * 1000;
 
 	public GameOverManager(final MathEngine mathEngine, final BaseGameActivity gameActivity, final Scene mScenePlayArea, final Scene mSceneControls) {
 		this.gameActivity = gameActivity;
@@ -54,7 +59,36 @@ public class GameOverManager implements OnClickListener {
 		StatisticManager.prepareStatistic();
 	}
 
-	public void finish() {
+	public void finishNoHealth() {
+		mathEngine.getCorpseManager().clearArea(mathEngine);
+		String noMoreHealth = gameActivity.getString(R.string.no_more_health);
+		Text noMoreHealthText = new Text(0, 0, mathEngine.getResourceManager().getFont(), noMoreHealth, noMoreHealth.length(), mathEngine.getResourceManager()
+				.getVertexBufferObjectManager());
+		noMoreHealthText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		noMoreHealthText.setPosition((Config.CAMERA_WIDTH - noMoreHealthText.getWidth()) / 2, (Config.CAMERA_HEIGHT - noMoreHealthText.getHeight()) / 2);
+		mathEngine.getSceneDeadArea().attachChild(noMoreHealthText);
+		finish();
+	}
+
+	public void finishBat(final float x, final float y) {
+		mathEngine.getCorpseManager().clearArea(mathEngine);
+		TextureRegion corpse = mathEngine.getResourceManager().getDeadCockroach();
+		Sprite sprite = new Sprite(x, y, corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
+		mathEngine.getSceneDeadArea().attachChild(sprite);
+		finish();
+	}
+
+	public void finishLadyBug(final float x, final float y) {
+		mathEngine.getCorpseManager().clearArea(mathEngine);
+		TextureRegion corpse = mathEngine.getResourceManager().getDeadLadyBugBig();
+		Sprite sprite = new Sprite(x, y, corpse, mathEngine.getGameActivity().getVertexBufferObjectManager());
+		sprite.setScale(1.25f * Config.SCALE);
+		mathEngine.getSceneDeadArea().attachChild(sprite);
+		finish();
+	}
+
+	private void finish() {
+		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());
 		MathEngine.health = Config.HEALTH_SCORE;
 		mathEngine.stop(true);
 		mScenePlayArea.setOnAreaTouchListener(null);
@@ -101,7 +135,7 @@ public class GameOverManager implements OnClickListener {
 					}
 				});
 			}
-		}, 1 * 1000);
+		}, DELAY);
 
 	}
 

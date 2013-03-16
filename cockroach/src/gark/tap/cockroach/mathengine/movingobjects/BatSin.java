@@ -43,7 +43,7 @@ public class BatSin extends MovingObject {
 
 			@Override
 			public void run() {
-				mathEngine.getGameOverManager().finish();
+				mathEngine.getGameOverManager().finishBat(mMainSprite.getX(), mMainSprite.getY());
 			}
 		});
 	}

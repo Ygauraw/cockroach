@@ -71,7 +71,7 @@ public class LadyBugSmall extends MovingObject {
 			@Override
 			public void run() {
 				if (--MathEngine.health <= 0) {
-					mathEngine.getGameOverManager().finish();
+					mathEngine.getGameOverManager().finishNoHealth();
 				}
 				mathEngine.getHeartManager().setHeartValue(MathEngine.health);
 			}

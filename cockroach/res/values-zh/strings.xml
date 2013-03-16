@@ -23,5 +23,6 @@
     <string name="single_bug">有用的错误。杀死周围所有可见的单位。</string>
     <string name="single_bonus_heart">额外的奖金和健康。</string>
     <string name="single_medic">军医。恢复死人蟑螂。</string>
+    <string name="no_more_health">没有更多的健康</string>
 
 </resources>

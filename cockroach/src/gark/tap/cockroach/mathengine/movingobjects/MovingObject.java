@@ -180,7 +180,7 @@ public abstract class MovingObject extends BaseObject {
 
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		if (--MathEngine.health <= 0) {
-			mathEngine.getGameOverManager().finish();
+			mathEngine.getGameOverManager().finishNoHealth();
 		}
 		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundMissed());
 		mathEngine.getHeartManager().setHeartValue(MathEngine.health);

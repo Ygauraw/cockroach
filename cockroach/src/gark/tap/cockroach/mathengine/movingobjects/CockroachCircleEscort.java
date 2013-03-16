@@ -40,8 +40,7 @@ public class CockroachCircleEscort extends MovingObject {
 
 					@Override
 					public void run() {
-						mathEngine.getGameOverManager().finish();
-						mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());
+						mathEngine.getGameOverManager().finishBat(mMainSprite.getX(), mMainSprite.getY());
 						mathEngine.getScenePlayArea().detachChild(bat);
 						mathEngine.getScenePlayArea().unregisterTouchArea(bat);
 					}
@@ -140,7 +139,14 @@ public class CockroachCircleEscort extends MovingObject {
 				mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
-						mathEngine.getScenePlayArea().detachChild(blast);
+						try {
+							boolean isDetached = blast.detachSelf();
+							if (!isDetached) {
+								mathEngine.getScenePlayArea().detachChild(blast);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				});
 			}
