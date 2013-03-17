@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="a14f16a9d7ca4ec"
+        ads:adUnitId="a1514572f81254c"
         android:gravity="center_horizontal" >
     </com.google.ads.AdView>
 
