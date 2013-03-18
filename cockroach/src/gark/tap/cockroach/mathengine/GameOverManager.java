@@ -141,7 +141,7 @@ public class GameOverManager implements OnClickListener {
 					public void run() {
 						// Game Over
 
-						LevelManager.setCURENT_LEVEL(1);
+						// LevelManager.setCURENT_LEVEL(1);
 
 						if (viewGameOver == null) {
 
@@ -154,15 +154,21 @@ public class GameOverManager implements OnClickListener {
 							TextView gameOver = (TextView) viewGameOver.findViewById(R.id.game_over);
 							Button play_again = (Button) viewGameOver.findViewById(R.id.try_again);
 							play_again.setOnClickListener(GameOverManager.this);
-							// highScore.setText(gameActivity.getString(R.string.high_score,
-							// Utils.getHighScore(MathEngine.SCORE,
-							// gameActivity)));
+
+							Button btn_continue = (Button) viewGameOver.findViewById(R.id.btn_continue);
+							btn_continue.setOnClickListener(GameOverManager.this);
+							btn_continue.append(" " + Utils.getContinueCount(gameActivity) + " " + gameActivity.getResources().getString(R.string.times));
+							if (Utils.getContinueCount(mathEngine.getGameActivity()) == 0) {
+								btn_continue.setEnabled(false);
+							}
+
 							Utils.getHighScore(MathEngine.SCORE, gameActivity, highScore);
 
 							statistic_title.setTypeface(Utils.getTypeface());
 							gameOver.setTypeface(Utils.getTypeface());
 							highScore.setTypeface(Utils.getTypeface());
 							play_again.setTypeface(Utils.getTypeface());
+							btn_continue.setTypeface(Utils.getTypeface());
 
 							RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 							gameActivity.addContentView(viewGameOver, lp);
@@ -179,25 +185,31 @@ public class GameOverManager implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+
+		ViewGroup rootView = (ViewGroup) gameActivity.findViewById(android.R.id.content);
+		rootView.removeView(viewGameOver);
+
 		switch (v.getId()) {
 		case R.id.try_again:
 
-			ViewGroup rootView = (ViewGroup) gameActivity.findViewById(android.R.id.content);
-			rootView.removeView(viewGameOver);
-
 			MathEngine.SCORE = 0;
 			Config.SPEED = Config.INIT_SPEED;
+			LevelManager.setCURENT_LEVEL(1);
 
 			StatisticManager.prepareStatistic();
 			mathEngine.getCorpseManager().clearArea(mathEngine);
-			// mathEngine.getHeartManager().setHeartValue(Config.HEALTH_SCORE);
-			// mathEngine.getLevelManager().resetLauncher();
 			mathEngine.getTextManager().clearAllView();
-			// mathEngine.start();
 			mathEngine.initGame();
 
-			break;
+			Utils.resetContinue(gameActivity);
 
+			break;
+		case R.id.btn_continue:
+			Utils.decreaseContinueCount(gameActivity);
+			mathEngine.getCorpseManager().clearArea(mathEngine);
+			mathEngine.getTextManager().clearAllView();
+			mathEngine.initGame();
+			break;
 		default:
 			break;
 		}

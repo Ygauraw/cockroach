@@ -18,6 +18,7 @@ public class Utils {
 	private static final String PREFS_HIDH_SCORE = "PREFS_HIDH_SCORE";
 	private static Typeface typeface;
 	private static final String SOUND = "sound";
+	private static final String CONTINUE = "continue";
 
 	public static float generateRandom(int n) {
 		n *= 1000;
@@ -40,10 +41,6 @@ public class Utils {
 	}
 
 	public static void getHighScore(int highScore, BaseActivity activity, TextView textView) {
-
-		// highScore.setText(gameActivity.getString(R.string.high_score,
-		// Utils.getHighScore(MathEngine.SCORE, gameActivity)));
-
 		SharedPreferences settings = activity.getSharedPreferences(PREFS_HIDH_SCORE, Context.MODE_PRIVATE);
 		int previousHighScore = settings.getInt(PREFS_HIDH_SCORE, 0);
 
@@ -53,8 +50,6 @@ public class Utils {
 			editor.commit();
 			textView.setText(activity.getString(R.string.new_high_score, "" + highScore));
 			textView.setTextColor(Color.RED);
-			// highScore.setText(activity.getString(R.string.high_score, "" +
-			// highScore));
 		} else {
 			textView.setText(activity.getString(R.string.high_score, "" + previousHighScore));
 		}
@@ -78,6 +73,27 @@ public class Utils {
 		SharedPreferences sharedPreferences = activity.getSharedPreferences(SOUND, Activity.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean(SOUND, value);
+		editor.commit();
+	}
+
+	public static int getContinueCount(Activity activity) {
+		SharedPreferences sharedPreferences = activity.getSharedPreferences(CONTINUE, Activity.MODE_PRIVATE);
+		return sharedPreferences.getInt(CONTINUE, 3);
+	}
+
+	public static void decreaseContinueCount(Activity activity) {
+		int count = getContinueCount(activity);
+		count--;
+		SharedPreferences sharedPreferences = activity.getSharedPreferences(CONTINUE, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putInt(CONTINUE, count);
+		editor.commit();
+	}
+
+	public static void resetContinue(Activity activity) {
+		SharedPreferences sharedPreferences = activity.getSharedPreferences(CONTINUE, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putInt(CONTINUE, 3);
 		editor.commit();
 	}
 

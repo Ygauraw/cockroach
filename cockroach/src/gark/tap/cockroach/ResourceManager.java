@@ -328,7 +328,7 @@ public class ResourceManager {
 	public TiledTextureRegion getBat() {
 		if (mBat == null) {
 			BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 1600, 184, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new.png", 0, 0, 8, 1);
+			mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new_2.png", 0, 0, 8, 1);
 			batAtlas.load();
 		}
 		return mBat;

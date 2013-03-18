@@ -2,6 +2,7 @@ package gark.tap.cockroach.mathengine;
 
 import gark.tap.cockroach.Config;
 import gark.tap.cockroach.GameActivity;
+import gark.tap.cockroach.R;
 import gark.tap.cockroach.ResourceManager;
 import gark.tap.cockroach.SoundManager;
 import gark.tap.cockroach.StartManager;
@@ -127,6 +128,11 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 				tipsManager = new TipsManager(MathEngine.this);
 
+				if (levelManager != null)
+					LevelManager.setCURENT_LEVEL(1);
+
+				Utils.resetContinue(gameActivity);
+
 			}
 		});
 
@@ -150,10 +156,10 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 				mSceneBackground.clearChildScene();
 				mSceneBackground.detachChildren();
 
-				Config.SPEED = Config.INIT_SPEED;
-				SCORE = 0;
+				// Config.SPEED = Config.INIT_SPEED;
+				// SCORE = 0;
 				health = Config.HEALTH_SCORE;
-				LevelManager.setCURENT_LEVEL(1);
+				// LevelManager.setCURENT_LEVEL(1);
 				textManager = new TextManager(MathEngine.this);
 
 				mSceneBackground.setBackground(new SpriteBackground(new BackgroundObject(new PointF(mCamera.getCenterX(), mCamera.getCenterY()), mResourceManager.getBackGround(),
@@ -210,7 +216,8 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 				gameOverManager = new GameOverManager(MathEngine.this, gameActivity, mScenePlayArea, mSceneControls);
 
 				levelManager = new LevelManager(MathEngine.this);
-				LevelManager.setCURENT_LEVEL(1);
+				// TODO
+				// LevelManager.setCURENT_LEVEL(1);
 				soundManager = new SoundManager(MathEngine.this);
 				pauseManager = new PauseManager(MathEngine.this);
 
@@ -329,7 +336,7 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 		@Override
 		public void getCurrentVawe(final int level) {
 
-			textManager.showVawe(Config.VAWE + level);
+			textManager.showVawe(getGameActivity().getString(R.string.wave) + level);
 
 			timer.schedule(new TimerTask() {
 

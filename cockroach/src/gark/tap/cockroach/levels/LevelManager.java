@@ -62,7 +62,14 @@ public class LevelManager {
 
 	public void startNewLevel() {
 		// allowNewLevel = false;
-		Config.SPEED += 10;
+		Config.SPEED = Config.INIT_SPEED + CURENT_LEVEL * 7;
+//		mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				Toast.makeText(mathEngine.getGameActivity(), "Config.SPEED " + Config.SPEED, Toast.LENGTH_LONG).show();
+//			}
+//		});
 		levelListener.getCurrentVawe(CURENT_LEVEL);
 		LevelGenerator.fillContent(CURENT_LEVEL, mathEngine, queueOfAllLevelUnit);
 

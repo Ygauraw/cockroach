@@ -14,7 +14,7 @@ public class Config {
 	public static final int HEALTH_SCORE = 3;
 	public static final String HEALTH = "Health: ";
 
-	public static final String VAWE = "Vawe: ";
+//	public static final String WAVE = "Wave: ";
 	public static final String SCORE = "Score: ";
 	public static final float CONTROL_MARGIN = 10f;
 }

@@ -9,6 +9,7 @@
     <string name="high_score">High Score: %s</string>
     <string name="new_high_score">New High Score: %s</string>
     <string name="play_again">Try again</string>
+    <string name="btn_continue">Continue</string>
     <string name="close">Close</string>
     <string name="statisctic">Statistic</string>
     <string name="start">Start</string>
@@ -25,6 +26,8 @@
     <string name="single_bonus_heart">Extra bonus and health.</string>
     <string name="single_medic">Medic. Recover dead cockroaches.</string>
     <string name="no_more_health">No more health</string>
+    <string name="wave">Wave: </string>
+    <string name="times">times</string>
 
     <!-- Replace placeholder ID with your tracking ID -->
     <string name="ga_trackingId">UA-39369083-1</string>

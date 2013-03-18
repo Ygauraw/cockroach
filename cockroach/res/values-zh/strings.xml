@@ -8,6 +8,7 @@
     <string name="high_score">最高成绩： %s</string>
     <string name="new_high_score">新的高分数: %s</string>
     <string name="play_again">请再试一次</string>
+    <string name="btn_continue"> 继续</string>
     <string name="close">关闭</string>
     <string name="statisctic">统计</string>
     <string name="start">开始</string>
@@ -24,5 +25,7 @@
     <string name="single_bonus_heart">额外的奖金和健康。</string>
     <string name="single_medic">军医。恢复死人蟑螂。</string>
     <string name="no_more_health">没有更多的健康</string>
+    <string name="wave">波: </string>
+    <string name="times">倍</string>
 
 </resources>
