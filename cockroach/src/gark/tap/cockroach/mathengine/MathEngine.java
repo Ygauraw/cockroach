@@ -133,6 +133,8 @@ public class MathEngine implements Runnable, IOnSceneTouchListener {
 
 				Utils.resetContinue(gameActivity);
 
+				SCORE = 0;
+
 			}
 		});
 

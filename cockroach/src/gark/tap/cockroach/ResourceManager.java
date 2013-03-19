@@ -297,7 +297,11 @@ public class ResourceManager {
 		if (mFont == null) {
 			BitmapTextureAtlas mFontTexture = new BitmapTextureAtlas(textureManager, 512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			float size = 50 * Config.SCALE;
-			mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+//			mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "america1.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+//			mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "Futurr.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+			mFont = FontFactory.createFromAsset(fontManager, mFontTexture, assetManager, "ThreeDee.ttf", size, true, Color.WHITE_ABGR_PACKED_INT);
+			
+			
 
 			textureManager.loadTexture(mFontTexture);
 			fontManager.loadFont(mFont);

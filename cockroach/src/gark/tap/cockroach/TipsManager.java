@@ -45,6 +45,7 @@ public class TipsManager implements OnClickListener {
 				}
 				Button play_again = (Button) viewTips.findViewById(R.id.close);
 				play_again.setOnClickListener(TipsManager.this);
+				play_again.setTypeface(Utils.getTypeface());
 				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 				gameActivity.addContentView(viewTips, lp);
 

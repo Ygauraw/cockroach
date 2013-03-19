@@ -14,9 +14,12 @@ public class GameActivity extends MainActivity {
 		super.onCreateScene(pOnCreateSceneCallback);
 		Config.SPEED = 100f;
 
-		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/america1.ttf");
 		// final Typeface typeface = Typeface.createFromAsset(getAssets(),
-		// "font/Liquidism.ttf");
+		// "font/america1.ttf");
+//		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/Futurr.ttf");
+		final Typeface typeface = Typeface.createFromAsset(getAssets(), "font/ThreeDee.ttf");
+		
+		
 		Utils.setTypeface(typeface);
 		mMathEngine = new MathEngine(this);
 	}
@@ -54,13 +57,13 @@ public class GameActivity extends MainActivity {
 		}
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this); 
+		EasyTracker.getInstance().activityStart(this);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();

@@ -11,7 +11,7 @@
         android:gravity="center"
         android:text="@string/attention"
         android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/vawe_number"
@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textIsSelectable="false"
-        android:textSize="32sp"
+        android:textSize="38sp"
         android:textStyle="bold" />
 
     <TextView

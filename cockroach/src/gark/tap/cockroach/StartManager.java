@@ -101,6 +101,10 @@ public class StartManager {
 		mathEngine.getSceneBackground().attachChild(startText);
 		mathEngine.getSceneBackground().registerTouchArea(startText);
 		startText.clearEntityModifiers();
+		
+//		255;185;15
+		
+//		startText.setColor(255/255f, 185/255f, 15/255f);
 		final float y = startText.getY();
 		startText.setPosition(0, y);
 		startText.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - startText.getWidth()) / 2, y, y, entityModifierListenerFirstLine, EaseLinear
