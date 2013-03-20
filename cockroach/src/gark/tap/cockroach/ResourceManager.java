@@ -128,6 +128,8 @@ public class ResourceManager {
 
 		return mBackGround;
 	}
+	
+	
 
 	public TextureRegion getBackGroundMain() {
 		if (mBackGroundMain == null) {
