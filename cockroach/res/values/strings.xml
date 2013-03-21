@@ -2,7 +2,6 @@
 <resources xmlns:tools="https://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
     <string name="app_name">~Roach Rush~</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="game_over">Game Over</string>
     <string name="attention">Attention</string>

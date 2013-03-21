@@ -101,10 +101,10 @@ public class StartManager {
 		mathEngine.getSceneBackground().attachChild(startText);
 		mathEngine.getSceneBackground().registerTouchArea(startText);
 		startText.clearEntityModifiers();
-		
-//		255;185;15
-		
-//		startText.setColor(255/255f, 185/255f, 15/255f);
+
+		// 255;185;15
+
+		// startText.setColor(255/255f, 185/255f, 15/255f);
 		final float y = startText.getY();
 		startText.setPosition(0, y);
 		startText.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - startText.getWidth()) / 2, y, y, entityModifierListenerFirstLine, EaseLinear
@@ -164,7 +164,8 @@ public class StartManager {
 
 		@Override
 		public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
-			initThirdLine();
+			if (mathEngine.getGameActivity().isAdsVisible())
+				initThirdLine();
 		}
 	};
 
@@ -179,6 +180,13 @@ public class StartManager {
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				switch (pSceneTouchEvent.getAction()) {
 				case TouchEvent.ACTION_DOWN:
+					mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							mathEngine.getGameActivity().disableAds();
+						}
+					});
 					break;
 				default:
 					break;
@@ -195,6 +203,11 @@ public class StartManager {
 		final float y = removeAds.getY();
 		removeAds.setPosition(0, y);
 		removeAds.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, y, y, EaseLinear.getInstance()));
+	}
+
+	public void setRemoveAdsVisibility(boolean visibility) {
+		if (removeAds != null)
+			removeAds.setVisible(visibility);
 	}
 
 	public void inflateStartScreen() {

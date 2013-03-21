@@ -8,6 +8,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 public class TextManager {
 
 	private MathEngine mathEngine;
@@ -16,7 +19,7 @@ public class TextManager {
 	private TextView scoreValue;
 	private View container;
 
-//	 private AdView adView;
+	private AdView adView;
 
 	public TextManager(final MathEngine mathEngine) {
 		this.mathEngine = mathEngine;
@@ -31,11 +34,12 @@ public class TextManager {
 				attention = (TextView) container.findViewById(R.id.attention);
 				scoreValue = (TextView) container.findViewById(R.id.score_value);
 
-				// TODO
-//				 adView = (AdView) container.findViewById(R.id.adView);
-//				 AdRequest adRequest = new AdRequest();
-//				 adRequest.setTesting(true);
-//				 adView.loadAd(adRequest);
+				if (mathEngine.getGameActivity().isAdsVisible()) {
+					adView = (AdView) container.findViewById(R.id.adView);
+					AdRequest adRequest = new AdRequest();
+					adView.loadAd(adRequest);
+
+				}
 
 				scoreValue.setTypeface(Utils.getTypeface());
 				attention.setTypeface(Utils.getTypeface());

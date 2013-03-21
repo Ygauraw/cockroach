@@ -1,0 +1,276 @@
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTabHost: void setOnTabChangedListener(android.widget.TabHost$OnTabChangeListener)
+android.support.v4.app.FragmentTabHost$SavedState
+android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColor(int)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColorResource(int)
+android.support.v4.view.PagerTabStrip: int getTabIndicatorColor()
+android.support.v4.view.PagerTabStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.PagerTabStrip: void setBackgroundColor(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundResource(int)
+android.support.v4.view.PagerTabStrip: void setDrawFullUnderline(boolean)
+android.support.v4.view.PagerTabStrip: boolean getDrawFullUnderline()
+android.support.v4.view.PagerTabStrip: int getMinHeight()
+android.support.v4.view.PagerTitleStrip: void setSingleLineAllCaps(android.widget.TextView)
+android.support.v4.view.PagerTitleStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTitleStrip: int getTextSpacing()
+android.support.v4.view.PagerTitleStrip: void setNonPrimaryAlpha(float)
+android.support.v4.view.PagerTitleStrip: void setTextColor(int)
+android.support.v4.view.PagerTitleStrip: void setGravity(int)
+android.support.v4.view.PagerTitleStrip: int getMinHeight()
+android.support.v4.view.ViewPager: void setScrollState(int)
+android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
+android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
+android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
+android.support.v4.view.ViewPager: void setCurrentItem(int)
+android.support.v4.view.ViewPager: int getCurrentItem()
+android.support.v4.view.ViewPager: void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener)
+android.support.v4.view.ViewPager: void setChildrenDrawingOrderEnabledCompat(boolean)
+android.support.v4.view.ViewPager: int getOffscreenPageLimit()
+android.support.v4.view.ViewPager: void setOffscreenPageLimit(int)
+android.support.v4.view.ViewPager: void setPageMargin(int)
+android.support.v4.view.ViewPager: int getPageMargin()
+android.support.v4.view.ViewPager: void setPageMarginDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
+android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+com.android.vending.billing.IInAppBillingService
+com.android.vending.billing.IInAppBillingService$Stub
+com.android.vending.billing.IInAppBillingService$Stub$Proxy
+com.google.ads.AdActivity
+com.google.ads.AdActivity: AdActivity()
+com.google.ads.AdActivity: void onClick(android.view.View)
+com.google.ads.AdRequest$ErrorCode: com.google.ads.AdRequest$ErrorCode[] values()
+com.google.ads.AdRequest$ErrorCode: com.google.ads.AdRequest$ErrorCode valueOf(java.lang.String)
+com.google.ads.AdRequest$Gender: com.google.ads.AdRequest$Gender[] values()
+com.google.ads.AdRequest$Gender: com.google.ads.AdRequest$Gender valueOf(java.lang.String)
+com.google.ads.AdView
+com.google.ads.AdView: AdView(android.app.Activity,com.google.ads.AdSize,java.lang.String)
+com.google.ads.AdView: AdView(android.app.Activity,com.google.ads.AdSize[],java.lang.String)
+com.google.ads.AdView: AdView(android.content.Context,android.util.AttributeSet)
+com.google.ads.AdView: AdView(android.content.Context,android.util.AttributeSet,int)
+com.google.ads.AdView: void setAdListener(com.google.ads.AdListener)
+com.google.ads.AdView: void setAppEventListener(com.google.ads.AppEventListener)
+com.google.ads.AdView: void setSwipeableEventListener(com.google.ads.SwipeableAdListener)
+com.google.ads.AdView: void setSupportedAdSizes(com.google.ads.AdSize[])
+com.google.ads.doubleclick.DfpAdView: void setAppEventListener(com.google.ads.AppEventListener)
+com.google.ads.doubleclick.DfpAdView: void setSupportedAdSizes(com.google.ads.AdSize[])
+com.google.ads.doubleclick.SwipeableDfpAdView: void setSwipeableEventListener(com.google.ads.SwipeableAdListener)
+com.google.ads.g$a: com.google.ads.g$a[] values()
+com.google.ads.g$a: com.google.ads.g$a valueOf(java.lang.String)
+com.google.ads.internal.ActivationOverlay: void setOverlayEnabled(boolean)
+com.google.ads.internal.ActivationOverlay: void setOverlayActivated(boolean)
+com.google.ads.internal.ActivationOverlay: void setYPosition(int)
+com.google.ads.internal.ActivationOverlay: void setXPosition(int)
+com.google.ads.internal.AdVideoView: void setMediaControllerEnabled(boolean)
+com.google.ads.internal.AdVideoView: void setSrc(java.lang.String)
+com.google.ads.internal.AdWebView: void setAdActivity(com.google.ads.AdActivity)
+com.google.ads.internal.AdWebView: void setAdSize(com.google.ads.AdSize)
+com.google.ads.internal.AdWebView: void setCustomClose(boolean)
+com.google.ads.internal.AdWebView: void setIsExpandedMraid(boolean)
+com.google.ads.internal.c$d: com.google.ads.internal.c$d[] values()
+com.google.ads.internal.c$d: com.google.ads.internal.c$d valueOf(java.lang.String)
+com.google.ads.searchads.SearchAdRequest$BorderType: com.google.ads.searchads.SearchAdRequest$BorderType[] values()
+com.google.ads.searchads.SearchAdRequest$BorderType: com.google.ads.searchads.SearchAdRequest$BorderType valueOf(java.lang.String)
+com.google.ads.util.AdUtil$a: com.google.ads.util.AdUtil$a[] values()
+com.google.ads.util.AdUtil$a: com.google.ads.util.AdUtil$a valueOf(java.lang.String)
+com.google.ads.util.b$a: com.google.ads.util.b$a[] values()
+com.google.ads.util.b$a: com.google.ads.util.b$a valueOf(java.lang.String)
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values()
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String)
+com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field[] values()
+com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field valueOf(java.lang.String)
+com.google.android.gms.analytics.internal.Command
+com.google.android.gms.analytics.internal.Command: android.os.Parcelable$Creator CREATOR
+gark.tap.cockroach.GameActivity
+gark.tap.cockroach.GameActivity: GameActivity()
+gark.tap.cockroach.LaunchActivity1: void onClick(android.view.View)
+gark.tap.cockroach.MainActivity
+gark.tap.cockroach.MainActivity: MainActivity()
+gark.tap.cockroach.R$bool: int ga_autoActivityTracking
+gark.tap.cockroach.R$bool: int ga_reportUncaughtExceptions
+gark.tap.cockroach.R$color: int grey
+gark.tap.cockroach.R$drawable: int btn_bg
+gark.tap.cockroach.R$drawable: int btn_bg_1
+gark.tap.cockroach.R$drawable: int btn_bg_2
+gark.tap.cockroach.R$drawable: int btn_bg_main_menu
+gark.tap.cockroach.R$drawable: int btn_bg_main_menu_1
+gark.tap.cockroach.R$drawable: int btn_bg_main_menu_2
+gark.tap.cockroach.R$drawable: int game_over_bg
+gark.tap.cockroach.R$drawable: int ic_launcher
+gark.tap.cockroach.R$drawable: int icon
+gark.tap.cockroach.R$drawable: int icon_cockroach
+gark.tap.cockroach.R$drawable: int icon_roach1
+gark.tap.cockroach.R$drawable: int icon_roach2
+gark.tap.cockroach.R$drawable: int list_selector
+gark.tap.cockroach.R$drawable: int list_selector_tem
+gark.tap.cockroach.R$drawable: int main_bg
+gark.tap.cockroach.R$drawable: int roach_icon
+gark.tap.cockroach.R$drawable: int single_bat
+gark.tap.cockroach.R$drawable: int single_big_lady
+gark.tap.cockroach.R$drawable: int single_bous
+gark.tap.cockroach.R$drawable: int single_bug
+gark.tap.cockroach.R$drawable: int single_cockroach
+gark.tap.cockroach.R$drawable: int single_cockroach_medic
+gark.tap.cockroach.R$drawable: int single_fly
+gark.tap.cockroach.R$drawable: int single_grey
+gark.tap.cockroach.R$drawable: int single_hands_up
+gark.tap.cockroach.R$drawable: int single_health
+gark.tap.cockroach.R$drawable: int single_larva
+gark.tap.cockroach.R$drawable: int single_small_lady
+gark.tap.cockroach.R$drawable: int single_spider
+gark.tap.cockroach.R$drawable: int sound_selector
+gark.tap.cockroach.R$id: int adView
+gark.tap.cockroach.R$id: int attention
+gark.tap.cockroach.R$id: int btn_continue
+gark.tap.cockroach.R$id: int btn_instruction
+gark.tap.cockroach.R$id: int btn_open_more
+gark.tap.cockroach.R$id: int btn_remove_ads
+gark.tap.cockroach.R$id: int btn_start
+gark.tap.cockroach.R$id: int close
+gark.tap.cockroach.R$id: int dead_count
+gark.tap.cockroach.R$id: int dead_image
+gark.tap.cockroach.R$id: int game_over
+gark.tap.cockroach.R$id: int game_over_layout
+gark.tap.cockroach.R$id: int highScore
+gark.tap.cockroach.R$id: int list_statistic
+gark.tap.cockroach.R$id: int menu_settings
+gark.tap.cockroach.R$id: int pause_layout
+gark.tap.cockroach.R$id: int quit
+gark.tap.cockroach.R$id: int resume
+gark.tap.cockroach.R$id: int score_value
+gark.tap.cockroach.R$id: int sound_swither
+gark.tap.cockroach.R$id: int start_layout
+gark.tap.cockroach.R$id: int statistic_title
+gark.tap.cockroach.R$id: int text_1
+gark.tap.cockroach.R$id: int text_2
+gark.tap.cockroach.R$id: int text_3
+gark.tap.cockroach.R$id: int text_4
+gark.tap.cockroach.R$id: int text_5
+gark.tap.cockroach.R$id: int text_6
+gark.tap.cockroach.R$id: int text_7
+gark.tap.cockroach.R$id: int try_again
+gark.tap.cockroach.R$id: int vawe_number
+gark.tap.cockroach.R$layout: int activity_main
+gark.tap.cockroach.R$layout: int game_over
+gark.tap.cockroach.R$layout: int game_over_list_item
+gark.tap.cockroach.R$layout: int pause_layout
+gark.tap.cockroach.R$layout: int tips
+gark.tap.cockroach.R$layout: int vawe
+gark.tap.cockroach.R$menu: int activity_main
+gark.tap.cockroach.R$string: int app_name
+gark.tap.cockroach.R$string: int attention
+gark.tap.cockroach.R$string: int btn_continue
+gark.tap.cockroach.R$string: int close
+gark.tap.cockroach.R$string: int ga_trackingId
+gark.tap.cockroach.R$string: int game_over
+gark.tap.cockroach.R$string: int high_score
+gark.tap.cockroach.R$string: int instrucion
+gark.tap.cockroach.R$string: int larva_cockroach
+gark.tap.cockroach.R$string: int menu_settings
+gark.tap.cockroach.R$string: int more_games
+gark.tap.cockroach.R$string: int new_high_score
+gark.tap.cockroach.R$string: int no_more_health
+gark.tap.cockroach.R$string: int play_again
+gark.tap.cockroach.R$string: int quit
+gark.tap.cockroach.R$string: int remove_ads
+gark.tap.cockroach.R$string: int resume
+gark.tap.cockroach.R$string: int simple_cockroach
+gark.tap.cockroach.R$string: int simple_dont_touch
+gark.tap.cockroach.R$string: int single_bonus_heart
+gark.tap.cockroach.R$string: int single_bug
+gark.tap.cockroach.R$string: int single_medic
+gark.tap.cockroach.R$string: int single_spider
+gark.tap.cockroach.R$string: int start
+gark.tap.cockroach.R$string: int statisctic
+gark.tap.cockroach.R$string: int times
+gark.tap.cockroach.R$string: int wave
+gark.tap.cockroach.R$style: int AppBaseTheme
+gark.tap.cockroach.R$style: int button_style
+gark.tap.cockroach.R$style: int tips_style
+org.andengine.engine.options.ScreenOrientation: org.andengine.engine.options.ScreenOrientation[] values()
+org.andengine.engine.options.ScreenOrientation: org.andengine.engine.options.ScreenOrientation valueOf(java.lang.String)
+org.andengine.engine.options.WakeLockOptions: org.andengine.engine.options.WakeLockOptions[] values()
+org.andengine.engine.options.WakeLockOptions: org.andengine.engine.options.WakeLockOptions valueOf(java.lang.String)
+org.andengine.entity.primitive.DrawMode: org.andengine.entity.primitive.DrawMode[] values()
+org.andengine.entity.primitive.DrawMode: org.andengine.entity.primitive.DrawMode valueOf(java.lang.String)
+org.andengine.entity.sprite.ButtonSprite$State: org.andengine.entity.sprite.ButtonSprite$State[] values()
+org.andengine.entity.sprite.ButtonSprite$State: org.andengine.entity.sprite.ButtonSprite$State valueOf(java.lang.String)
+org.andengine.entity.text.AutoWrap: org.andengine.entity.text.AutoWrap[] values()
+org.andengine.entity.text.AutoWrap: org.andengine.entity.text.AutoWrap valueOf(java.lang.String)
+org.andengine.input.sensor.SensorDelay: org.andengine.input.sensor.SensorDelay[] values()
+org.andengine.input.sensor.SensorDelay: org.andengine.input.sensor.SensorDelay valueOf(java.lang.String)
+org.andengine.input.sensor.location.LocationProviderStatus: org.andengine.input.sensor.location.LocationProviderStatus[] values()
+org.andengine.input.sensor.location.LocationProviderStatus: org.andengine.input.sensor.location.LocationProviderStatus valueOf(java.lang.String)
+org.andengine.input.sensor.location.LocationSensorOptions
+org.andengine.opengl.GLES20Fix
+org.andengine.opengl.GLES20Fix: void glVertexAttribPointer(int,int,int,boolean,int,int)
+org.andengine.opengl.GLES20Fix: void glDrawElements(int,int,int,int)
+org.andengine.opengl.font.FontUtils$MeasureDirection: org.andengine.opengl.font.FontUtils$MeasureDirection[] values()
+org.andengine.opengl.font.FontUtils$MeasureDirection: org.andengine.opengl.font.FontUtils$MeasureDirection valueOf(java.lang.String)
+org.andengine.opengl.texture.PixelFormat: org.andengine.opengl.texture.PixelFormat[] values()
+org.andengine.opengl.texture.PixelFormat: org.andengine.opengl.texture.PixelFormat valueOf(java.lang.String)
+org.andengine.opengl.texture.atlas.bitmap.source.decorator.LinearGradientFillBitmapTextureAtlasSourceDecorator$LinearGradientDirection: org.andengine.opengl.texture.atlas.bitmap.source.decorator.LinearGradientFillBitmapTextureAtlasSourceDecorator$LinearGradientDirection[] values()
+org.andengine.opengl.texture.atlas.bitmap.source.decorator.LinearGradientFillBitmapTextureAtlasSourceDecorator$LinearGradientDirection: org.andengine.opengl.texture.atlas.bitmap.source.decorator.LinearGradientFillBitmapTextureAtlasSourceDecorator$LinearGradientDirection valueOf(java.lang.String)
+org.andengine.opengl.texture.atlas.bitmap.source.decorator.RadialGradientFillBitmapTextureAtlasSourceDecorator$RadialGradientDirection: org.andengine.opengl.texture.atlas.bitmap.source.decorator.RadialGradientFillBitmapTextureAtlasSourceDecorator$RadialGradientDirection[] values()
+org.andengine.opengl.texture.atlas.bitmap.source.decorator.RadialGradientFillBitmapTextureAtlasSourceDecorator$RadialGradientDirection: org.andengine.opengl.texture.atlas.bitmap.source.decorator.RadialGradientFillBitmapTextureAtlasSourceDecorator$RadialGradientDirection valueOf(java.lang.String)
+org.andengine.opengl.texture.bitmap.BitmapTextureFormat: org.andengine.opengl.texture.bitmap.BitmapTextureFormat[] values()
+org.andengine.opengl.texture.bitmap.BitmapTextureFormat: org.andengine.opengl.texture.bitmap.BitmapTextureFormat valueOf(java.lang.String)
+org.andengine.opengl.texture.compressed.pvr.PVRCCZTexture$CCZCompressionFormat: org.andengine.opengl.texture.compressed.pvr.PVRCCZTexture$CCZCompressionFormat[] values()
+org.andengine.opengl.texture.compressed.pvr.PVRCCZTexture$CCZCompressionFormat: org.andengine.opengl.texture.compressed.pvr.PVRCCZTexture$CCZCompressionFormat valueOf(java.lang.String)
+org.andengine.opengl.texture.compressed.pvr.PVRTexture$PVRTextureFormat: org.andengine.opengl.texture.compressed.pvr.PVRTexture$PVRTextureFormat[] values()
+org.andengine.opengl.texture.compressed.pvr.PVRTexture$PVRTextureFormat: org.andengine.opengl.texture.compressed.pvr.PVRTexture$PVRTextureFormat valueOf(java.lang.String)
+org.andengine.opengl.util.BufferUtils
+org.andengine.opengl.util.BufferUtils: java.nio.ByteBuffer jniAllocateDirect(int)
+org.andengine.opengl.util.BufferUtils: void jniFreeDirect(java.nio.ByteBuffer)
+org.andengine.opengl.util.BufferUtils: void jniPut(java.nio.ByteBuffer,float[],int,int)
+org.andengine.opengl.vbo.DrawType: org.andengine.opengl.vbo.DrawType[] values()
+org.andengine.opengl.vbo.DrawType: org.andengine.opengl.vbo.DrawType valueOf(java.lang.String)
+org.andengine.opengl.view.ConfigChooser$ConfigChooserMatcher: org.andengine.opengl.view.ConfigChooser$ConfigChooserMatcher[] values()
+org.andengine.opengl.view.ConfigChooser$ConfigChooserMatcher: org.andengine.opengl.view.ConfigChooser$ConfigChooserMatcher valueOf(java.lang.String)
+org.andengine.opengl.view.RenderSurfaceView: org.andengine.opengl.view.ConfigChooser getConfigChooser()
+org.andengine.ui.activity.BaseActivity: BaseActivity()
+org.andengine.ui.activity.BaseGameActivity: BaseGameActivity()
+org.andengine.util.HorizontalAlign: org.andengine.util.HorizontalAlign[] values()
+org.andengine.util.HorizontalAlign: org.andengine.util.HorizontalAlign valueOf(java.lang.String)
+org.andengine.util.VerticalAlign: org.andengine.util.VerticalAlign[] values()
+org.andengine.util.VerticalAlign: org.andengine.util.VerticalAlign valueOf(java.lang.String)
+org.andengine.util.adt.bounds.BoundsSplit: org.andengine.util.adt.bounds.BoundsSplit[] values()
+org.andengine.util.adt.bounds.BoundsSplit: org.andengine.util.adt.bounds.BoundsSplit valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.ByteOperator: org.andengine.util.adt.data.operator.ByteOperator[] values()
+org.andengine.util.adt.data.operator.ByteOperator: org.andengine.util.adt.data.operator.ByteOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.CharOperator: org.andengine.util.adt.data.operator.CharOperator[] values()
+org.andengine.util.adt.data.operator.CharOperator: org.andengine.util.adt.data.operator.CharOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.DoubleOperator: org.andengine.util.adt.data.operator.DoubleOperator[] values()
+org.andengine.util.adt.data.operator.DoubleOperator: org.andengine.util.adt.data.operator.DoubleOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.FloatOperator: org.andengine.util.adt.data.operator.FloatOperator[] values()
+org.andengine.util.adt.data.operator.FloatOperator: org.andengine.util.adt.data.operator.FloatOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.IntOperator: org.andengine.util.adt.data.operator.IntOperator[] values()
+org.andengine.util.adt.data.operator.IntOperator: org.andengine.util.adt.data.operator.IntOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.LongOperator: org.andengine.util.adt.data.operator.LongOperator[] values()
+org.andengine.util.adt.data.operator.LongOperator: org.andengine.util.adt.data.operator.LongOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.ShortOperator: org.andengine.util.adt.data.operator.ShortOperator[] values()
+org.andengine.util.adt.data.operator.ShortOperator: org.andengine.util.adt.data.operator.ShortOperator valueOf(java.lang.String)
+org.andengine.util.adt.data.operator.StringOperator: org.andengine.util.adt.data.operator.StringOperator[] values()
+org.andengine.util.adt.data.operator.StringOperator: org.andengine.util.adt.data.operator.StringOperator valueOf(java.lang.String)
+org.andengine.util.algorithm.path.Direction: org.andengine.util.algorithm.path.Direction[] values()
+org.andengine.util.algorithm.path.Direction: org.andengine.util.algorithm.path.Direction valueOf(java.lang.String)
+org.andengine.util.debug.Debug$DebugLevel: org.andengine.util.debug.Debug$DebugLevel[] values()
+org.andengine.util.debug.Debug$DebugLevel: org.andengine.util.debug.Debug$DebugLevel valueOf(java.lang.String)
+org.andengine.util.exception.DeviceNotSupportedException$DeviceNotSupportedCause: org.andengine.util.exception.DeviceNotSupportedException$DeviceNotSupportedCause[] values()
+org.andengine.util.exception.DeviceNotSupportedException$DeviceNotSupportedCause: org.andengine.util.exception.DeviceNotSupportedException$DeviceNotSupportedCause valueOf(java.lang.String)
+org.andengine.util.mime.MIMEType: org.andengine.util.mime.MIMEType[] values()
+org.andengine.util.mime.MIMEType: org.andengine.util.mime.MIMEType valueOf(java.lang.String)

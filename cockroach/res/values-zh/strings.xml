@@ -27,5 +27,7 @@
     <string name="no_more_health">没有更多的健康</string>
     <string name="wave">波: </string>
     <string name="times">倍</string>
+    
+    <string name="ga_trackingId">UA-39369083-1</string>
 
 </resources>
