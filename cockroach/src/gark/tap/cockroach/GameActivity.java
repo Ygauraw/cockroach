@@ -17,10 +17,9 @@ public class GameActivity extends MainActivity {
 	private MathEngine mMathEngine;
 
 	private static final String TAG = "Cockroach TAG";
-//	private static final String SKU_ADS = "android.test.purchased";
+	// private static final String SKU_ADS = "android.test.purchased";
 	private static final String SKU_ADS = "roach_rush_remove_ads";
-	
-	
+
 	static final int RC_REQUEST = 100001;
 	private boolean isAdsVisible;
 
@@ -41,8 +40,7 @@ public class GameActivity extends MainActivity {
 		mMathEngine = new MathEngine(this);
 
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgXwE2EOX+Wqt/V2RiA0MzcgjSKs+kETKqv+QGNsYPui8vjeEQ7BK8NhRxMuB0fQIVEMogoRMz3dRhXwlJPTCn4nk75O4sbbqrL1LSZhFmbqISICrRHmf0IJRT9K6MtSxYaYw7FfYaAKjWZRwId3w/emoEeif3/Ul7hHVTUQgUD3ZBYRBvKj3I4pjuOBwor6XhwsTTpV7ykmBQq4Z1QGZJhOsE8XbukYdPo2XZcTi9IInh1tQ4Evo/Uu2sbhfsrjH7oIvBZiVYUudfckR5zjHHs2Y8tLffseDXRZ1yxkyQ5Eck1pll8glo5m2Ls+u+1hVhnJR9dOKzdaRmtHzAqywyQIDAQAB";
-										 
-		
+
 		// Some sanity checks to see if the developer (that's you!) really
 		// followed the
 		// instructions to run this sample (don't put these checks on your app!)
@@ -94,7 +92,8 @@ public class GameActivity extends MainActivity {
 				Log.d(TAG, "We have gas. Consuming it.");
 
 				// TODO reset
-//				mHelper.consumeAsync(inventory.getPurchase(SKU_ADS), mConsumeFinishedListener);
+				// mHelper.consumeAsync(inventory.getPurchase(SKU_ADS),
+				// mConsumeFinishedListener);
 
 				if (adsPurchase.getSku().equals(SKU_ADS)) {
 					setAdsVisible(false);

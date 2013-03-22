@@ -45,6 +45,9 @@ public class StartManager {
 			mathEngine.getSceneBackground().detachChild(instructionText);
 			mathEngine.getSceneBackground().unregisterTouchArea(instructionText);
 
+			mathEngine.getSceneBackground().detachChild(removeAds);
+			mathEngine.getSceneBackground().unregisterTouchArea(removeAds);
+			
 			mathEngine.getSceneBackground().detachChild(mSound);
 			mathEngine.getSceneBackground().unregisterTouchArea(mSound);
 		}
@@ -56,6 +59,7 @@ public class StartManager {
 			public void run() {
 				mathEngine.getSceneBackground().unregisterTouchArea(startText);
 				mathEngine.getSceneBackground().unregisterTouchArea(instructionText);
+				mathEngine.getSceneBackground().unregisterTouchArea(removeAds);
 				mathEngine.getSceneBackground().unregisterTouchArea(mSound);
 			}
 		});
@@ -67,6 +71,7 @@ public class StartManager {
 			public void run() {
 				mathEngine.getSceneBackground().registerTouchArea(startText);
 				mathEngine.getSceneBackground().registerTouchArea(instructionText);
+				mathEngine.getSceneBackground().registerTouchArea(removeAds);
 				mathEngine.getSceneBackground().registerTouchArea(mSound);
 			}
 		});
