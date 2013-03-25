@@ -195,14 +195,15 @@ public abstract class MovingObject extends BaseObject {
 	}
 
 	protected void eraseData(final MathEngine mathEngine) {
+		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {
 				mathEngine.getScenePlayArea().detachChild(mMainSprite);
-				mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 				mMainSprite.detachChildren();
+				mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 				mMainSprite.clearEntityModifiers();
 				mMainSprite.clearUpdateHandlers();
 			}

@@ -149,12 +149,13 @@ public class LevelManager {
 		for (Iterator<MovingObject> movingIterator = listOfVisibleUnits.iterator(); movingIterator.hasNext();) {
 			final MovingObject item = ((MovingObject) movingIterator.next());
 
+			mScenePlayArea.unregisterTouchArea(item.getMainSprite());
+			
 			mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 				@Override
 				public void run() {
 					mScenePlayArea.detachChild(item.getMainSprite());
-					mScenePlayArea.unregisterTouchArea(item.getMainSprite());
 				}
 			});
 

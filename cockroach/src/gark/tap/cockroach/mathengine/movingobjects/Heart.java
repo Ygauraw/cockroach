@@ -31,13 +31,13 @@ public class Heart extends MovingObject {
 	@Override
 	public void calculateRemove(final MathEngine mathEngine, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
+		mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
 			public void run() {
 
 				mathEngine.getScenePlayArea().detachChild(mMainSprite);
-				mathEngine.getScenePlayArea().unregisterTouchArea(mMainSprite);
 				mMainSprite.detachChildren();
 				mMainSprite.clearEntityModifiers();
 				mMainSprite.clearUpdateHandlers();
@@ -55,13 +55,13 @@ public class Heart extends MovingObject {
 	@Override
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
+		mScenePlayArea.unregisterTouchArea(object.getMainSprite());
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {
 				object.getMainSprite().clearEntityModifiers();
 				object.getMainSprite().clearUpdateHandlers();
 				mScenePlayArea.detachChild(object.getMainSprite());
-				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
 
 			}
 		});

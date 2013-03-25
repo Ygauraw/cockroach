@@ -79,6 +79,7 @@ public class LadyBugBig extends MovingObject {
 	@Override
 	public void removeObject(final MovingObject object, final Scene mScenePlayArea, final MathEngine mathEngine) {
 		mathEngine.getLevelManager().getQueueUnitsForRemove().add(this);
+		mScenePlayArea.unregisterTouchArea(object.getMainSprite());
 		mathEngine.getGameActivity().runOnUpdateThread(new Runnable() {
 
 			@Override
@@ -86,7 +87,6 @@ public class LadyBugBig extends MovingObject {
 				object.getMainSprite().clearEntityModifiers();
 				object.getMainSprite().clearUpdateHandlers();
 				mScenePlayArea.detachChild(object.getMainSprite());
-				mScenePlayArea.unregisterTouchArea(object.getMainSprite());
 
 			}
 		});

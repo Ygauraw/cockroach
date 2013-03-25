@@ -24,7 +24,7 @@ public class PauseManager {
 		@Override
 		public void run() {
 			mathEngine.getSceneControls().detachChild(mPause);
-			mathEngine.getSceneControls().unregisterTouchArea(mPause);
+			//mathEngine.getSceneControls().unregisterTouchArea(mPause);
 		}
 	};
 
@@ -39,6 +39,7 @@ public class PauseManager {
 						mathEngine.setPaused(false);
 						mathEngine.getLevelManager().resumeLauncher();
 						mathEngine.getScenePlayArea().setOnSceneTouchListener(mathEngine);
+						mathEngine.getSceneControls().unregisterTouchArea(mPause);
 						mathEngine.getGameActivity().runOnUpdateThread(runnable);
 					}
 					return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
