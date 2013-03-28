@@ -244,8 +244,8 @@ public class ResourceManager {
 
 	public TiledTextureRegion getSpider() {
 		if (mSpider == null) {
-			BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1665, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_new.png", 0, 0, 13, 1);
+			BitmapTextureAtlas mSpiderAtlas = new BitmapTextureAtlas(textureManager, 1024, 55, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mSpider = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mSpiderAtlas, baseGameActivity, "spider_new_1.png", 0, 0, 8, 1);
 			mSpiderAtlas.load();
 		}
 
@@ -333,8 +333,8 @@ public class ResourceManager {
 
 	public TiledTextureRegion getBat() {
 		if (mBat == null) {
-			BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 1600, 184, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new_2.png", 0, 0, 8, 1);
+			BitmapTextureAtlas batAtlas = new BitmapTextureAtlas(textureManager, 1024, 118, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBat = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(batAtlas, baseGameActivity, "bat_new_3.png", 0, 0, 8, 1);
 			batAtlas.load();
 		}
 		return mBat;
@@ -376,8 +376,8 @@ public class ResourceManager {
 	public TiledTextureRegion getmCockroachFly() {
 
 		if (mCockroachFly == null) {
-			BitmapTextureAtlas cockroachFly = new BitmapTextureAtlas(textureManager, 1650, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			mCockroachFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachFly, baseGameActivity, "cockroachFly.png", 0, 0, 11, 1);
+			BitmapTextureAtlas cockroachFly = new BitmapTextureAtlas(textureManager, 1050, 150, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mCockroachFly = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(cockroachFly, baseGameActivity, "cockroachFly_1.png", 0, 0, 7, 1);
 			cockroachFly.load();
 		}
 

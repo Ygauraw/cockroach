@@ -79,6 +79,7 @@ public class GameOverManager implements OnClickListener {
 		mathEngine.getCorpseManager().clearArea(mathEngine);
 		TiledTextureRegion bat = mathEngine.getResourceManager().getBat();
 		sprite = new AnimatedSprite(x, y, bat, mathEngine.getGameActivity().getVertexBufferObjectManager());
+		sprite.setScale(1.5f);
 		sprite.animate(100, false, iAnimationListener);
 		mathEngine.getSceneDeadArea().attachChild(sprite);
 		mathEngine.getSoundManager().playSound(mathEngine.getResourceManager().getSoundNooo());

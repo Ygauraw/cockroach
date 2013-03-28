@@ -30,6 +30,7 @@ public class CockroachCircleEscort extends MovingObject {
 		ResourceManager resourceManager = mathEngine.getResourceManager();
 
 		mMainSprite.animate(animationSpeed);
+//		mMainSprite.setScale(1.5f);
 
 		initBatX = mMainSprite.getWidth() / 2 - resourceManager.getBat().getWidth() / 2;
 		initBatY = mMainSprite.getHeight() / 2 - resourceManager.getBat().getHeight() / 2;
@@ -49,7 +50,7 @@ public class CockroachCircleEscort extends MovingObject {
 				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 		};
-		bat.setScale(0.5f * Config.SCALE);
+		bat.setScale(0.75f * Config.SCALE);
 		mathEngine.getScenePlayArea().registerTouchArea(bat);
 		bat.animate(animationSpeed);
 
