@@ -102,7 +102,7 @@ public class StartManager {
 		};
 
 		startText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		startText.setPosition((Config.CAMERA_WIDTH - startText.getWidth()) / 2, (Config.CAMERA_HEIGHT - startText.getHeight()) / 2 - 150 * Config.SCALE);
+		startText.setPosition((Config.CAMERA_WIDTH - startText.getWidth()) / 2, (Config.CAMERA_HEIGHT - startText.getHeight()) / 2 - 50 * Config.SCALE);
 		mathEngine.getSceneBackground().attachChild(startText);
 		mathEngine.getSceneBackground().registerTouchArea(startText);
 		startText.clearEntityModifiers();
@@ -150,7 +150,7 @@ public class StartManager {
 		};
 
 		instructionText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		instructionText.setPosition((Config.CAMERA_WIDTH - instructionText.getWidth()) / 2, (Config.CAMERA_HEIGHT - instructionText.getHeight()) / 2 - 50 * Config.SCALE);
+		instructionText.setPosition((Config.CAMERA_WIDTH - instructionText.getWidth()) / 2, (Config.CAMERA_HEIGHT - instructionText.getHeight()) / 2 + 50 * Config.SCALE);
 		mathEngine.getSceneBackground().attachChild(instructionText);
 		mathEngine.getSceneBackground().registerTouchArea(instructionText);
 		instructionText.clearEntityModifiers();
@@ -169,8 +169,8 @@ public class StartManager {
 
 		@Override
 		public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
-			if (mathEngine.getGameActivity().isAdsVisible())
-				initThirdLine();
+//			if (mathEngine.getGameActivity().isAdsVisible())
+//				initThirdLine();
 		}
 	};
 
@@ -178,37 +178,37 @@ public class StartManager {
 
 	// // Init Third line
 
-	private void initThirdLine() {
-		final String instruction = mathEngine.getGameActivity().getString(R.string.remove_ads);
-		removeAds = new Text(0, 0, mathEngine.getResourceManager().getFont(), instruction, instruction.length(), mathEngine.getResourceManager().getVertexBufferObjectManager()) {
-			@Override
-			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				switch (pSceneTouchEvent.getAction()) {
-				case TouchEvent.ACTION_DOWN:
-					mathEngine.getGameActivity().runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							mathEngine.getGameActivity().disableAds();
-						}
-					});
-					break;
-				default:
-					break;
-				}
-				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
-			}
-		};
-
-		removeAds.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		removeAds.setPosition((Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, (Config.CAMERA_HEIGHT - removeAds.getHeight()) / 2 + 50 * Config.SCALE);
-		mathEngine.getSceneBackground().attachChild(removeAds);
-		mathEngine.getSceneBackground().registerTouchArea(removeAds);
-		removeAds.clearEntityModifiers();
-		final float y = removeAds.getY();
-		removeAds.setPosition(0, y);
-		removeAds.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, y, y, EaseLinear.getInstance()));
-	}
+//	private void initThirdLine() {
+//		final String instruction = mathEngine.getGameActivity().getString(R.string.remove_ads);
+//		removeAds = new Text(0, 0, mathEngine.getResourceManager().getFont(), instruction, instruction.length(), mathEngine.getResourceManager().getVertexBufferObjectManager()) {
+//			@Override
+//			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+//				switch (pSceneTouchEvent.getAction()) {
+//				case TouchEvent.ACTION_DOWN:
+//					mathEngine.getGameActivity().runOnUiThread(new Runnable() {
+//
+//						@Override
+//						public void run() {
+//							mathEngine.getGameActivity().disableAds();
+//						}
+//					});
+//					break;
+//				default:
+//					break;
+//				}
+//				return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+//			}
+//		};
+//
+//		removeAds.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+//		removeAds.setPosition((Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, (Config.CAMERA_HEIGHT - removeAds.getHeight()) / 2 + 50 * Config.SCALE);
+//		mathEngine.getSceneBackground().attachChild(removeAds);
+//		mathEngine.getSceneBackground().registerTouchArea(removeAds);
+//		removeAds.clearEntityModifiers();
+//		final float y = removeAds.getY();
+//		removeAds.setPosition(0, y);
+//		removeAds.registerEntityModifier(new MoveModifier(0.5f, 0, (Config.CAMERA_WIDTH - removeAds.getWidth()) / 2, y, y, EaseLinear.getInstance()));
+//	}
 
 	public void setRemoveAdsVisibility(boolean visibility) {
 		if (removeAds != null)

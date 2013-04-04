@@ -34,12 +34,12 @@ public class TextManager {
 				attention = (TextView) container.findViewById(R.id.attention);
 				scoreValue = (TextView) container.findViewById(R.id.score_value);
 
-				if (mathEngine.getGameActivity().isAdsVisible()) {
+//				if (mathEngine.getGameActivity().isAdsVisible()) {
 					adView = (AdView) container.findViewById(R.id.adView);
 					AdRequest adRequest = new AdRequest();
 					adView.loadAd(adRequest);
 
-				}
+//				}
 
 				scoreValue.setTypeface(Utils.getTypeface());
 				attention.setTypeface(Utils.getTypeface());

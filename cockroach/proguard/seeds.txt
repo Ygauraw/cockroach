@@ -1182,9 +1182,6 @@ android.support.v4.view.PagerAdapter: void registerDataSetObserver(android.datab
 android.support.v4.view.PagerAdapter: void unregisterDataSetObserver(android.database.DataSetObserver)
 android.support.v4.view.PagerAdapter: java.lang.CharSequence getPageTitle(int)
 android.support.v4.view.PagerAdapter: float getPageWidth(int)
-com.android.vending.billing.IInAppBillingService
-com.android.vending.billing.IInAppBillingService$Stub
-com.android.vending.billing.IInAppBillingService$Stub$Proxy
 com.google.ads.AdActivity
 com.google.ads.AdActivity: AdActivity()
 com.google.ads.AdView
@@ -1210,44 +1207,13 @@ gark.tap.cockroach.Config: void <clinit>()
 gark.tap.cockroach.Config: Config()
 gark.tap.cockroach.GameActivity
 gark.tap.cockroach.GameActivity: gark.tap.cockroach.mathengine.MathEngine mMathEngine
-gark.tap.cockroach.GameActivity: java.lang.String TAG
-gark.tap.cockroach.GameActivity: java.lang.String SKU_ADS
-gark.tap.cockroach.GameActivity: int RC_REQUEST
-gark.tap.cockroach.GameActivity: boolean isAdsVisible
-gark.tap.cockroach.GameActivity: com.gark.android.billing.util.IabHelper mHelper
-gark.tap.cockroach.GameActivity: com.gark.android.billing.util.IabHelper$QueryInventoryFinishedListener mGotInventoryListener
-gark.tap.cockroach.GameActivity: com.gark.android.billing.util.IabHelper$OnIabPurchaseFinishedListener mPurchaseFinishedListener
-gark.tap.cockroach.GameActivity: com.gark.android.billing.util.IabHelper$OnConsumeFinishedListener mConsumeFinishedListener
 gark.tap.cockroach.GameActivity: GameActivity()
 gark.tap.cockroach.GameActivity: void onCreateScene(org.andengine.ui.IGameInterface$OnCreateSceneCallback)
-gark.tap.cockroach.GameActivity: boolean isAdsVisible()
-gark.tap.cockroach.GameActivity: void setAdsVisible(boolean)
-gark.tap.cockroach.GameActivity: void disableAds()
-gark.tap.cockroach.GameActivity: void onActivityResult(int,int,android.content.Intent)
-gark.tap.cockroach.GameActivity: boolean verifyDeveloperPayload(com.gark.android.billing.util.Purchase)
 gark.tap.cockroach.GameActivity: void onBackPressed()
 gark.tap.cockroach.GameActivity: void onDestroy()
 gark.tap.cockroach.GameActivity: void onPause()
 gark.tap.cockroach.GameActivity: void onStart()
 gark.tap.cockroach.GameActivity: void onStop()
-gark.tap.cockroach.GameActivity: gark.tap.cockroach.mathengine.MathEngine access$0(gark.tap.cockroach.GameActivity)
-gark.tap.cockroach.GameActivity: com.gark.android.billing.util.IabHelper access$1(gark.tap.cockroach.GameActivity)
-gark.tap.cockroach.GameActivity$1
-gark.tap.cockroach.GameActivity$1: gark.tap.cockroach.GameActivity this$0
-gark.tap.cockroach.GameActivity$1: GameActivity$1(gark.tap.cockroach.GameActivity)
-gark.tap.cockroach.GameActivity$1: void onQueryInventoryFinished(com.gark.android.billing.util.IabResult,com.gark.android.billing.util.Inventory)
-gark.tap.cockroach.GameActivity$2
-gark.tap.cockroach.GameActivity$2: gark.tap.cockroach.GameActivity this$0
-gark.tap.cockroach.GameActivity$2: GameActivity$2(gark.tap.cockroach.GameActivity)
-gark.tap.cockroach.GameActivity$2: void onIabPurchaseFinished(com.gark.android.billing.util.IabResult,com.gark.android.billing.util.Purchase)
-gark.tap.cockroach.GameActivity$3
-gark.tap.cockroach.GameActivity$3: gark.tap.cockroach.GameActivity this$0
-gark.tap.cockroach.GameActivity$3: GameActivity$3(gark.tap.cockroach.GameActivity)
-gark.tap.cockroach.GameActivity$3: void onConsumeFinished(com.gark.android.billing.util.Purchase,com.gark.android.billing.util.IabResult)
-gark.tap.cockroach.GameActivity$4
-gark.tap.cockroach.GameActivity$4: gark.tap.cockroach.GameActivity this$0
-gark.tap.cockroach.GameActivity$4: GameActivity$4(gark.tap.cockroach.GameActivity)
-gark.tap.cockroach.GameActivity$4: void onIabSetupFinished(com.gark.android.billing.util.IabResult)
 gark.tap.cockroach.LaunchActivity
 gark.tap.cockroach.LaunchActivity: LaunchActivity()
 gark.tap.cockroach.LaunchActivity: void onCreateScene(org.andengine.ui.IGameInterface$OnCreateSceneCallback)
@@ -1523,7 +1489,6 @@ gark.tap.cockroach.StartManager: void unregisterTouch()
 gark.tap.cockroach.StartManager: void registerTouch()
 gark.tap.cockroach.StartManager: void initFirstLine()
 gark.tap.cockroach.StartManager: void initSecondLine()
-gark.tap.cockroach.StartManager: void initThirdLine()
 gark.tap.cockroach.StartManager: void setRemoveAdsVisibility(boolean)
 gark.tap.cockroach.StartManager: void inflateStartScreen()
 gark.tap.cockroach.StartManager: gark.tap.cockroach.mathengine.MathEngine access$0(gark.tap.cockroach.StartManager)
@@ -1532,16 +1497,11 @@ gark.tap.cockroach.StartManager: org.andengine.entity.text.Text access$2(gark.ta
 gark.tap.cockroach.StartManager: org.andengine.entity.text.Text access$3(gark.tap.cockroach.StartManager)
 gark.tap.cockroach.StartManager: org.andengine.entity.sprite.Sprite access$4(gark.tap.cockroach.StartManager)
 gark.tap.cockroach.StartManager: void access$5(gark.tap.cockroach.StartManager)
-gark.tap.cockroach.StartManager: void access$6(gark.tap.cockroach.StartManager)
-gark.tap.cockroach.StartManager: void access$7(gark.tap.cockroach.StartManager,boolean)
+gark.tap.cockroach.StartManager: void access$6(gark.tap.cockroach.StartManager,boolean)
 gark.tap.cockroach.StartManager$1
 gark.tap.cockroach.StartManager$1: gark.tap.cockroach.StartManager this$0
 gark.tap.cockroach.StartManager$1: StartManager$1(gark.tap.cockroach.StartManager)
 gark.tap.cockroach.StartManager$1: void run()
-gark.tap.cockroach.StartManager$10
-gark.tap.cockroach.StartManager$10: gark.tap.cockroach.StartManager this$0
-gark.tap.cockroach.StartManager$10: StartManager$10(gark.tap.cockroach.StartManager,float,float,org.andengine.opengl.texture.region.ITextureRegion,org.andengine.opengl.vbo.VertexBufferObjectManager)
-gark.tap.cockroach.StartManager$10: boolean onAreaTouched(org.andengine.input.touch.TouchEvent,float,float)
 gark.tap.cockroach.StartManager$2
 gark.tap.cockroach.StartManager$2: gark.tap.cockroach.StartManager this$0
 gark.tap.cockroach.StartManager$2: StartManager$2(gark.tap.cockroach.StartManager)
@@ -1579,13 +1539,8 @@ gark.tap.cockroach.StartManager$8: StartManager$8(gark.tap.cockroach.StartManage
 gark.tap.cockroach.StartManager$8: boolean onAreaTouched(org.andengine.input.touch.TouchEvent,float,float)
 gark.tap.cockroach.StartManager$9
 gark.tap.cockroach.StartManager$9: gark.tap.cockroach.StartManager this$0
-gark.tap.cockroach.StartManager$9: StartManager$9(gark.tap.cockroach.StartManager,float,float,org.andengine.opengl.font.IFont,java.lang.CharSequence,int,org.andengine.opengl.vbo.VertexBufferObjectManager)
+gark.tap.cockroach.StartManager$9: StartManager$9(gark.tap.cockroach.StartManager,float,float,org.andengine.opengl.texture.region.ITextureRegion,org.andengine.opengl.vbo.VertexBufferObjectManager)
 gark.tap.cockroach.StartManager$9: boolean onAreaTouched(org.andengine.input.touch.TouchEvent,float,float)
-gark.tap.cockroach.StartManager$9: gark.tap.cockroach.StartManager access$0(gark.tap.cockroach.StartManager$9)
-gark.tap.cockroach.StartManager$9$1
-gark.tap.cockroach.StartManager$9$1: gark.tap.cockroach.StartManager$9 this$1
-gark.tap.cockroach.StartManager$9$1: StartManager$9$1(gark.tap.cockroach.StartManager$9)
-gark.tap.cockroach.StartManager$9$1: void run()
 gark.tap.cockroach.TipsManager
 gark.tap.cockroach.TipsManager: gark.tap.cockroach.mathengine.MathEngine mathEngine
 gark.tap.cockroach.TipsManager: org.andengine.ui.activity.BaseGameActivity gameActivity

@@ -1062,9 +1062,6 @@ android.support.v4.content.ContextCompat -> android.support.v4.a.a:
     void startActivities(android.content.Context,android.content.Intent[],android.os.Bundle) -> startActivities
     android.content.Intent makeMainActivity(android.content.ComponentName) -> makeMainActivity
     void buildShortClassTag(java.lang.Object,java.lang.StringBuilder) -> buildShortClassTag
-    boolean verifyPurchase(java.lang.String,java.lang.String,java.lang.String) -> verifyPurchase
-    java.security.PublicKey generatePublicKey(java.lang.String) -> generatePublicKey
-    boolean verify(java.security.PublicKey,java.lang.String,java.lang.String) -> verify
     void a(byte[]) -> a
     byte[] a(java.lang.String) -> a
     byte[] a(byte[],java.lang.String) -> a
@@ -1160,107 +1157,6 @@ android.support.v4.view.PagerAdapter -> android.support.v4.c.a:
     void unregisterDataSetObserver(android.database.DataSetObserver) -> unregisterDataSetObserver
     java.lang.CharSequence getPageTitle(int) -> getPageTitle
     float getPageWidth(int) -> getPageWidth
-com.android.vending.billing.IInAppBillingService -> com.android.vending.billing.IInAppBillingService:
-    int isBillingSupported(int,java.lang.String,java.lang.String) -> a
-    android.os.Bundle getSkuDetails(int,java.lang.String,java.lang.String,android.os.Bundle) -> a
-    android.os.Bundle getBuyIntent(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    android.os.Bundle getPurchases(int,java.lang.String,java.lang.String,java.lang.String) -> a
-    int consumePurchase(int,java.lang.String,java.lang.String) -> b
-com.android.vending.billing.IInAppBillingService$Stub -> com.android.vending.billing.IInAppBillingService$Stub:
-    com.android.vending.billing.IInAppBillingService asInterface(android.os.IBinder) -> a
-    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
-com.android.vending.billing.IInAppBillingService$Stub$Proxy -> com.android.vending.billing.IInAppBillingService$Stub$Proxy:
-    android.os.IBinder mRemote -> a
-    android.os.IBinder asBinder() -> asBinder
-    int isBillingSupported(int,java.lang.String,java.lang.String) -> a
-    android.os.Bundle getSkuDetails(int,java.lang.String,java.lang.String,android.os.Bundle) -> a
-    android.os.Bundle getBuyIntent(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    android.os.Bundle getPurchases(int,java.lang.String,java.lang.String,java.lang.String) -> a
-    int consumePurchase(int,java.lang.String,java.lang.String) -> b
-com.gark.android.billing.util.Base64 -> com.a.a.a.a.a:
-    byte[] DECODABET -> a
-    int decode4to3(byte[],int,byte[],int,byte[]) -> a
-    byte[] decode(java.lang.String) -> a
-com.gark.android.billing.util.Base64DecoderException -> com.a.a.a.a.b:
-com.gark.android.billing.util.IabException -> com.a.a.a.a.c:
-    com.gark.android.billing.util.IabResult mResult -> a
-    com.gark.android.billing.util.IabResult getResult() -> a
-com.gark.android.billing.util.IabHelper -> com.a.a.a.a.d:
-    boolean mDebugLog -> e
-    java.lang.String mDebugTag -> f
-    boolean mSetupDone -> a
-    boolean mSubscriptionsSupported -> b
-    boolean mAsyncInProgress -> g
-    java.lang.String mAsyncOperation -> h
-    android.content.Context mContext -> c
-    com.android.vending.billing.IInAppBillingService mService -> d
-    android.content.ServiceConnection mServiceConn -> i
-    int mRequestCode -> j
-    java.lang.String mPurchasingItemType -> k
-    java.lang.String mSignatureBase64 -> l
-    com.gark.android.billing.util.IabHelper$OnIabPurchaseFinishedListener mPurchaseListener -> m
-    void enableDebugLogging(boolean) -> a
-    void startSetup(com.gark.android.billing.util.IabHelper$OnIabSetupFinishedListener) -> a
-    void dispose() -> a
-    void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.gark.android.billing.util.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
-    boolean handleActivityResult(int,int,android.content.Intent) -> a
-    com.gark.android.billing.util.Inventory queryInventory$59f6af5f(boolean,java.util.List) -> a
-    void queryInventoryAsync(com.gark.android.billing.util.IabHelper$QueryInventoryFinishedListener) -> a
-    java.lang.String getResponseDesc(int) -> a
-    void checkSetupDone(java.lang.String) -> b
-    int getResponseCodeFromBundle(android.os.Bundle) -> a
-    void flagStartAsync(java.lang.String) -> c
-    void flagEndAsync() -> b
-    int queryPurchases(com.gark.android.billing.util.Inventory,java.lang.String) -> a
-    int querySkuDetails(java.lang.String,com.gark.android.billing.util.Inventory,java.util.List) -> a
-    void logDebug(java.lang.String) -> a
-    void logError(java.lang.String) -> d
-    void logWarn(java.lang.String) -> e
-com.gark.android.billing.util.IabHelper$1 -> com.a.a.a.a.e:
-    com.gark.android.billing.util.IabHelper this$0 -> a
-    com.gark.android.billing.util.IabHelper$OnIabSetupFinishedListener val$listener -> b
-    void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
-    void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
-com.gark.android.billing.util.IabHelper$2 -> com.a.a.a.a.f:
-    com.gark.android.billing.util.IabHelper this$0 -> a
-    boolean val$querySkuDetails -> b
-    java.util.List val$moreSkus -> c
-    android.os.Handler val$handler -> d
-    com.gark.android.billing.util.IabHelper$QueryInventoryFinishedListener val$listener -> e
-    void run() -> run
-com.gark.android.billing.util.IabHelper$2$1 -> com.a.a.a.a.g:
-    com.gark.android.billing.util.IabHelper$QueryInventoryFinishedListener val$listener -> a
-    com.gark.android.billing.util.IabResult val$result_f -> b
-    com.gark.android.billing.util.Inventory val$inv_f -> c
-    void run() -> run
-com.gark.android.billing.util.IabHelper$OnIabPurchaseFinishedListener -> com.a.a.a.a.h:
-    void onIabPurchaseFinished(com.gark.android.billing.util.IabResult,com.gark.android.billing.util.Purchase) -> onIabPurchaseFinished
-com.gark.android.billing.util.IabHelper$OnIabSetupFinishedListener -> com.a.a.a.a.i:
-    void onIabSetupFinished(com.gark.android.billing.util.IabResult) -> onIabSetupFinished
-com.gark.android.billing.util.IabHelper$QueryInventoryFinishedListener -> com.a.a.a.a.j:
-    void onQueryInventoryFinished(com.gark.android.billing.util.IabResult,com.gark.android.billing.util.Inventory) -> onQueryInventoryFinished
-com.gark.android.billing.util.IabResult -> com.a.a.a.a.k:
-    int mResponse -> b
-    java.lang.String mMessage -> a
-    boolean isSuccess() -> a
-    boolean isFailure() -> b
-    java.lang.String toString() -> toString
-com.gark.android.billing.util.Inventory -> com.a.a.a.a.l:
-    java.util.Map mSkuMap -> a
-    java.util.Map mPurchaseMap -> b
-    com.gark.android.billing.util.Purchase getPurchase(java.lang.String) -> a
-    java.util.List getAllOwnedSkus(java.lang.String) -> b
-com.gark.android.billing.util.Purchase -> com.a.a.a.a.m:
-    java.lang.String mItemType -> a
-    java.lang.String mSku -> b
-    java.lang.String mToken -> c
-    java.lang.String mOriginalJson -> d
-    java.lang.String getSku() -> a
-    java.lang.String toString() -> toString
-com.gark.android.billing.util.SkuDetails -> com.a.a.a.a.n:
-    java.lang.String mSku -> a
-    java.lang.String mJson -> b
-    java.lang.String toString() -> toString
 com.google.ads.AdActivity -> com.google.ads.AdActivity:
     com.google.ads.internal.a a -> a
     java.lang.Object b -> b
@@ -3066,39 +2962,12 @@ gark.tap.cockroach.Config -> gark.tap.cockroach.Config:
     float CONTROL_MARGIN -> CONTROL_MARGIN
 gark.tap.cockroach.GameActivity -> gark.tap.cockroach.GameActivity:
     gark.tap.cockroach.mathengine.MathEngine mMathEngine -> mMathEngine
-    java.lang.String TAG -> TAG
-    java.lang.String SKU_ADS -> SKU_ADS
-    int RC_REQUEST -> RC_REQUEST
-    boolean isAdsVisible -> isAdsVisible
-    com.gark.android.billing.util.IabHelper mHelper -> mHelper
-    com.gark.android.billing.util.IabHelper$QueryInventoryFinishedListener mGotInventoryListener -> mGotInventoryListener
-    com.gark.android.billing.util.IabHelper$OnIabPurchaseFinishedListener mPurchaseFinishedListener -> mPurchaseFinishedListener
-    android.support.v4.content.Loader$OnLoadCompleteListener mConsumeFinishedListener$65d334bb -> mConsumeFinishedListener$65d334bb
     void onCreateScene(org.andengine.ui.IGameInterface$OnCreateSceneCallback) -> onCreateScene
-    boolean isAdsVisible() -> isAdsVisible
-    void setAdsVisible(boolean) -> setAdsVisible
-    void disableAds() -> disableAds
-    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    boolean verifyDeveloperPayload(com.gark.android.billing.util.Purchase) -> verifyDeveloperPayload
     void onBackPressed() -> onBackPressed
     void onDestroy() -> onDestroy
     void onPause() -> onPause
     void onStart() -> onStart
     void onStop() -> onStop
-    gark.tap.cockroach.mathengine.MathEngine access$0(gark.tap.cockroach.GameActivity) -> access$0
-    com.gark.android.billing.util.IabHelper access$1(gark.tap.cockroach.GameActivity) -> access$1
-gark.tap.cockroach.GameActivity$1 -> gark.tap.cockroach.GameActivity$1:
-    gark.tap.cockroach.GameActivity this$0 -> this$0
-    void onQueryInventoryFinished(com.gark.android.billing.util.IabResult,com.gark.android.billing.util.Inventory) -> onQueryInventoryFinished
-gark.tap.cockroach.GameActivity$2 -> gark.tap.cockroach.GameActivity$2:
-    gark.tap.cockroach.GameActivity this$0 -> this$0
-    void onIabPurchaseFinished(com.gark.android.billing.util.IabResult,com.gark.android.billing.util.Purchase) -> onIabPurchaseFinished
-gark.tap.cockroach.GameActivity$3 -> gark.tap.cockroach.GameActivity$3:
-    gark.tap.cockroach.GameActivity this$0 -> this$0
-    void onConsumeFinished(com.gark.android.billing.util.Purchase,com.gark.android.billing.util.IabResult) -> onConsumeFinished
-gark.tap.cockroach.GameActivity$4 -> gark.tap.cockroach.GameActivity$4:
-    gark.tap.cockroach.GameActivity this$0 -> this$0
-    void onIabSetupFinished(com.gark.android.billing.util.IabResult) -> onIabSetupFinished
 gark.tap.cockroach.LaunchActivity -> gark.tap.cockroach.LaunchActivity:
     void onCreateScene(org.andengine.ui.IGameInterface$OnCreateSceneCallback) -> onCreateScene
     void onPopulateScene(org.andengine.entity.scene.Scene,org.andengine.ui.IGameInterface$OnPopulateSceneCallback) -> onPopulateScene
@@ -3357,7 +3226,6 @@ gark.tap.cockroach.StartManager -> gark.tap.cockroach.StartManager:
     void registerTouch() -> registerTouch
     void initFirstLine() -> initFirstLine
     void initSecondLine() -> initSecondLine
-    void initThirdLine() -> initThirdLine
     void setRemoveAdsVisibility(boolean) -> setRemoveAdsVisibility
     void inflateStartScreen() -> inflateStartScreen
     gark.tap.cockroach.mathengine.MathEngine access$0(gark.tap.cockroach.StartManager) -> access$0
@@ -3366,14 +3234,10 @@ gark.tap.cockroach.StartManager -> gark.tap.cockroach.StartManager:
     org.andengine.entity.text.Text access$3(gark.tap.cockroach.StartManager) -> access$3
     org.andengine.entity.sprite.Sprite access$4(gark.tap.cockroach.StartManager) -> access$4
     void access$5(gark.tap.cockroach.StartManager) -> access$5
-    void access$6(gark.tap.cockroach.StartManager) -> access$6
-    void access$7(gark.tap.cockroach.StartManager,boolean) -> access$7
+    void access$6(gark.tap.cockroach.StartManager,boolean) -> access$6
 gark.tap.cockroach.StartManager$1 -> gark.tap.cockroach.StartManager$1:
     gark.tap.cockroach.StartManager this$0 -> this$0
     void run() -> run
-gark.tap.cockroach.StartManager$10 -> gark.tap.cockroach.StartManager$10:
-    gark.tap.cockroach.StartManager this$0 -> this$0
-    boolean onAreaTouched(org.andengine.input.touch.TouchEvent,float,float) -> onAreaTouched
 gark.tap.cockroach.StartManager$2 -> gark.tap.cockroach.StartManager$2:
     gark.tap.cockroach.StartManager this$0 -> this$0
     void onModifierStarted(org.andengine.util.modifier.IModifier,org.andengine.entity.IEntity) -> onModifierStarted
@@ -3405,10 +3269,6 @@ gark.tap.cockroach.StartManager$8 -> gark.tap.cockroach.StartManager$8:
 gark.tap.cockroach.StartManager$9 -> gark.tap.cockroach.StartManager$9:
     gark.tap.cockroach.StartManager this$0 -> this$0
     boolean onAreaTouched(org.andengine.input.touch.TouchEvent,float,float) -> onAreaTouched
-    gark.tap.cockroach.StartManager access$0(gark.tap.cockroach.StartManager$9) -> access$0
-gark.tap.cockroach.StartManager$9$1 -> gark.tap.cockroach.StartManager$9$1:
-    gark.tap.cockroach.StartManager$9 this$1 -> this$1
-    void run() -> run
 gark.tap.cockroach.TipsManager -> gark.tap.cockroach.TipsManager:
     gark.tap.cockroach.mathengine.MathEngine mathEngine -> mathEngine
     org.andengine.ui.activity.BaseGameActivity gameActivity -> gameActivity
